@@ -1,0 +1,8 @@
+In this tutorial, I learned how to render a window:
+
+1. Initialize and configure GLFW
+2. Create window and set it as current context
+3. Specify viewport
+4. Create a callback function that updates viewport whenever window is resized
+5. Create a render loop
+6. Clean up glfw when done

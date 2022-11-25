@@ -52,28 +52,6 @@ int main(){
     //Everytime window is resized, callback function to edit viewport.
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);  
 
-    //Vertices of a triangle
-    GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
-    };  
-
-    //Create a Vertex Buffer Object (VBO) that can store large number of vertices.
-    //Use glGenBuffers to generate buffer of id 1 and bind it to array buffer
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);  
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    //Copy data to buffer
-    /* Third Parameters ENUMS
-    GL_STREAM_DRAW: the data is set only once and used by the GPU at most a few times.
-    GL_STATIC_DRAW: the data is set only once and used many times.
-    GL_DYNAMIC_DRAW: the data is changed a lot and used many times.
-    */
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
-
-
     //Compile vertext shader object
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -90,7 +68,7 @@ int main(){
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
-    //Compile fragment Shader
+    //Compile fragment Shader and check if it compiled 
     unsigned int fragmentShader;
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
@@ -99,7 +77,7 @@ int main(){
     glGetProgramiv(fragmentShader, GL_LINK_STATUS, &success);
     if(!success) {
         glGetProgramInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::LINKING_FAILED\n" << infoLog << std::endl;
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
     //Link Shaders to shader program
     unsigned int shaderProgram;
@@ -115,18 +93,32 @@ int main(){
     }
 
     //Shaders will now be used, can delete
-    glUseProgram(shaderProgram);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);  
 
-    //Tell vertext buffer object how to interpret vertices
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);  
+    //Vertices of a triangle
+    GLfloat vertices[] = {
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.0f,  0.5f, 0.0f
+    };  
+
 
     //Create a vertext array object to manage vertext attribiutes
     unsigned int VAO;
     glGenVertexArrays(1, &VAO); 
     glBindVertexArray(VAO);
+
+    //Create a Vertex Buffer Object (VBO) that can store large number of vertices and copy data to buffer
+    //Use glGenBuffers to generate buffer of id 1 and bind it to array buffer
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);  
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
+
+    //Tell vertext buffer object how to interpret vertices
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);  
 
 
     //Render loop
@@ -136,7 +128,6 @@ int main(){
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        std::cout << "Object Drawn" << '\n';
 
         glfwSwapBuffers(window); //swap color buffer that is used to render 
         glfwPollEvents(); //Checks if any events has been triggered, updates window states, and calls cooresponding functions

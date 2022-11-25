@@ -3,11 +3,7 @@
 #include <iostream>
 
 
-//Takes in window, and new width and height. Changes viewport on resize
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{   
-    glViewport(0, 0, width, height);
-};
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 //Shader in GLSL
 const char *vertexShaderSource = "#version 330 core\n"
@@ -100,6 +96,11 @@ int main(){
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
     
+    glGetProgramiv(fragmentShader, GL_LINK_STATUS, &success);
+    if(!success) {
+        glGetProgramInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::LINKING_FAILED\n" << infoLog << std::endl;
+    }
     //Link Shaders to shader program
     unsigned int shaderProgram;
     shaderProgram = glCreateProgram();
@@ -132,8 +133,11 @@ int main(){
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
     {
         //Draw Object
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        cout << "Object Drawn";
+        std::cout << "Object Drawn" << '\n';
+
         glfwSwapBuffers(window); //swap color buffer that is used to render 
         glfwPollEvents(); //Checks if any events has been triggered, updates window states, and calls cooresponding functions
     }
@@ -143,3 +147,10 @@ int main(){
     return 0;
 }
  
+
+
+//Takes in window, and new width and height. Changes viewport on resize
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{   
+    glViewport(0, 0, width, height);
+}

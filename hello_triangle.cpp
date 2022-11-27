@@ -100,9 +100,17 @@ int main(){
     GLfloat vertices[] = {
         -0.5f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
+        0.0f,  0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        1.5f, -0.5f, 0.0f,
         0.0f,  0.5f, 0.0f
     };  
 
+    //  GLfloat vertices2[] = {
+    //     0.5f, -0.5f, 0.0f,
+    //     1.5f, -0.5f, 0.0f,
+    //     0.0f,  0.5f, 0.0f
+    // };  
 
     //Create a vertext array object to manage vertext attribiutes
     unsigned int VAO;
@@ -127,7 +135,7 @@ int main(){
         //Draw Object
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
         glfwSwapBuffers(window); //swap color buffer that is used to render 
         glfwPollEvents(); //Checks if any events has been triggered, updates window states, and calls cooresponding functions

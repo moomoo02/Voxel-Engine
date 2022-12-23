@@ -22,15 +22,15 @@ static ShaderProgramSource parseShader(const std::string filePath){
     std::stringstream ss[2];
     std::string line;
     while(std::getline(infile, line)){
-        if(line.find("#Shader") != std::string::npos){
-            if(line.find("Vertex") != std::string::npos){
-                currentShader = ShaderType::VERTEX;
-            }else if(line.find("Fragment") != std::string::npos){
-                currentShader = ShaderType::FRAGMENT;
-            }
 
-        }else{
+        if(line.find("#Shader") == std::string::npos){
             ss[(int)currentShader] << line << '\n';
+        }
+
+        if(line.find("Vertex") != std::string::npos){
+            currentShader = ShaderType::VERTEX;
+        }else if(line.find("Fragment") != std::string::npos){
+            currentShader = ShaderType::FRAGMENT;
         }
     }
 

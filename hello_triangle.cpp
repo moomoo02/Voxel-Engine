@@ -1,9 +1,41 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-
+#include <fstream>
+#include <sstream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+struct ShaderProgramSource {
+    std::string VertexSource;
+    std::string FragmentSource;
+};
+
+static ShaderProgramSource parseShader(const std::string filePath){
+    std::ifstream infile(filePath);
+    
+    enum class ShaderType {
+        NONE = -1, VERTEX = 0, FRAGMENT = 1
+    };
+
+    ShaderType currentShader = ShaderType::NONE;
+    std::stringstream ss[2];
+    std::string line;
+    while(std::getline(infile, line)){
+        if(line.find("#Shader") != std::string::npos){
+            if(line.find("Vertex") != std::string::npos){
+                currentShader = ShaderType::VERTEX;
+            }else if(line.find("Fragment") != std::string::npos){
+                currentShader = ShaderType::FRAGMENT;
+            }
+
+        }else{
+            ss[(int)currentShader] << line << '\n';
+        }
+    }
+
+    return { ss[0].str(), ss[1].str()};
+}   
 
 //Shader in GLSL
 const char *vertexShaderSource = "#version 330 core\n"
@@ -11,7 +43,7 @@ const char *vertexShaderSource = "#version 330 core\n"
     "void main()\n"
     "{\n"
     "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
+    "}\0";  
 
 const char *fragmentShaderSource = "#version 330 core\n"
     "out vec4 FragColor;\n"
@@ -21,7 +53,11 @@ const char *fragmentShaderSource = "#version 330 core\n"
     "}\n\0";
 
 int main(){
-
+    ShaderProgramSource ShaderSource = parseShader("./Shaders.txt");
+    std::cout << "Vertex Shader:\n";
+    std::cout << ShaderSource.VertexSource << '\n';
+    std::cout << "Fragmnet Shader\n";
+    std::cout << ShaderSource.FragmentSource << '\n';
     //Initialize GLFW and configure using Hint
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -79,6 +115,7 @@ int main(){
         glGetProgramInfoLog(fragmentShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
+
     //Link Shaders to shader program
     unsigned int shaderProgram;
     shaderProgram = glCreateProgram();

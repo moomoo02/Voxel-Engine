@@ -140,7 +140,8 @@ int main(){
     // };  
 
     //Parse shaders, compile, and link
-    ShaderProgramSource shaderSource = parseShader("./Shaders.txt");
+    ShaderProgramSource shaderSource = parseShader("./Shaders.GLSL");
+    std::cout << shaderSource.VertexSource << '\n';
     unsigned int shaderProgram = compileAndLinkShaders(shaderSource);
 
     //Create a vertext array object to manage vertext attribiutes

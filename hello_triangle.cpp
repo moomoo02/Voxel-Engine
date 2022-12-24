@@ -125,12 +125,12 @@ int main(){
 
     //Vertices of a triangle
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        1.5f, -0.5f, 0.0f,
-        1.0f,  0.5f, 0.0f
+        -1.0f, -0.5f, 0.0f,
+        0.0f, -0.5f, 0.0f,
+        -0.5f,  0.5f, 0.0f,
+        0.0f, -0.5f, 0.0f,
+        1.0f, -0.5f, 0.0f,
+        0.5f,  0.5f, 0.0f
     };  
 
     //  GLfloat vertices2[] = {
@@ -156,7 +156,7 @@ int main(){
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
 
     //Tell vertext buffer object how to interpret vertices
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);  
 
 

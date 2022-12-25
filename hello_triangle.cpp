@@ -19,7 +19,7 @@ struct vec4{
         z = thirdValue;
         w = fourthValue;
     }
-    
+
 };
 
 struct ShaderProgramSource {
@@ -152,12 +152,9 @@ int main(){
 
     //Vertices of a triangle
     GLfloat vertices[] = {
-        -1.0f, -0.5f, 0.0f,
-        0.0f, -0.5f, 0.0f,
-        -0.5f,  0.5f, 0.0f,
-        0.0f, -0.5f, 0.0f,
-        1.0f, -0.5f, 0.0f,
-        0.5f,  0.5f, 0.0f
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f
     };  
 
     //  GLfloat vertices2[] = {
@@ -184,18 +181,18 @@ int main(){
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
 
     //Tell vertext buffer object how to interpret vertices
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);  
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);  
 
 
     //Render loop
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
     {   
-        //Get Random Color
-        float timeValue = glfwGetTime();
-        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-        vec4 vertexColor = vec4(0.0f, greenValue, 0.0f, 1.0f);
-        setColorGradient(shaderProgram, vertexColor);
+        //Clear Color Buffer
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         //Draw Object
         glUseProgram(shaderProgram);

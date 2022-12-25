@@ -3,8 +3,24 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+struct vec4{
+    float x;
+    float y;
+    float z;
+    float w;
+
+    vec4(float firstValue, float secondValue, float thirdValue, float fourthValue){
+        x = firstValue;
+        y = secondValue;
+        z = thirdValue;
+        w = fourthValue;
+    }
+    
+};
 
 struct ShaderProgramSource {
     std::string VertexSource;
@@ -68,7 +84,7 @@ static unsigned int compileAndLinkShaders(ShaderProgramSource shaderSource){
     glGetProgramiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if(!success) {
         glGetProgramInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
     //Link Shaders to ShaderProgram
@@ -90,6 +106,17 @@ static unsigned int compileAndLinkShaders(ShaderProgramSource shaderSource){
     return shaderProgram;
 }
 
+static void setColorGradient(unsigned int shaderProgram, vec4 color){
+    //Get Uniform location
+    int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+    if(vertexColorLocation == -1){
+        std::cout << "ERROR::SHADER::UNIFORM_LOCATION_FAILED" << std::endl;
+    }
+
+    //Update Uniform value
+    glUseProgram(shaderProgram);
+    glUniform4f(vertexColorLocation, color.x, color.y, color.z, color.w);
+}
 
 int main(){
     //Initialize GLFW and configure using Hint
@@ -141,7 +168,7 @@ int main(){
 
     //Parse shaders, compile, and link
     ShaderProgramSource shaderSource = parseShader("./Shaders.GLSL");
-    std::cout << shaderSource.VertexSource << '\n';
+    std::cout << shaderSource.FragmentSource << '\n';
     unsigned int shaderProgram = compileAndLinkShaders(shaderSource);
 
     //Create a vertext array object to manage vertext attribiutes
@@ -163,7 +190,13 @@ int main(){
 
     //Render loop
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
-    {
+    {   
+        //Get Random Color
+        float timeValue = glfwGetTime();
+        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+        vec4 vertexColor = vec4(0.0f, greenValue, 0.0f, 1.0f);
+        setColorGradient(shaderProgram, vertexColor);
+
         //Draw Object
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);

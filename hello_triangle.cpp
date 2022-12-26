@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cmath>
 #include "shader.h"
+#include "./stb_image/stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 

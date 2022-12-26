@@ -98,32 +98,36 @@ void Shader::use(){
     glUseProgram(ID);
 }
 
-void Shader::setBool(const std::string &name, bool value) const{
+void Shader::setBool(const std::string &name, bool value) const {
     int uniformLocation = glGetUniformLocation(ID, name.c_str());
     if(uniformLocation == -1){
         std::cout << "ERROR::SHADER::SETBOOL::UNIFORM_LOCATION_FAILED" << std::endl;
     }
 
     //Update Uniform value
-    glUniformli(uniformLocation, (int)value);
+    glUseProgram(ID);
+    glUniform1i(uniformLocation, (int)value);
 }  
 
-void Shader::setInt(const std::string &name, int value){
+void Shader::setInt(const std::string &name, int value) const {
     int uniformLocation = glGetUniformLocation(ID, name.c_str());
     if(uniformLocation == -1){
         std::cout << "ERROR::SHADER::SETINT::UNIFORM_LOCATION_FAILED" << std::endl;
     }
 
     //Update Uniform value
-    glUniformli(uniformLocation, value);
+    glUseProgram(ID);
+    glUniform1i(uniformLocation, value);
 }   
-void Shader::setFloat(const std::string &name, float value){
+void Shader::setFloat(const std::string &name, float value) const {
     int uniformLocation = glGetUniformLocation(ID, name.c_str());
     if(uniformLocation == -1){
         std::cout << "ERROR::SHADER::SETFLOAT::UNIFORM_LOCATION_FAILED" << std::endl;
     }
 
     //Update Uniform value
+    std::cout << name << " was changed to " << value << '\n';
+    glUseProgram(ID);
     glUniform1f(uniformLocation, value);
 }
 

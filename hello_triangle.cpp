@@ -84,6 +84,7 @@ int main(){
     //Parse shaders, compile, and link
     Shader shaderProgramClass("./Shaders.GLSL");
     unsigned int shaderProgram = shaderProgramClass.ID;
+    shaderProgramClass.setFloat("xOffset", 0.2);
 
     //Create a vertext array object to manage vertext attribiutes
     unsigned int VAO;

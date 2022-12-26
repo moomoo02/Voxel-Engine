@@ -70,9 +70,10 @@ int main(){
 
     //Vertices of a triangle
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+        -0.5f, -0.5f, 0.0f, 
+        -0.5f, 0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f, 
+        0.5f,  0.5f, 0.0f, 
     };  
 
     //  GLfloat vertices2[] = {
@@ -84,9 +85,8 @@ int main(){
     //Parse shaders, compile, and link
     Shader shaderProgramClass("./Shaders.GLSL");
     unsigned int shaderProgram = shaderProgramClass.ID;
-    shaderProgramClass.setFloat("xOffset", 0.2);
 
-    //Create a vertext array object to manage vertext attribiutes
+    //Create a vertext array object to manage vertext attributes
     unsigned int VAO;
     glGenVertexArrays(1, &VAO); 
     glBindVertexArray(VAO);
@@ -99,11 +99,8 @@ int main(){
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
 
     //Tell vertext buffer object how to interpret vertices
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);  
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);  
-
 
     //Render loop
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
@@ -115,7 +112,7 @@ int main(){
         //Draw Object
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
         glfwSwapBuffers(window); //swap color buffer that is used to render 
         glfwPollEvents(); //Checks if any events has been triggered, updates window states, and calls cooresponding functions

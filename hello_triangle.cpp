@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include "shader.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -22,101 +23,18 @@ struct vec4{
 
 };
 
-struct ShaderProgramSource {
-    std::string VertexSource;
-    std::string FragmentSource;
-};
 
-static ShaderProgramSource parseShader(const std::string filePath){
-    std::ifstream infile(filePath);
-    
-    enum class ShaderType {
-        NONE = -1, VERTEX = 0, FRAGMENT = 1
-    };
+// static void setColorGradient(unsigned int shaderProgram, vec4 color){
+//     //Get Uniform location
+//     int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+//     if(vertexColorLocation == -1){
+//         std::cout << "ERROR::SHADER::UNIFORM_LOCATION_FAILED" << std::endl;
+//     }
 
-    ShaderType currentShader = ShaderType::NONE;
-    std::stringstream ss[2];
-    std::string line;
-    while(std::getline(infile, line)){
-
-        if(line.find("#Shader") == std::string::npos){
-            ss[(int)currentShader] << line << '\n';
-        }
-
-        if(line.find("Vertex") != std::string::npos){
-            currentShader = ShaderType::VERTEX;
-        }else if(line.find("Fragment") != std::string::npos){
-            currentShader = ShaderType::FRAGMENT;
-        }
-    }
-
-    return { ss[0].str(), ss[1].str()};
-}   
-
-
-static unsigned int compileAndLinkShaders(ShaderProgramSource shaderSource){
-    //Extract Shader Program Source
-    const char * vertexShaderSource =  shaderSource.VertexSource.c_str();
-    const char * fragmentShaderSource = shaderSource.FragmentSource.c_str();
-
-    //Compile vertext shader object
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    //Compile fragment shader object
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    //Check if shaders successfully compiled
-    int success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {   
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-
-    glGetProgramiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if(!success) {
-        glGetProgramInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-
-    //Link Shaders to ShaderProgram
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if(!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::LINKING_FAILED\n" << infoLog << std::endl;
-    }
-
-    //Shaders will now be used, can delete
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);  
-
-    return shaderProgram;
-}
-
-static void setColorGradient(unsigned int shaderProgram, vec4 color){
-    //Get Uniform location
-    int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-    if(vertexColorLocation == -1){
-        std::cout << "ERROR::SHADER::UNIFORM_LOCATION_FAILED" << std::endl;
-    }
-
-    //Update Uniform value
-    glUseProgram(shaderProgram);
-    glUniform4f(vertexColorLocation, color.x, color.y, color.z, color.w);
-}
+//     //Update Uniform value
+//     glUseProgram(shaderProgram);
+//     glUniform4f(vertexColorLocation, color.x, color.y, color.z, color.w);
+// }
 
 int main(){
     //Initialize GLFW and configure using Hint
@@ -164,9 +82,8 @@ int main(){
     // };  
 
     //Parse shaders, compile, and link
-    ShaderProgramSource shaderSource = parseShader("./Shaders.GLSL");
-    std::cout << shaderSource.FragmentSource << '\n';
-    unsigned int shaderProgram = compileAndLinkShaders(shaderSource);
+    Shader shaderProgramClass("./Shaders.GLSL");
+    unsigned int shaderProgram = shaderProgramClass.ID;
 
     //Create a vertext array object to manage vertext attribiutes
     unsigned int VAO;

@@ -4,8 +4,8 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
-#include "shader.h"
-#include "./stb_image/stb_image.h"
+#include "Shader.h"
+#include "Texture.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -86,6 +86,9 @@ int main(){
     //Parse shaders, compile, and link
     Shader shaderProgramClass("./Shaders.GLSL");
     unsigned int shaderProgram = shaderProgramClass.ID;
+
+    //Textures
+    Texture texture("./Textures/container.jpeg");
 
     //Create a vertext array object to manage vertext attributes
     unsigned int VAO;

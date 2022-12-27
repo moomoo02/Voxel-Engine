@@ -1,4 +1,4 @@
-#include "shader.h"
+#include "Shader.h"
 
 //Helper Functions
 struct ShaderProgramSource {

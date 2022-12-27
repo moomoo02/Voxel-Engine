@@ -28,18 +28,6 @@ struct vec4{
 };
 
 
-// static void setColorGradient(unsigned int shaderProgram, vec4 color){
-//     //Get Uniform location
-//     int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-//     if(vertexColorLocation == -1){
-//         std::cout << "ERROR::SHADER::UNIFORM_LOCATION_FAILED" << std::endl;
-//     }
-
-//     //Update Uniform value
-//     glUseProgram(shaderProgram);
-//     glUniform4f(vertexColorLocation, color.x, color.y, color.z, color.w);
-// }
-
 int main(){
     //Initialize GLFW and configure using Hint
     glfwInit();
@@ -129,6 +117,9 @@ int main(){
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
+    // Our state
+    bool show_demo_window = true;
+
     //Render loop
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
     {   
@@ -136,7 +127,10 @@ int main(){
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
+        
+        //Show demo window
+        ImGui::ShowDemoWindow(&show_demo_window);
+        
         //Clear Color Buffer
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

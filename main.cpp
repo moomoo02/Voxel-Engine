@@ -118,7 +118,7 @@ int main(){
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Our state
-    bool show_demo_window = true;
+    float blend = 0.0;
 
     //Render loop
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
@@ -129,8 +129,11 @@ int main(){
         ImGui::NewFrame();
         
         //Show demo window
-        ImGui::ShowDemoWindow(&show_demo_window);
-        
+        {
+            ImGui::SliderFloat("Blend", &blend, 0.0f, 1.0f);
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        }
+
         //Clear Color Buffer
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -138,7 +141,7 @@ int main(){
         //Draw Object
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        // glBindTexture(GL_TEXTURE_2D, texture);
+        shaderProgramClass.setFloat("blend", blend);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
         //Rendering

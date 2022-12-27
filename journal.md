@@ -25,4 +25,5 @@ Played around with Shaders
 
 ## Dec 27
 * Accounted for texture units in order to have multiple textures
-* Pics: MixedTextures, imguiDemo
+* Incorporated imgui to blend textures with slider
+* Pics: MixedTextures, imguiDemo, blendedTexturesImGui

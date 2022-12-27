@@ -18,3 +18,8 @@ Played around with Shaders
 * Played around with shaders to get the pics
 * Pics: Offset, UpsideDown, VertexPosition
 
+## Dec 26
+* Built class for managing/loading in Textures
+* Loaded in Texture through fragment shader and stb_image for loading.
+* Pics: BocchiTexture
+

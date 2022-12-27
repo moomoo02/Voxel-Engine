@@ -10,11 +10,10 @@
 
 class Texture
 {
-private:
-    unsigned int textureId;
+public:
+    unsigned int ID;
     int width, height;
     int colorChannels;
-public:
     Texture(const std::string & filePath);
 
 };

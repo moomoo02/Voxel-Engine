@@ -2,7 +2,8 @@
 
 Texture::Texture(const std::string & filePath)
 {
-    std::cout << filePath << '\n';
+    std::cout << "Loading Texture: " << filePath << '\n';
+    stbi_set_flip_vertically_on_load(true); 
 
     //Load Texture
     int w, h, nrChannels;
@@ -15,7 +16,7 @@ Texture::Texture(const std::string & filePath)
     glGenTextures(1, &texture);  
     glBindTexture(GL_TEXTURE_2D, texture);  
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, data);
-    textureId = texture;
+    ID = texture;
     
     if (data)
     {

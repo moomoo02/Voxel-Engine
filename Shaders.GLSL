@@ -1,17 +1,20 @@
 #Shader Vertex
 #version 330 core
 layout (location = 0) in vec3 aPos;
-out vec4 vertexColor;
+layout (location = 1) in vec2 aTexCoord;
+out vec2 TexCoord;
 void main()
 {
     gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-    vertexColor = gl_Position;
+    TexCoord = aTexCoord;
 }
 #Shader Fragment
 #version 330 core
-in vec4 vertexColor;
+in vec2 TexCoord;
+uniform sampler2D ourTexture;
 out vec4 FragColor;
 void main()
 {
-    FragColor = vertexColor;
+    FragColor = texture(ourTexture, TexCoord);
+
 }

@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Texture::Texture(const std::string & filePath)
+Texture::Texture(const std::string & filePath, const unsigned int slot)
 {
     std::cout << "Loading Texture: " << filePath << '\n';
     stbi_set_flip_vertically_on_load(true); 
@@ -14,6 +14,7 @@ Texture::Texture(const std::string & filePath)
 
     unsigned int texture;
     glGenTextures(1, &texture);  
+    glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, texture);  
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, data);
     ID = texture;

@@ -92,6 +92,7 @@ Shader::Shader(const std::string filePath){
     //Compile and link shaders
     unsigned int shaderProgram = compileAndLinkShaders(shaderSource);
     ID = shaderProgram;
+    glUseProgram(ID);
 }
 
 void Shader::use(){
@@ -105,7 +106,6 @@ void Shader::setBool(const std::string &name, bool value) const {
     }
 
     //Update Uniform value
-    glUseProgram(ID);
     glUniform1i(uniformLocation, (int)value);
 }  
 
@@ -116,7 +116,6 @@ void Shader::setInt(const std::string &name, int value) const {
     }
 
     //Update Uniform value
-    glUseProgram(ID);
     glUniform1i(uniformLocation, value);
 }   
 void Shader::setFloat(const std::string &name, float value) const {
@@ -127,7 +126,6 @@ void Shader::setFloat(const std::string &name, float value) const {
 
     //Update Uniform value
     std::cout << name << " was changed to " << value << '\n';
-    glUseProgram(ID);
     glUniform1f(uniformLocation, value);
 }
 

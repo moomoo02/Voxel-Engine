@@ -14,6 +14,5 @@ public:
     unsigned int ID;
     int width, height;
     int colorChannels;
-    Texture(const std::string & filePath);
-
+    Texture(const std::string & filePath, const unsigned int slot);
 };

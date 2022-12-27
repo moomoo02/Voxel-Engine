@@ -23,3 +23,6 @@ Played around with Shaders
 * Loaded in Texture through fragment shader and stb_image for loading.
 * Pics: BocchiTexture
 
+## Dec 27
+* Accounted for texture units in order to have multiple textures
+* Pics: MixedTextures

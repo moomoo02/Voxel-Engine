@@ -7,8 +7,10 @@ const ROOT_DIR = './Memories';
 const README_FILENAME = 'README.md';
 const NB_IMAGES_PER_LINE = 4;
 let nbImages = 0;
-let mdContent = '<table><tr>';
 
+let introduction = '# My Learning OpenGL Journey \nHello, this is where I\'m learning OpenGl.  Since I will be always changing the code around to learn new concepts, I want to keep in memory all the graphics that I produced.  Below is my journey of every graphic I created, sorted from earliest to latest. \n '
+let mdContent = introduction + '<table><tr>';
+let journal = fs.readFileSync('./journal.md', 'utf8');
 
 const getSortedFiles = async (dir) => {
     const files = await fs.promises.readdir(dir);
@@ -33,7 +35,6 @@ getSortedFiles(ROOT_DIR).then((result) => {
         if (image.name !== README_FILENAME) {
             if (!(nbImages % NB_IMAGES_PER_LINE)) {
                 if (nbImages > 0) {
-                    console.log(image.name);
                     mdContent += `</tr>`;
                 }
                 mdContent += `<tr>`;
@@ -47,6 +48,7 @@ getSortedFiles(ROOT_DIR).then((result) => {
             </td>`;
         }
      });
-     mdContent += `</tr></table>`;
+     mdContent += `</tr></table>\n`;
+     mdContent += journal;
      fs.writeFileSync(path.join("./", README_FILENAME), mdContent);
 });

@@ -1,4 +1,6 @@
+
 # Journal
+
 ## Dec 23
 Created a function to parse shader text files into a shader source:
 * Used ifstream object and getline to read file line by line.

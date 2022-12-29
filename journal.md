@@ -27,3 +27,8 @@ Played around with Shaders
 * Accounted for texture units in order to have multiple textures
 * Incorporated imgui to blend textures with slider
 * Pics: MixedTextures, imguiDemo, blendedTexturesImGui
+
+## Dec 28
+* Added GLM library for math
+* Transform image using rotation and scaling.
+* Pics: RotatedScaled

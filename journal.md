@@ -32,3 +32,8 @@ Played around with Shaders
 * Added GLM library for math
 * Transform image using rotation and scaling.
 * Pics: RotatedScaled, BocchiSpin
+
+## Dec 29
+* Learned the cameria coordinate pipeline
+  * Local Space -> Model Matrix -> World Space -> View Matrix -> View Space -> Projection Matrix -> Clip Space -> Viewport Transformation -> Screen Space
+* Pics: CameraCoord

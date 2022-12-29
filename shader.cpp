@@ -118,6 +118,7 @@ void Shader::setInt(const std::string &name, int value) const {
     //Update Uniform value
     glUniform1i(uniformLocation, value);
 }   
+
 void Shader::setFloat(const std::string &name, float value) const {
     int uniformLocation = glGetUniformLocation(ID, name.c_str());
     if(uniformLocation == -1){
@@ -126,6 +127,17 @@ void Shader::setFloat(const std::string &name, float value) const {
 
     //Update Uniform value
     glUniform1f(uniformLocation, value);
+}
+
+void Shader::setMat4(const std::string &name, glm::mat4 matrix) const {
+    int uniformLocation = glGetUniformLocation(ID, name.c_str());
+    if(uniformLocation == -1){
+        std::cout << "ERROR::SHADER::SETMATRIX::UNIFORM_LOCATION_FAILED" << std::endl;
+        std::cout << "ERROR: uniform location at " << name << " was not founded." << std::endl;
+    }
+
+    //Update Uniform value
+    glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 

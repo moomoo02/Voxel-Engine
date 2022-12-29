@@ -111,10 +111,15 @@ int main(){
 
 
     //GLM Math
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-    unsigned int transformLoc = glGetUniformLocation(shaderProgramClass.ID, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));   
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    glm::mat4 view = glm::mat4(1.0f);
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    glm::mat4 projection = glm::mat4(1.0f);
+    projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    shaderProgramClass.setMat4("model", model);
+    shaderProgramClass.setMat4("view", view);
+    shaderProgramClass.setMat4("projection", projection);
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -150,8 +155,6 @@ int main(){
         glClear(GL_COLOR_BUFFER_BIT);
 
         //Draw Object
-        trans = glm::rotate(trans, glm::radians((float)glfwGetTime()), glm::vec3(0.0f, 0.0f, 1.0f));
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));  
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         shaderProgramClass.setFloat("blend", blend);

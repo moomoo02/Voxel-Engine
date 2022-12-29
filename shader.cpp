@@ -125,7 +125,6 @@ void Shader::setFloat(const std::string &name, float value) const {
     }
 
     //Update Uniform value
-    std::cout << name << " was changed to " << value << '\n';
     glUniform1f(uniformLocation, value);
 }
 

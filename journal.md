@@ -31,4 +31,4 @@ Played around with Shaders
 ## Dec 28
 * Added GLM library for math
 * Transform image using rotation and scaling.
-* Pics: RotatedScaled
+* Pics: RotatedScaled, BocchiSpin

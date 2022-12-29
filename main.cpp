@@ -112,8 +112,7 @@ int main(){
 
     //GLM Math
     glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5)); 
+    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
     unsigned int transformLoc = glGetUniformLocation(shaderProgramClass.ID, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));   
 
@@ -151,6 +150,8 @@ int main(){
         glClear(GL_COLOR_BUFFER_BIT);
 
         //Draw Object
+        trans = glm::rotate(trans, glm::radians((float)glfwGetTime()), glm::vec3(0.0f, 0.0f, 1.0f));
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));  
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         shaderProgramClass.setFloat("blend", blend);

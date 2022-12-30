@@ -48,6 +48,10 @@ Hello, this is where I'm learning OpenGl.  Since I will be always changing the c
             <td valign="bottom">
             <img src="./Memories/BocchiCube.gif" width="200"><br>
             BocchiCube.gif | Dec 30 2022
+            </td></tr><tr>
+            <td valign="bottom">
+            <img src="./Memories/BocchiCubes.gif" width="200"><br>
+            BocchiCubes.gif | Dec 30 2022
             </td></tr></table>
 
 # Journal
@@ -90,3 +94,8 @@ Played around with Shaders
 * Learned the cameria coordinate pipeline
   * Local Space -> Model Matrix -> World Space -> View Matrix -> View Space -> Projection Matrix -> Clip Space -> Viewport Transformation -> Screen Space
 * Pics: CameraCoord
+  
+## Dec 30
+* Converted 2d plane to 3d cube.
+* Played around with altering fov and transformation matrices.
+* Pics: BocchiCube, BocchiCubes

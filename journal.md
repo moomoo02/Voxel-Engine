@@ -39,3 +39,8 @@ Played around with Shaders
 * Learned the cameria coordinate pipeline
   * Local Space -> Model Matrix -> World Space -> View Matrix -> View Space -> Projection Matrix -> Clip Space -> Viewport Transformation -> Screen Space
 * Pics: CameraCoord
+  
+## Dec 30
+* Converted 2d plane to 3d cube.
+* Played around with altering fov and transformation matrices.
+* Pics: BocchiCube, BocchiCubes

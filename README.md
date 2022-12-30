@@ -44,6 +44,10 @@ Hello, this is where I'm learning OpenGl.  Since I will be always changing the c
             <td valign="bottom">
             <img src="./Memories/CameraCoords.png" width="200"><br>
             CameraCoords.png | Dec 29 2022
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/BocchiCube.gif" width="200"><br>
+            BocchiCube.gif | Dec 30 2022
             </td></tr></table>
 
 # Journal

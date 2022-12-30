@@ -31,7 +31,22 @@ struct vec4{
     }
 
 };
+glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 
+void processInput(GLFWwindow *window)
+{
+    const float cameraSpeed = 0.05f; // adjust accordingly
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        cameraPos += cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        cameraPos -= cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+}
 
 int main(){
     //Initialize GLFW and configure using Hint
@@ -134,18 +149,6 @@ int main(){
     shaderProgramClass.setInt("texture1", 0);
     shaderProgramClass.setInt("texture2", 1);
 
-    //Camera
-    //1. Camera Position
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);  
-    //2. Camera Direction
-    glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
-    //3. Right Axis
-    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-    //3. Up Axis
-    glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
-
     //Create a vertext array object to manage vertext attributes
     unsigned int VAO;
     glGenVertexArrays(1, &VAO); 
@@ -201,11 +204,9 @@ int main(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //GLM Math
-        const float radius = 10.0f;
-        float camX = sin(glfwGetTime()) * radius;
-        float camZ = cos(glfwGetTime()) * radius;
-        glm::mat4 view;
-        view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0));
+        processInput(window);
+        std::cout << cameraPos.x << ' ' << cameraPos.y << ' ' << cameraPos.z << '\n';
+        glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         glm::mat4 projection = glm::mat4(1.0f);
         projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 100.0f);
         shaderProgramClass.setMat4("view", view);

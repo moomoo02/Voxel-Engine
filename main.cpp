@@ -17,6 +17,8 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
 void processInput(GLFWwindow *window);
 
 struct vec4{
@@ -39,7 +41,9 @@ glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 float yaw = -90.0f, pitch = 0.0f;
-glm::vec3 direction = glm::vec3(cos(glm::radians(yaw)) * cos(glm::radians(pitch)), sin(glm::radians(pitch)), sin(glm::radians(yaw)) * cos(glm::radians(pitch)));
+float lastX = 400, lastY = 300;
+bool firstMouse = true;
+//glm::vec3 direction = glm::vec3(cos(glm::radians(yaw)) * cos(glm::radians(pitch)), sin(glm::radians(pitch)), sin(glm::radians(yaw)) * cos(glm::radians(pitch)));
 
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
@@ -62,7 +66,7 @@ int main(){
         return -1;
     }
     glfwMakeContextCurrent(window);
-
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     //Make sure GLAD is initialized and working
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -71,11 +75,12 @@ int main(){
     }     
 
     //Specify viewport so opengl knows how to display data and coordinates with respect to the window
-    glViewport(0, 0, 800, 600);
-     
+
     //Everytime window is resized, callback function to edit viewport.
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);  
 
+    //Cursor moves callback
+    glfwSetCursorPosCallback(window, mouse_callback); 
 
     //Vertices of a triangle
     float vertices[] = {
@@ -205,7 +210,6 @@ int main(){
         deltaTime = currentTime - lastFrame;
         lastFrame = currentTime;
         processInput(window);
-        std::cout << cameraPos.x << ' ' << cameraPos.y << ' ' << cameraPos.z << '\n';
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         glm::mat4 projection = glm::mat4(1.0f);
         projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -262,4 +266,47 @@ void processInput(GLFWwindow *window)
         cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+
+    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS){
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        //glfwSetCursorPosCallback(window, NULL); 
+    }
+    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS){
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        glfwSetCursorPosCallback(window, mouse_callback);    
+    }
 }
+
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+  
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos; 
+    lastX = xpos;
+    lastY = ypos;
+
+    float sensitivity = 0.1f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw   += xoffset;
+    pitch += yoffset;
+
+    if(pitch > 89.0f)
+        pitch = 89.0f;
+    if(pitch < -89.0f)
+        pitch = -89.0f;
+
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraFront = glm::normalize(direction);
+}  

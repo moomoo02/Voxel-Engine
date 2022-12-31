@@ -17,6 +17,8 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
+void processInput(GLFWwindow *window);
+
 struct vec4{
     float x;
     float y;
@@ -31,22 +33,16 @@ struct vec4{
     }
 
 };
+
+//Camera Variables
 glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+float yaw = 90;
+glm::vec3 direction = glm::vec3(cos(glm::radians(yaw)), 0.0f, sin(glm::radians(yaw)));
 
-void processInput(GLFWwindow *window)
-{
-    const float cameraSpeed = 0.05f; // adjust accordingly
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-}
+float deltaTime = 0.0f;	// Time between current frame and last frame
+float lastFrame = 0.0f; // Time of last frame
 
 int main(){
     //Initialize GLFW and configure using Hint
@@ -182,6 +178,7 @@ int main(){
     // Our state
     float blend = 0.0;
     float fov = 45.0;
+
     glEnable(GL_DEPTH_TEST);  
 
     //Render loop
@@ -204,6 +201,9 @@ int main(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //GLM Math
+        float currentTime = glfwGetTime();
+        deltaTime = currentTime - lastFrame;
+        lastFrame = currentTime;
         processInput(window);
         std::cout << cameraPos.x << ' ' << cameraPos.y << ' ' << cameraPos.z << '\n';
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -249,4 +249,17 @@ int main(){
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {   
     glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow *window)
+{
+    const float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        cameraPos += cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        cameraPos -= cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }

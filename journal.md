@@ -44,3 +44,7 @@ Played around with Shaders
 * Converted 2d plane to 3d cube.
 * Played around with altering fov and transformation matrices.
 * Pics: BocchiCube, BocchiCubes
+
+## Dec 31
+* Implemented working camera with translation and rotation
+* Pics: BoochiCam

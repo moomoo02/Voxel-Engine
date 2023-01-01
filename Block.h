@@ -12,6 +12,7 @@ enum BlockType {
     BlockType_NumTypes,
 };
 
+
 class Block {
 public:
     Block();

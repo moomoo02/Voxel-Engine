@@ -6,6 +6,7 @@
 #include <cmath>
 #include "Shader.h"
 #include "Texture.h"
+#include "Camera.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -18,6 +19,8 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 void processInput(GLFWwindow *window);
 
@@ -43,7 +46,9 @@ glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 float yaw = -90.0f, pitch = 0.0f;
 float lastX = 400, lastY = 300;
 bool firstMouse = true;
-//glm::vec3 direction = glm::vec3(cos(glm::radians(yaw)) * cos(glm::radians(pitch)), sin(glm::radians(pitch)), sin(glm::radians(yaw)) * cos(glm::radians(pitch)));
+
+//Initialize Camera Object
+Camera camera(cameraPos, cameraUp, -90.0f, 0.0f);
 
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
@@ -74,13 +79,12 @@ int main(){
         return -1;
     }     
 
-    //Specify viewport so opengl knows how to display data and coordinates with respect to the window
-
     //Everytime window is resized, callback function to edit viewport.
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);  
 
     //Cursor moves callback
     glfwSetCursorPosCallback(window, mouse_callback); 
+    glfwSetScrollCallback(window, scroll_callback); 
 
     //Vertices of a triangle
     float vertices[] = {
@@ -210,9 +214,9 @@ int main(){
         deltaTime = currentTime - lastFrame;
         lastFrame = currentTime;
         processInput(window);
-        glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        glm::mat4 view = camera.GetViewMatrix();
         glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(camera.Zoom), 800.0f / 600.0f, 0.1f, 100.0f);
         shaderProgramClass.setMat4("view", view);
         shaderProgramClass.setMat4("projection", projection);
 
@@ -257,15 +261,14 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow *window)
 {
-    const float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraFront;
+        camera.ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraFront;
+        camera.ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        camera.ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
 
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS){
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -292,21 +295,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     lastX = xpos;
     lastY = ypos;
 
-    float sensitivity = 0.1f;
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
-
-    yaw   += xoffset;
-    pitch += yoffset;
-
-    if(pitch > 89.0f)
-        pitch = 89.0f;
-    if(pitch < -89.0f)
-        pitch = -89.0f;
-
-    glm::vec3 direction;
-    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    direction.y = sin(glm::radians(pitch));
-    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    cameraFront = glm::normalize(direction);
+    camera.ProcessMouseMovement(xoffset,yoffset, false);
 }  
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    camera.ProcessMouseScroll(yoffset);
+}

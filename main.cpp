@@ -149,7 +149,7 @@ int main(){
     unsigned int shaderProgram = shaderProgramClass.ID;
 
     //Textures
-    Texture textureClass1("./Textures/ThisIsFine.jpeg", 0);
+    Texture textureClass1("./Textures/Elgato.jpeg", 0);
     Texture textureClass2("./Textures/Bocchi2.jpeg", 1);
     shaderProgramClass.setInt("texture1", 0);
     shaderProgramClass.setInt("texture2", 1);

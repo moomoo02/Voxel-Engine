@@ -56,6 +56,10 @@ Hello, this is where I'm learning OpenGl.  Since I will be always changing the c
             <td valign="bottom">
             <img src="./Memories/BocchiCam.gif" width="200"><br>
             BocchiCam.gif | Dec 31 2022
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/ElGatoZoom.gif" width="200"><br>
+            ElGatoZoom.gif | Dec 31 2022
             </td></tr></table>
 
 # Journal

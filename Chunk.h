@@ -10,6 +10,7 @@ public:
     void Render(OpenGLRenderer * pRenderer);
     static const int CHUNK_SIZE = 16;
 private: // The blocks data
-    Block pBlocks;
+    Block * * * pBlocks;
 };
+
 #endif // __CHUNK_H__

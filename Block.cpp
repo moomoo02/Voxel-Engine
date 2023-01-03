@@ -14,15 +14,15 @@ Block::Block(bool act, BlockType type)
 
 Block::~Block()
 {
-    
+
 }
 
 bool Block::isActive()
 {
-    
+    return active;
 }
 
 void Block::setActive()
 {
-    
+    active = 1;
 }

@@ -16,6 +16,7 @@ enum BlockType {
 class Block {
 public:
     Block();
+    Block(bool active, BlockType blockType);
     ~Block();
     bool isActive();
     void setActive();

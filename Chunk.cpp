@@ -33,15 +33,20 @@ void Chunk::Render(Renderer * pRenderer)
     VertexArray VAO;
     std::vector<float> vertices;
 
-    for(int i = 0; i < CHUNK_SIZE; i++){
-        for(int j = 0; j < CHUNK_SIZE; j++){
-            for(int k = 0; k < CHUNK_SIZE; k++){
-                if(pBlocks[i][j][k].isActive()){
+    for(int x = 0; x < CHUNK_SIZE; x++){
+        for(int y = 0; y < CHUNK_SIZE; y++){
+            for(int z = 0; z < CHUNK_SIZE; z++){
+                if(pBlocks[x][y][z].isActive()){
                     //Add vertex to VAO
-                    
+
 
                 }
             }
         }
     }
+}
+
+std::vector<float> Chunk::createCube(int x, int y, int z)
+{
+    
 }

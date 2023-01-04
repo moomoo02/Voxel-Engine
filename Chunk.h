@@ -11,6 +11,9 @@ public:
     ~Chunk();
     void Update(float dt);
     void Render(Renderer * pRenderer);
+
+    //Creates a cube (vector of floats at a position based on its index in chunk.
+    std::vector<float> createCube(int x, int y, int z);
     static const int CHUNK_SIZE = 16;
 private: // The blocks data
     Block * * * pBlocks;

@@ -133,27 +133,32 @@ int main(){
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
     // 0.26f,0.74f,0.32f
-    // float verticesColor[] = {
+    std::vector<float> verticesColor;
+    for(int i = 0; i < 180; i++){
+        if( (i-3) % 5 == 0){
+            verticesColor.push_back(0.26f);
+            verticesColor.push_back(0.74f);
+            verticesColor.push_back(0.32);
+            i += 2;
+        }
 
-    // }
-    // std::vector<float> test;
-    // for(int i = 0; i < 180; i++){
-        
-    // }
+        verticesColor.push_back(verticesTexture[i]);
+    }
 
     //Parse shaders, compile, and link
-    Shader shaderProgramClass("./Shaders/TextureShader.GLSL");
+    Shader shaderProgramClass("./Shaders/ColorShader.GLSL");
     unsigned int shaderProgram = shaderProgramClass.ID;
-
+   
     //Textures
     Texture textureClass1("./Textures/Elgato.jpeg", 0);
     Texture textureClass2("./Textures/Bocchi2.jpeg", 1);
-    shaderProgramClass.setInt("texture1", 0);
-    shaderProgramClass.setInt("texture2", 1);
+    // shaderProgramClass.setInt("texture1", 0);
+    // shaderProgramClass.setInt("texture2", 1);
 
     //Create a vertext array object to manage vertext attributes
     VertexArray VAO;
-    VAO.bindVBO("cube", VertexFormat_Texture, verticesTexture);
+    //VAO.bindVBO("cube", VertexFormat_Texture, verticesTexture);
+    VAO.bindVBO("cube", VertexFormat_RGB, verticesColor);
 
     //Initialize Renderer
     Renderer renderer;
@@ -210,7 +215,7 @@ int main(){
         glm::mat4 model = glm::mat4(1.0f);
         shaderProgramClass.setMat4("model", model);
         renderer.draw(VAO, shaderProgramClass);
-        shaderProgramClass.setFloat("blend", blend);
+        //shaderProgramClass.setFloat("blend", blend);
 
         //Rendering
         ImGui::Render();

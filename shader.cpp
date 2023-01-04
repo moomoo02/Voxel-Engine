@@ -1,11 +1,6 @@
 #include "Shader.h"
 
 //Helper Functions
-struct ShaderProgramSource {
-    std::string VertexSource;
-    std::string FragmentSource;
-};
-
 static ShaderProgramSource parseShader(const std::string filePath){
     std::ifstream infile(filePath);
     
@@ -87,7 +82,7 @@ static unsigned int compileAndLinkShaders(ShaderProgramSource shaderSource){
 //Shader Implementation
 Shader::Shader(const std::string filePath){
     //Parse file into source code strings
-    ShaderProgramSource shaderSource = parseShader(filePath);
+    shaderSource = parseShader(filePath);
 
     //Compile and link shaders
     unsigned int shaderProgram = compileAndLinkShaders(shaderSource);

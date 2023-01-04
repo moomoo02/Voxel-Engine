@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "VertexArray.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -142,9 +143,7 @@ int main(){
     shaderProgramClass.setInt("texture2", 1);
 
     //Create a vertext array object to manage vertext attributes
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO); 
-    glBindVertexArray(VAO);
+    VertexArray VAO;
 
     //Create a Vertex Buffer Object (VBO) that can store large number of vertices and copy data to buffer
     //Use glGenBuffers to generate buffer of id 1 and bind it to array buffer
@@ -153,7 +152,7 @@ int main(){
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
 
-    //Tell vertext buffer object how to interpret vertices
+    //Tell vertex buffer object how to interpret vertices
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0); 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
@@ -209,7 +208,7 @@ int main(){
 
         //Draw Object
         glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
+        VAO.bind();
         for(unsigned int i = 0; i < 32; i++){
             for(unsigned int j = 0; j < 32; j++){
                 for(unsigned int k = 0; k < 32; k++){

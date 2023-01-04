@@ -33,7 +33,10 @@ void VertexArray::bindVBO(std::string key, VertexFormat vf, float vertices[], un
         glEnableVertexAttribArray(1); 
     }else if(vf == VertexFormat_RGB){
         //For format: x, y, z, r, g, b
-        
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(1);
     }
 
 }

@@ -134,7 +134,7 @@ int main(){
     };
 
     //Parse shaders, compile, and link
-    Shader shaderProgramClass("./Shaders.GLSL");
+    Shader shaderProgramClass("./Shaders/TextureShader.GLSL");
     unsigned int shaderProgram = shaderProgramClass.ID;
 
     //Textures

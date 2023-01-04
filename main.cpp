@@ -89,7 +89,7 @@ int main(){
     glfwSetScrollCallback(window, scroll_callback); 
 
     //Vertices of a triangle
-    float vertices[] = {
+    std::vector<float> verticesTexture = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -132,6 +132,14 @@ int main(){
         -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
+    // 0.26f,0.74f,0.32f
+    // float verticesColor[] = {
+
+    // }
+    // std::vector<float> test;
+    // for(int i = 0; i < 180; i++){
+        
+    // }
 
     //Parse shaders, compile, and link
     Shader shaderProgramClass("./Shaders/TextureShader.GLSL");
@@ -145,7 +153,7 @@ int main(){
 
     //Create a vertext array object to manage vertext attributes
     VertexArray VAO;
-    VAO.bindVBO("cube", VertexFormat_Texture, vertices, sizeof(vertices));
+    VAO.bindVBO("cube", VertexFormat_Texture, verticesTexture);
 
     //Initialize Renderer
     Renderer renderer;

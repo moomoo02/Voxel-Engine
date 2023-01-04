@@ -13,13 +13,13 @@ void VertexArray::bind() const
 }
 
 //Creats a VBO for vertices and binds it to VAO based on vertex format.
-void VertexArray::bindVBO(std::string key, VertexFormat vf, float vertices[], unsigned long verticesSizeBytes)
+void VertexArray::bindVBO(std::string key, VertexFormat vf, std::vector<float> vertices)
 {
     //Create Vertex Buffer Object and bind to global state.
     unsigned int VBO;
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, verticesSizeBytes, vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
     //Store vbo as id
     VBOs[key] = VBO;

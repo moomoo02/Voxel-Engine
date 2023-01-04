@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include <map>
 #include <string>
+#include <vector>
 
 enum VertexFormat{
     VertexFormat_Texture, // x, y, z, tx, ty
@@ -19,7 +20,7 @@ public:
     VertexArray();
     void bind() const;
     //Binds Vertices to VAO
-    void bindVBO(std::string key, VertexFormat vf, float vertices[], unsigned long verticesSizeBytes);
+    void bindVBO(std::string key, VertexFormat vf, std::vector<float> vertices);
 };
 
 

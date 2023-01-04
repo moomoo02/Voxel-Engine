@@ -145,18 +145,7 @@ int main(){
     //Create a vertext array object to manage vertext attributes
     VertexArray VAO;
 
-    //Create a Vertex Buffer Object (VBO) that can store large number of vertices and copy data to buffer
-    //Use glGenBuffers to generate buffer of id 1 and bind it to array buffer
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);  
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
-
-    //Tell vertex buffer object how to interpret vertices
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
-    glEnableVertexAttribArray(0); 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1); 
+    VAO.bindVBO(vertices, sizeof(vertices));
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();

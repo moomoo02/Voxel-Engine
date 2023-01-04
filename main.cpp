@@ -8,6 +8,7 @@
 #include "Texture.h"
 #include "Camera.h"
 #include "VertexArray.h"
+#include "Renderer.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -146,7 +147,9 @@ int main(){
     VertexArray VAO;
     VAO.bindVBO("cube", vertices, sizeof(vertices));
 
-    std::cout << VAO.VBOs["cube"] << '\n';
+    //Initialize Renderer
+    Renderer renderer;
+
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -196,18 +199,9 @@ int main(){
         shaderProgramClass.setMat4("projection", projection);
 
         //Draw Object
-        glUseProgram(shaderProgram);
-        VAO.bind();
-        for(unsigned int i = 0; i < 32; i++){
-            for(unsigned int j = 0; j < 32; j++){
-                for(unsigned int k = 0; k < 32; k++){
-                    glm::mat4 model = glm::mat4(1.0f);
-                    model = glm::translate(model, glm::vec3(i,j,k));
-                    shaderProgramClass.setMat4("model", model);
-                    glDrawArrays(GL_TRIANGLES, 0, 36);
-                }
-            }
-        }
+        glm::mat4 model = glm::mat4(1.0f);
+        shaderProgramClass.setMat4("model", model);
+        renderer.draw(VAO, shaderProgramClass);
         shaderProgramClass.setFloat("blend", blend);
 
         //Rendering

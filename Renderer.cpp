@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-void Renderer::Draw(const VertexArray& va, Shader& shader) const
+void Renderer::draw(const VertexArray& va, Shader& shader) const
 {
     va.bind();
     shader.use();

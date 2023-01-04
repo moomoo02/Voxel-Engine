@@ -6,6 +6,6 @@
 class Renderer
 {
 public:
-    void Draw(const VertexArray& va, Shader& shader) const;
+    void draw(const VertexArray& va, Shader& shader) const;
 };
 #endif // __RENDERER_H__

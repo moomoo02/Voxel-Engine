@@ -48,3 +48,7 @@ Played around with Shaders
 ## Dec 31
 * Implemented working camera with translation and rotation
 * Pics: BoochiCam, ElGatoZoom
+
+## Jan 2
+* Added Vertex Array Class to handle vertex buffers
+* Finished draw function in Renderer Class

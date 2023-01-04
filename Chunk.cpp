@@ -27,7 +27,7 @@ void Chunk::Update(float dt)
     
 }
 
-// void Chunk::Render(OpenGLRenderer * pRenderer)
-// {
+void Chunk::Render(Renderer * pRenderer)
+{
     
-// }
+}

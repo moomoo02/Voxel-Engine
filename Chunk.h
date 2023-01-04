@@ -2,12 +2,14 @@
 #define __CHUNK_H__
 
 #include "Block.h"
+#include "Renderer.h"
+
 class Chunk {
 public:
     Chunk();
     ~Chunk();
     void Update(float dt);
-    //void Render(OpenGLRenderer * pRenderer);
+    void Render(Renderer * pRenderer);
     static const int CHUNK_SIZE = 16;
 private: // The blocks data
     Block * * * pBlocks;

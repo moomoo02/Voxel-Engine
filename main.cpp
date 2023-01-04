@@ -144,9 +144,9 @@ int main(){
 
     //Create a vertext array object to manage vertext attributes
     VertexArray VAO;
+    VAO.bindVBO("cube", vertices, sizeof(vertices));
 
-    VAO.bindVBO(vertices, sizeof(vertices));
-
+    std::cout << VAO.VBOs["cube"] << '\n';
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();

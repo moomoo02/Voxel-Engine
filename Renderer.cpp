@@ -1,8 +1,9 @@
 #include "Renderer.h"
 
-// void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const
-// {
+void Renderer::Draw(const VertexArray& va, Shader& shader) const
+{
+    va.bind();
+    shader.use();
 
-
-//     // glDrawArrays(GL_TRIANGLES, 0, 36); //mode, starting index, count
-// }
+    glDrawArrays(GL_TRIANGLES, 0, 36); //mode, starting index, count
+}

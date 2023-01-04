@@ -95,7 +95,7 @@ Shader::Shader(const std::string filePath){
     glUseProgram(ID);
 }
 
-void Shader::use(){
+void Shader::use() {
     glUseProgram(ID);
 }
 

@@ -145,7 +145,7 @@ int main(){
 
     //Create a vertext array object to manage vertext attributes
     VertexArray VAO;
-    VAO.bindVBO("cube", vertices, sizeof(vertices));
+    VAO.bindVBO("cube", VertexFormat_Texture, vertices, sizeof(vertices));
 
     //Initialize Renderer
     Renderer renderer;

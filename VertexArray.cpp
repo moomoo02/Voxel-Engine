@@ -12,9 +12,8 @@ void VertexArray::bind() const
     glBindVertexArray(VAO);
 }
 
-//Creats a VBO for vertices and binds it to VAO.
-//vertices format: x, y, z, textureX, textureY
-void VertexArray::bindVBO(std::string key, float vertices[], unsigned long verticesSizeBytes)
+//Creats a VBO for vertices and binds it to VAO based on vertex format.
+void VertexArray::bindVBO(std::string key, VertexFormat vf, float vertices[], unsigned long verticesSizeBytes)
 {
     //Create Vertex Buffer Object and bind to global state.
     unsigned int VBO;
@@ -26,8 +25,15 @@ void VertexArray::bindVBO(std::string key, float vertices[], unsigned long verti
     VBOs[key] = VBO;
 
     //Bind Vertex BufferObject to VAO
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
-    glEnableVertexAttribArray(0); 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1); 
+    if(vf == VertexFormat_Texture){
+        //For format: x, y, z, tx, ty
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
+        glEnableVertexAttribArray(0); 
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(1); 
+    }else if(vf == VertexFormat_RGB){
+        //For format: x, y, z, r, g, b
+        
+    }
+
 }

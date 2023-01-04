@@ -3,6 +3,7 @@
 
 #include "Block.h"
 #include "Renderer.h"
+#include "vector"
 
 class Chunk {
 public:

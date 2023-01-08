@@ -38,15 +38,15 @@ void Chunk::Render(Renderer * pRenderer)
             for(int z = 0; z < CHUNK_SIZE; z++){
                 if(pBlocks[x][y][z].isActive()){
                     //Add vertex to VAO
-
-
+                    glm::vec3 modelCoord = glm::vec3(x, y, z) / (CHUNK_SIZE - 1);
+                    createCube(modelCoord);
                 }
             }
         }
     }
 }
 
-std::vector<float> Chunk::createCube(int x, int y, int z)
+std::vector<float> Chunk::createCube(glm::vec3 modelCoord)
 {
     
 }

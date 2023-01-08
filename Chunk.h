@@ -5,6 +5,10 @@
 #include "Renderer.h"
 #include "vector"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class Chunk {
 public:
     Chunk();
@@ -13,7 +17,7 @@ public:
     void Render(Renderer * pRenderer);
 
     //Creates a cube (vector of floats at a position based on its index in chunk.
-    std::vector<float> createCube(int x, int y, int z);
+    std::vector<float> createCube(glm::vec3 modelCoord);
     static const int CHUNK_SIZE = 16;
 private: // The blocks data
     Block * * * pBlocks;

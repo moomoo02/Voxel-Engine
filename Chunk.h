@@ -13,8 +13,8 @@ class Chunk {
 public:
     Chunk();
     ~Chunk();
-    void Update(float dt);
-    void Render(Renderer * pRenderer);
+    void update(float dt);
+    void render(Renderer * pRenderer);
 
     //Creates a cube (vector of floats at a position based on its index in chunk.
     std::vector<float> createCube(glm::vec3 modelCoord);

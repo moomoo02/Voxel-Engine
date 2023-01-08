@@ -22,23 +22,29 @@ Chunk::~Chunk()
     delete[] pBlocks;
 }
 
-void Chunk::Update(float dt)
+void Chunk::update(float dt)
 {
     
 }
 
-void Chunk::Render(Renderer * pRenderer)
+void Chunk::render(Renderer * pRenderer)
 {
     //Initialize VAO
     VertexArray VAO;
     std::vector<float> vertices;
-
+    
+    std::cout << "Render\n";
     for(int x = 0; x < CHUNK_SIZE; x++){
         for(int y = 0; y < CHUNK_SIZE; y++){
             for(int z = 0; z < CHUNK_SIZE; z++){
+
+                //Set Active (testing purposes)
+                pBlocks[x][y][z].setActive();
+
                 if(pBlocks[x][y][z].isActive()){
                     //Add vertex to VAO
-                    glm::vec3 modelCoord = glm::vec3(x, y, z) / (CHUNK_SIZE - 1);
+                    glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) * 1.0f/(CHUNK_SIZE - 1.0f);
+                    std::cout << x << ' ' << y << ' ' << z << " -> " << modelCoord.x << ' ' << modelCoord.y <<  ' ' << modelCoord.z << '\n';
                     createCube(modelCoord);
                 }
             }
@@ -48,5 +54,6 @@ void Chunk::Render(Renderer * pRenderer)
 
 std::vector<float> Chunk::createCube(glm::vec3 modelCoord)
 {
-    
+    std::vector<float> cubeVertices;
+    return cubeVertices;
 }

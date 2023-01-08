@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "VertexArray.h"
 #include "Renderer.h"
+#include "Chunk.h" 
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -147,7 +148,6 @@ int main(){
 
     //Parse shaders, compile, and link
     Shader shaderProgramClass("./Shaders/ColorShader.GLSL");
-    unsigned int shaderProgram = shaderProgramClass.ID;
    
     //Textures
     Texture textureClass1("./Textures/Elgato.jpeg", 0);
@@ -170,6 +170,10 @@ int main(){
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
+
+    Chunk * chunk = new Chunk;
+    chunk->render(&renderer);
+
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);

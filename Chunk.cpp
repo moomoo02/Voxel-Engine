@@ -32,8 +32,8 @@ void Chunk::render(Renderer * pRenderer)
     //Initialize VAO
     VertexArray VAO;
     std::vector<float> vertices;
-    
-    std::cout << "Render\n";
+    const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
+
     for(int x = 0; x < CHUNK_SIZE; x++){
         for(int y = 0; y < CHUNK_SIZE; y++){
             for(int z = 0; z < CHUNK_SIZE; z++){
@@ -43,8 +43,9 @@ void Chunk::render(Renderer * pRenderer)
 
                 if(pBlocks[x][y][z].isActive()){
                     //Add vertex to VAO
-                    glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) * 1.0f/(CHUNK_SIZE - 1.0f);
-                    std::cout << x << ' ' << y << ' ' << z << " -> " << modelCoord.x << ' ' << modelCoord.y <<  ' ' << modelCoord.z << '\n';
+                    glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
+                    modelCoord *= 1.0f/(HALF_CHUNK_SIZE);
+                    if(x <=1 && y <= 1 && z <= 1) std::cout << modelCoord.x << ' ' << modelCoord.y << ' ' << modelCoord.z << '\n';
                     createCube(modelCoord);
                 }
             }
@@ -52,8 +53,12 @@ void Chunk::render(Renderer * pRenderer)
     }
 }
 
+//Takes in model Coordinates and returns one cube of size 1/HALF_CHUNK_SIZE
 std::vector<float> Chunk::createCube(glm::vec3 modelCoord)
 {
     std::vector<float> cubeVertices;
+    const int CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
+
+    
     return cubeVertices;
 }

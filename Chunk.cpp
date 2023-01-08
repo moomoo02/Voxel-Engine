@@ -1,5 +1,49 @@
 #include "Chunk.h"
 
+std::vector<float> cube = {
+        -0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f, -0.5f, 
+        0.5f,  0.5f, -0.5f, 
+        0.5f,  0.5f, -0.5f,  
+        -0.5f,  0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+
+        -0.5f, -0.5f,  0.5f,  
+        0.5f, -0.5f,  0.5f,  
+        0.5f,  0.5f,  0.5f, 
+        0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+
+        0.5f,  0.5f,  0.5f,  
+        0.5f,  0.5f, -0.5f,  
+        0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f,  0.5f,  
+        0.5f,  0.5f,  0.5f,  
+
+        -0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f,  0.5f,  
+        0.5f, -0.5f,  0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+
+        -0.5f,  0.5f, -0.5f,  
+        0.5f,  0.5f, -0.5f,  
+        0.5f,  0.5f,  0.5f,  
+        0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f, -0.5f, 
+};
+
 Chunk::Chunk()
 {
     pBlocks = new Block **[CHUNK_SIZE];
@@ -57,8 +101,12 @@ void Chunk::render(Renderer * pRenderer)
 std::vector<float> Chunk::createCube(glm::vec3 modelCoord)
 {
     std::vector<float> cubeVertices;
-    const int CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
+    const float CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
 
-    
+    float offsetX = modelCoord.x + 0.5f, offsetY = modelCoord.y + 0.5, offsetZ = modelCoord.z + 0.5;
+
+    for(int i = 0; i < cube.size(); i+=3){
+        float x = (cube[i] - offsetX) * CUBE_SIZE;
+    }
     return cubeVertices;
 }

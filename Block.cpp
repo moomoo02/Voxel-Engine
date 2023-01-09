@@ -27,6 +27,11 @@ void Block::setActive(bool status)
     active = status;
 }
 
+void Block::setBlockType(BlockType type)
+{
+    blockType = type;
+}
+
 BlockType Block::getBlockType(){
     return blockType;
 }

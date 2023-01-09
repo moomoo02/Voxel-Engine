@@ -18,8 +18,9 @@ public:
     Block();
     Block(bool active, BlockType blockType);
     ~Block();
-    bool isActive(bool status);
-    void setActive();
+    bool isActive();
+    void setActive(bool status);
+    void setBlockType(BlockType type);
     BlockType getBlockType();
 private:
     bool active;

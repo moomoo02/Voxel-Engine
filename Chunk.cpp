@@ -43,6 +43,21 @@ std::vector<float> cube = {
         -0.5f,  0.5f,  0.5f,  
         -0.5f,  0.5f, -0.5f, 
 };
+enum BlockType {
+    BlockType_Default = 0,
+    BlockType_Grass,
+    BlockType_Dirt,
+    BlockType_Water,
+    BlockType_Stone,
+    BlockType_Wood,
+    BlockType_Sand,
+    BlockType_NumTypes,
+};
+
+std::map<BlockType, glm::vec3> BlockTypeColorMap = 
+{
+    {BlockType::BlockType_Grass, glm::vec3(0.26f, 0.74f, 0.32f)}
+};
 
 Chunk::Chunk()
 {
@@ -109,7 +124,7 @@ std::vector<float> Chunk::createCube(glm::vec3 modelCoord)
         float x = (cube[i] - offsetX) * CUBE_SIZE;
         float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
-        
+
         cubeVertices.push_back(x);
         cubeVertices.push_back(y);
         cubeVertices.push_back(z);

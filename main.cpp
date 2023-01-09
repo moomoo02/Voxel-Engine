@@ -156,9 +156,9 @@ int main(){
     // shaderProgramClass.setInt("texture2", 1);
 
     //Create a vertext array object to manage vertext attributes
-    VertexArray VAO;
-    //VAO.bindVBO("cube", VertexFormat_Texture, verticesTexture);
-    VAO.bindVBO("cube", VertexFormat_RGB, verticesColor);
+    // VertexArray VAO;
+    // //VAO.bindVBO("cube", VertexFormat_Texture, verticesTexture);
+    // VAO.bindVBO("cube", VertexFormat_RGB, verticesColor);
 
     //Initialize Renderer
     Renderer renderer;
@@ -172,8 +172,7 @@ int main(){
     //ImGui::StyleColorsLight();
 
     Chunk * chunk = new Chunk;
-    chunk->render(&renderer);
-
+    VertexArray VAO = chunk->render();
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -209,6 +208,7 @@ int main(){
         deltaTime = currentTime - lastFrame;
         lastFrame = currentTime;
         processInput(window);
+
         glm::mat4 view = camera.GetViewMatrix();
         glm::mat4 projection = glm::mat4(1.0f);
         projection = glm::perspective(glm::radians(camera.Zoom), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -218,6 +218,7 @@ int main(){
         //Draw Object
         glm::mat4 model = glm::mat4(1.0f);
         shaderProgramClass.setMat4("model", model);
+        
         renderer.draw(VAO, shaderProgramClass);
         //shaderProgramClass.setFloat("blend", blend);
 

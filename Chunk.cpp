@@ -78,13 +78,14 @@ void Chunk::update(float dt)
     
 }
 
-void Chunk::render(Renderer * pRenderer)
+VertexArray Chunk::render()
 {
     //Initialize VAO
     VertexArray VAO;
     std::vector<float> vertices;
     const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
 
+    //Get Vertices 
     for(int x = 0; x < CHUNK_SIZE; x++){
         for(int y = 0; y < CHUNK_SIZE; y++){
             for(int z = 0; z < CHUNK_SIZE; z++){
@@ -96,18 +97,21 @@ void Chunk::render(Renderer * pRenderer)
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
                     modelCoord *= 1.0f/(HALF_CHUNK_SIZE);
-                    createCube(pBlocks[x][y][z], modelCoord);
+                    createCube(vertices, pBlocks[x][y][z], modelCoord);
                 }
             }
         }
     }
-
+    //Bind a Vertex Buffer Object
+    VAO.bindVBO("CHUNK", VertexFormat_RGB, vertices);
+    
+    //Initialize Shader
+    return VAO;
 }
 
 //Takes in model Coordinates and returns one cube of size 1/HALF_CHUNK_SIZE
-std::vector<float> Chunk::createCube(Block block, glm::vec3 modelCoord)
+void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord)
 {
-    std::vector<float> cubeVertices;
     const float CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
     
     float offsetX = modelCoord.x + 0.5f, offsetY = modelCoord.y + 0.5, offsetZ = modelCoord.z + 0.5;
@@ -118,13 +122,24 @@ std::vector<float> Chunk::createCube(Block block, glm::vec3 modelCoord)
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
         glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];
 
-        cubeVertices.push_back(x);
-        cubeVertices.push_back(y);
-        cubeVertices.push_back(z);
-        cubeVertices.push_back(blockColor.x);
-        cubeVertices.push_back(blockColor.y);
-        cubeVertices.push_back(blockColor.z);
+        vertices.push_back(x);
+        vertices.push_back(y);
+        vertices.push_back(z);
+        vertices.push_back(blockColor.x);
+        vertices.push_back(blockColor.y);
+        vertices.push_back(blockColor.z);
     }
+}
 
-    return cubeVertices;
+void Chunk::Setup_Sphere() {
+  for (int z = 0; z < CHUNK_SIZE; z++) {
+    for (int y = 0; y < CHUNK_SIZE; y++) {
+      for (int x = 0; x < CHUNK_SIZE; x++) {
+        if (sqrt((float)(x - CHUNK_SIZE / 2) * (x - CHUNK_SIZE / 2) + (y - CHUNK_SIZE / 2) * (y - CHUNK_SIZE / 2) + (z - CHUNK_SIZE / 2) * (z - CHUNK_SIZE / 2)) <= CHUNK_SIZE / 2) {
+            pBlocks[x][y][z].setActive(true);
+            pBlocks[x][y][z].setBlockType(BlockType_Grass);
+        }
+      }
+    }
+  }
 }

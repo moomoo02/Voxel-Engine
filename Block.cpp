@@ -22,9 +22,9 @@ bool Block::isActive()
     return active;
 }
 
-void Block::setActive()
+void Block::setActive(bool status)
 {
-    active = 1;
+    active = status;
 }
 
 BlockType Block::getBlockType(){

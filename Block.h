@@ -18,7 +18,7 @@ public:
     Block();
     Block(bool active, BlockType blockType);
     ~Block();
-    bool isActive();
+    bool isActive(bool status);
     void setActive();
     BlockType getBlockType();
 private:

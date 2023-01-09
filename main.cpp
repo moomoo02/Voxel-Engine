@@ -27,6 +27,27 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 void processInput(GLFWwindow *window);
 
+static void GlClearError(){
+    while (glGetError() != GL_NO_ERROR);
+}
+
+GLenum GlCheckError(std::string file, int line){
+    GLenum errorCode;
+    while ((errorCode = glGetError()) != GL_NO_ERROR)
+    {
+        std::string error;
+        switch (errorCode)
+        {
+            case GL_INVALID_ENUM:                  error = "INVALID_ENUM"; break;
+            case GL_INVALID_VALUE:                 error = "INVALID_VALUE"; break;
+            case GL_INVALID_OPERATION:             error = "INVALID_OPERATION"; break;
+            case GL_OUT_OF_MEMORY:                 error = "OUT_OF_MEMORY"; break;
+            case GL_INVALID_FRAMEBUFFER_OPERATION: error = "INVALID_FRAMEBUFFER_OPERATION"; break;
+        }
+        std::cout << error << " | " << file << " (" << line << ")" << std::endl;
+    }
+    return errorCode;
+}
 //Camera Variables
 glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -205,7 +226,7 @@ int main(){
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::scale(model, glm::vec3(10,10,10));
         shaderProgramClass.setMat4("model", model);
-
+        
         renderer.draw(VAO, shaderProgramClass);
         //shaderProgramClass.setFloat("blend", blend);
 

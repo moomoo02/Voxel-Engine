@@ -18,7 +18,7 @@ public:
     void render(Renderer * pRenderer);
 
     //Creates a cube (vector of floats at a position based on its index in chunk.
-    std::vector<float> createCube(glm::vec3 modelCoord);
+    std::vector<float> createCube(Block block, glm::vec3 modelCoord);
     static const int CHUNK_SIZE = 16;
 private: // The blocks data
     Block * * * pBlocks;

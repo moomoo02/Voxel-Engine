@@ -43,20 +43,11 @@ std::vector<float> cube = {
         -0.5f,  0.5f,  0.5f,  
         -0.5f,  0.5f, -0.5f, 
 };
-enum BlockType {
-    BlockType_Default = 0,
-    BlockType_Grass,
-    BlockType_Dirt,
-    BlockType_Water,
-    BlockType_Stone,
-    BlockType_Wood,
-    BlockType_Sand,
-    BlockType_NumTypes,
-};
 
-std::map<BlockType, glm::vec3> BlockTypeColorMap = 
+
+std::map<BlockType, glm::vec3> BlockTypeToColorMap = 
 {
-    {BlockType::BlockType_Default, glm::vec3(0.26f, 0.74f, 0.32f)}
+    {BlockType::BlockType_Default, glm::vec3(0.26f, 0.74f, 0.32f)},
     {BlockType::BlockType_Grass, glm::vec3(0.26f, 0.74f, 0.32f)}
 };
 
@@ -105,30 +96,35 @@ void Chunk::render(Renderer * pRenderer)
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
                     modelCoord *= 1.0f/(HALF_CHUNK_SIZE);
-                    if(x <=1 && y <= 1 && z <= 1) std::cout << modelCoord.x << ' ' << modelCoord.y << ' ' << modelCoord.z << '\n';
-                    createCube(modelCoord);
+                    createCube(pBlocks[x][y][z], modelCoord);
                 }
             }
         }
     }
+
 }
 
 //Takes in model Coordinates and returns one cube of size 1/HALF_CHUNK_SIZE
-std::vector<float> Chunk::createCube(glm::vec3 modelCoord)
+std::vector<float> Chunk::createCube(Block block, glm::vec3 modelCoord)
 {
     std::vector<float> cubeVertices;
     const float CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
-
+    
     float offsetX = modelCoord.x + 0.5f, offsetY = modelCoord.y + 0.5, offsetZ = modelCoord.z + 0.5;
 
     for(int i = 0; i < cube.size(); i+=3){
         float x = (cube[i] - offsetX) * CUBE_SIZE;
         float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
+        glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];
 
         cubeVertices.push_back(x);
         cubeVertices.push_back(y);
         cubeVertices.push_back(z);
+        cubeVertices.push_back(blockColor.x);
+        cubeVertices.push_back(blockColor.y);
+        cubeVertices.push_back(blockColor.z);
     }
+
     return cubeVertices;
 }

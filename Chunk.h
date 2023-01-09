@@ -18,8 +18,8 @@ public:
     VertexArray render();
 
     //Set up landscapes
-    void Chunk::Setup_Sphere()
-    
+    void setupSphere();
+
     //Creates a cube (vector of floats at a position based on its index in chunk.
     void createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord);
     static const int CHUNK_SIZE = 16;

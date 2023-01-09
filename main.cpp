@@ -172,6 +172,7 @@ int main(){
     //ImGui::StyleColorsLight();
 
     Chunk * chunk = new Chunk;
+    chunk->setupSphere();
     VertexArray VAO = chunk->render();
 
     // Setup Platform/Renderer backends
@@ -217,8 +218,9 @@ int main(){
 
         //Draw Object
         glm::mat4 model = glm::mat4(1.0f);
+        model = glm::scale(model, glm::vec3(10,10,10));
         shaderProgramClass.setMat4("model", model);
-        
+
         renderer.draw(VAO, shaderProgramClass);
         //shaderProgramClass.setFloat("blend", blend);
 

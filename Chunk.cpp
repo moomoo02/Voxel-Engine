@@ -90,9 +90,6 @@ VertexArray Chunk::render()
         for(int y = 0; y < CHUNK_SIZE; y++){
             for(int z = 0; z < CHUNK_SIZE; z++){
 
-                //Set Active (testing purposes)
-                pBlocks[x][y][z].setActive();
-
                 if(pBlocks[x][y][z].isActive()){
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
@@ -104,7 +101,7 @@ VertexArray Chunk::render()
     }
     //Bind a Vertex Buffer Object
     VAO.bindVBO("CHUNK", VertexFormat_RGB, vertices);
-    
+
     //Initialize Shader
     return VAO;
 }
@@ -131,7 +128,7 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
     }
 }
 
-void Chunk::Setup_Sphere() {
+void Chunk::setupSphere() {
   for (int z = 0; z < CHUNK_SIZE; z++) {
     for (int y = 0; y < CHUNK_SIZE; y++) {
       for (int x = 0; x < CHUNK_SIZE; x++) {

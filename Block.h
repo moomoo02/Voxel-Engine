@@ -20,6 +20,7 @@ public:
     ~Block();
     bool isActive();
     void setActive();
+    BlockType getBlockType();
 private:
     bool active;
     BlockType blockType;

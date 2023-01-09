@@ -107,6 +107,12 @@ std::vector<float> Chunk::createCube(glm::vec3 modelCoord)
 
     for(int i = 0; i < cube.size(); i+=3){
         float x = (cube[i] - offsetX) * CUBE_SIZE;
+        float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
+        float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
+        
+        cubeVertices.push_back(x);
+        cubeVertices.push_back(y);
+        cubeVertices.push_back(z);
     }
     return cubeVertices;
 }

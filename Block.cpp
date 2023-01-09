@@ -26,3 +26,7 @@ void Block::setActive()
 {
     active = 1;
 }
+
+BlockType Block::getBlockType(){
+    return blockType;
+}

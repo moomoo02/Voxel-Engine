@@ -27,21 +27,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 void processInput(GLFWwindow *window);
 
-struct vec4{
-    float x;
-    float y;
-    float z;
-    float w;
-
-    vec4(float firstValue, float secondValue, float thirdValue, float fourthValue){
-        x = firstValue;
-        y = secondValue;
-        z = thirdValue;
-        w = fourthValue;
-    }
-
-};
-
 //Camera Variables
 glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -160,7 +145,7 @@ int main(){
     // //VAO.bindVBO("cube", VertexFormat_Texture, verticesTexture);
     // VAO.bindVBO("cube", VertexFormat_RGB, verticesColor);
 
-    //Initialize Renderer
+    //Initialize Renderer!
     Renderer renderer;
 
     // Setup Dear ImGui context

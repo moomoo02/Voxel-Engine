@@ -44,11 +44,10 @@ std::vector<float> cube = {
         -0.5f,  0.5f, -0.5f, 
 };
 
-
 std::map<BlockType, glm::vec3> BlockTypeToColorMap = 
 {
     {BlockType::BlockType_Default, glm::vec3(0.26f, 0.74f, 0.32f)},
-    {BlockType::BlockType_Grass, glm::vec3(0.26f, 0.74f, 0.32f)}
+    {BlockType::BlockType_Grass, glm::vec3(0.04f,0.44f,0.15f)}
 };
 
 Chunk::Chunk()

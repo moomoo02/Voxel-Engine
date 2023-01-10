@@ -77,19 +77,21 @@ void Chunk::update(float dt)
     
 }
 
-VertexArray Chunk::render()
+std::vector<float> Chunk::render()
 {
     //Initialize VAO
-    VertexArray VAO;
     std::vector<float> vertices;
     const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
 
     //Get Vertices 
+    int count = 0;
     for(int x = 0; x < CHUNK_SIZE; x++){
         for(int y = 0; y < CHUNK_SIZE; y++){
             for(int z = 0; z < CHUNK_SIZE; z++){
 
                 if(pBlocks[x][y][z].isActive()){
+                    count++;
+                    std::cout << count << " Rendered\n";
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
                     modelCoord *= 1.0f/(HALF_CHUNK_SIZE);
@@ -98,11 +100,9 @@ VertexArray Chunk::render()
             }
         }
     }
-    //Bind a Vertex Buffer Object
-    VAO.bindVBO("CHUNK", VertexFormat_RGB, vertices);
 
-    //Initialize Shader
-    return VAO;
+    //Bind a Vertex Buffer Object
+    return vertices;
 }
 
 //Takes in model Coordinates and returns one cube of size 1/HALF_CHUNK_SIZE
@@ -135,6 +135,17 @@ void Chunk::setupSphere() {
             pBlocks[x][y][z].setActive(true);
             pBlocks[x][y][z].setBlockType(BlockType_Grass);
         }
+      }
+    }
+  }
+}
+
+void Chunk::setupCube() {
+  for (int z = 0; z < CHUNK_SIZE; z++) {
+    for (int y = 0; y < CHUNK_SIZE; y++) {
+      for (int x = 0; x < CHUNK_SIZE; x++) {
+        pBlocks[x][y][z].setActive(true);
+        pBlocks[x][y][z].setBlockType(BlockType_Grass);
       }
     }
   }

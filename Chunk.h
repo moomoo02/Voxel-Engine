@@ -15,14 +15,15 @@ public:
     Chunk();
     ~Chunk();
     void update(float dt);
-    VertexArray render();
+    std::vector<float> render();
 
     //Set up landscapes
     void setupSphere();
-
+    void setupCube();
+    
     //Creates a cube (vector of floats at a position based on its index in chunk.
     void createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord);
-    static const int CHUNK_SIZE = 64;
+    static const int CHUNK_SIZE = 3;
 private: // The blocks data
     Block * * * pBlocks;
 };

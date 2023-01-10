@@ -60,6 +60,10 @@ Hello, this is where I'm learning OpenGl.  Since I will be always changing the c
             <td valign="bottom">
             <img src="./Memories/ElGatoZoom.gif" width="200"><br>
             ElGatoZoom.gif | Dec 31 2022
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/VoxelSphereCube_AdobeExpress.gif" width="200"><br>
+            VoxelSphereCube_AdobeExpress.gif | Jan 09 2023
             </td></tr></table>
 
 # Journal
@@ -118,4 +122,4 @@ Played around with Shaders
 
 ## Jan 9
 * Finally was able to render a voxel sphere.  It took me a long time to find out the bug, which was my render class was only rendering 36 vertices, or just 1 cube.  Increasing this parameter rendered the sphere.  Another problem came up- the sphere is not a full sphere.  Some cubes are missing, and im unsure why.  UGHHHHHH
-  
+* Pics: voxelSphereCube

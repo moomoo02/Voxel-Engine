@@ -55,4 +55,4 @@ Played around with Shaders
 
 ## Jan 9
 * Finally was able to render a voxel sphere.  It took me a long time to find out the bug, which was my render class was only rendering 36 vertices, or just 1 cube.  Increasing this parameter rendered the sphere.  Another problem came up- the sphere is not a full sphere.  Some cubes are missing, and im unsure why.  UGHHHHHH
-  
+* Pics: voxelSphereCube

@@ -1,0 +1,23 @@
+#Shader Vertex
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aColor;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+out vec3 objectColor;
+void main()
+{
+    gl_Position = projection * view * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    objectColor = aColor;
+}
+#Shader Fragment
+#version 330 core
+in vec3 objectColor;
+uniform vec3 lightColor;
+out vec4 FragColor;
+void main()
+{
+    FragColor = vec4(lightColor * objectColor, 1.0);
+
+}

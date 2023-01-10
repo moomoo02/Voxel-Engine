@@ -135,6 +135,18 @@ void Shader::setMat4(const std::string &name, glm::mat4 matrix) const {
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
+void Shader::setVec3(const std::string &name, glm::vec3 vec3) const
+{
+    int uniformLocation = glGetUniformLocation(ID, name.c_str());
+    if(uniformLocation == -1){
+        std::cout << "ERROR::SHADER::SETVEC3::UNIFORM_LOCATION_FAILED" << std::endl;
+        std::cout << "ERROR: uniform location at " << name << " was not founded." << std::endl;
+    }
+
+    //Update Uniform value
+    glUniform3f(uniformLocation, vec3.x, vec3.y, vec3.z);
+}
+
 
 
 

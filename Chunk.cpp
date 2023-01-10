@@ -1,5 +1,6 @@
 #include "Chunk.h"
 
+
 std::vector<float> cube = {
         -0.5f, -0.5f, -0.5f,  
         0.5f, -0.5f, -0.5f, 

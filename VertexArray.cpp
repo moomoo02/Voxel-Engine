@@ -50,5 +50,8 @@ void VertexArray::bindVBO(std::string key, VertexFormat vf){
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
         glEnableVertexAttribArray(1);
+    }else if(vf == VertexFormat_Default){
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+        glEnableVertexAttribArray(0);
     }
 }

@@ -9,6 +9,7 @@
 enum VertexFormat{
     VertexFormat_Texture, // x, y, z, tx, ty
     VertexFormat_RGB,  // x, y, z, r, g, b
+    VertexFormat_Default, // x, y, z
 };
 
 class VertexArray 

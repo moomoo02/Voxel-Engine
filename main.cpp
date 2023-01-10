@@ -95,6 +95,50 @@ int main(){
     glfwSetCursorPosCallback(window, mouse_callback); 
     glfwSetScrollCallback(window, scroll_callback); 
 
+    std::vector<float> cube = {
+        -0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f, -0.5f, 
+        0.5f,  0.5f, -0.5f, 
+        0.5f,  0.5f, -0.5f,  
+        -0.5f,  0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+
+        -0.5f, -0.5f,  0.5f,  
+        0.5f, -0.5f,  0.5f,  
+        0.5f,  0.5f,  0.5f, 
+        0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+
+        0.5f,  0.5f,  0.5f,  
+        0.5f,  0.5f, -0.5f,  
+        0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f,  0.5f,  
+        0.5f,  0.5f,  0.5f,  
+
+        -0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f, -0.5f,  
+        0.5f, -0.5f,  0.5f,  
+        0.5f, -0.5f,  0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+        -0.5f, -0.5f, -0.5f,  
+
+        -0.5f,  0.5f, -0.5f,  
+        0.5f,  0.5f, -0.5f,  
+        0.5f,  0.5f,  0.5f,  
+        0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f, -0.5f, 
+    };
+
     //Vertices of a triangle
     std::vector<float> verticesTexture = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -154,17 +198,15 @@ int main(){
 
     //Parse shaders, compile, and link
     Shader shaderProgramClass("./Shaders/ColorShader.GLSL");
-   
+    Shader lightingShader("./Shaders/LightingShader.GLSL");
+    lightingShader.use();
+    lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+    lightingShader.setVec3("lightColor",  1.0f, 1.0f, 1.0f);
     //Textures
-    Texture textureClass1("./Textures/Elgato.jpeg", 0);
-    Texture textureClass2("./Textures/Bocchi2.jpeg", 1);
+    // Texture textureClass1("./Textures/Elgato.jpeg", 0);
+    // Texture textureClass2("./Textures/Bocchi2.jpeg", 1);
     // shaderProgramClass.setInt("texture1", 0);
     // shaderProgramClass.setInt("texture2", 1);
-
-    //Create a vertext array object to manage vertext attributes
-    // VertexArray VAO;
-    // //VAO.bindVBO("cube", VertexFormat_Texture, verticesTexture);
-    // VAO.bindVBO("cube", VertexFormat_RGB, verticesColor);
 
     //Initialize Renderer!
     Renderer renderer;
@@ -190,6 +232,11 @@ int main(){
     VertexArray VAO;
     VAO.createVBO("ChunkSphere", verticesSphere);
     VAO.createVBO("ChunkCube", verticesCube);
+
+    //Lighting
+    VertexArray lightVAO;
+    lightVAO.createVBO("Light", cube);
+    VAO.bindVBO("Light", VertexFormat_Default);
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);

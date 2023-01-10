@@ -30,5 +30,4 @@ private: // The blocks data
 };
 
 
-
 #endif // __CHUNK_H__

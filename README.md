@@ -62,8 +62,8 @@ Hello, this is where I'm learning OpenGl.  Since I will be always changing the c
             ElGatoZoom.gif | Dec 31 2022
             </td>
             <td valign="bottom">
-            <img src="./Memories/VoxelSphereCube_AdobeExpress.gif" width="200"><br>
-            VoxelSphereCube_AdobeExpress.gif | Jan 09 2023
+            <img src="./Memories/VoxelSphereCube.gif" width="200"><br>
+            VoxelSphereCube.gif | Jan 09 2023
             </td></tr></table>
 
 # Journal

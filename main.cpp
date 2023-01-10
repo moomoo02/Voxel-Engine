@@ -200,6 +200,8 @@ int main(){
     // Our state
     float blend = 0.0;
     float fov = 45.0;
+    float delay = glfwGetTime();
+    bool showCube = 1;
 
     glEnable(GL_DEPTH_TEST);  
 
@@ -226,6 +228,19 @@ int main(){
         float currentTime = glfwGetTime();
         deltaTime = currentTime - lastFrame;
         lastFrame = currentTime;
+
+        //Switch showCube every 1 second
+        if(currentTime - delay >= 1){
+            delay = currentTime;
+            showCube = 1 - showCube;
+        }
+
+        //Show cube or sphere
+        if(showCube){
+            VAO.bindVBO("ChunkCube", VertexFormat_RGB);
+        }else{
+            VAO.bindVBO("ChunkSphere", VertexFormat_RGB);
+        }
         processInput(window);
 
         glm::mat4 view = camera.GetViewMatrix();

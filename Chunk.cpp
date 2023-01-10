@@ -111,13 +111,28 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
     const float CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
     
     float offsetX = modelCoord.x + 0.5f, offsetY = modelCoord.y + 0.5, offsetZ = modelCoord.z + 0.5;
+    // Create a random number generator
+    std::mt19937 rng;
 
+    // Seed the generator with a random seed
+    rng.seed(std::random_device()());
+
+    // Create a distribution that generates numbers between 0 and 1
+    std::uniform_real_distribution<double> dist(0.0, 1.0);
+
+    // Generate a random number between 0 and 1
+    double num = dist(rng);
+    
     for(int i = 0; i < cube.size(); i+=3){
         float x = (cube[i] - offsetX) * CUBE_SIZE;
         float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
-        glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];
-
+        //glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];
+        float num1 = dist(rng);
+        float num2 = dist(rng);
+        float num3 = dist(rng);
+        glm::vec3 blockColor = glm::vec3(num1,num2,num3);
+        
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);

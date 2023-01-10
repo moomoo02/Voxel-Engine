@@ -179,17 +179,17 @@ int main(){
 
     //Get Chunk Vertices
     std::unique_ptr<Chunk> chunkSphere = std::make_unique<Chunk>();
-    std::unique_ptr<Chunk> chunkCube = std::make_unique<Chunk>();
+    //std::unique_ptr<Chunk> chunkCube = std::make_unique<Chunk>();
     chunkSphere->setupSphere();
-    chunkCube->setupCube();
+    //chunkCube->setupCube();
 
     std::vector<float> verticesSphere = chunkSphere->render();
-    std::vector<float> verticesCube = chunkCube->render();
+    //std::vector<float> verticesCube = chunkCube->render();
 
     //Create Vertex Array
     VertexArray VAO;
     VAO.bindVBO("ChunkSphere", VertexFormat_RGB, verticesSphere);
-    VAO.bindVBO("ChunkCube", VertexFormat_RGB, verticesCube);
+    //VAO.bindVBO("ChunkCube", VertexFormat_RGB, verticesCube);
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);

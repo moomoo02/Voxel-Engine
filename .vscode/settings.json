@@ -71,6 +71,7 @@
         "utility": "cpp",
         "map": "cpp",
         "__tree": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "numeric": "cpp"
     }
 }

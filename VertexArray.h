@@ -20,7 +20,8 @@ public:
     VertexArray();
     void bind() const;
     //Binds Vertices to VAO
-    void bindVBO(std::string key, VertexFormat vf, std::vector<float> vertices);
+    void createVBO(std::string key, std::vector<float> vertices);
+    void bindVBO(std::string key, VertexFormat vf);
 };
 
 

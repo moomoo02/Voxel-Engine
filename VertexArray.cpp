@@ -12,9 +12,9 @@ void VertexArray::bind() const
     glBindVertexArray(VAO);
 }
 
-//Creats a VBO for vertices and binds it to VAO based on vertex format.
-void VertexArray::bindVBO(std::string key, VertexFormat vf, std::vector<float> vertices)
-{
+
+//Creates a vertex buffer object for vertices
+void VertexArray::createVBO(std::string key, std::vector<float> vertices){
     //Create Vertex Buffer Object and bind to global state.
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -23,6 +23,11 @@ void VertexArray::bindVBO(std::string key, VertexFormat vf, std::vector<float> v
 
     //Store vbo as id
     VBOs[key] = VBO;
+}
+
+//Binds the current VBO of key to VAO.
+void VertexArray::bindVBO(std::string key, VertexFormat vf){
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[key]);
 
     //Bind Vertex BufferObject to VAO
     if(vf == VertexFormat_Texture){
@@ -38,5 +43,4 @@ void VertexArray::bindVBO(std::string key, VertexFormat vf, std::vector<float> v
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
         glEnableVertexAttribArray(1);
     }
-
 }

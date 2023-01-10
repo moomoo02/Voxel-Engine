@@ -200,8 +200,8 @@ int main(){
     Shader shaderProgramClass("./Shaders/ColorShader.GLSL");
     Shader lightingShader("./Shaders/LightingShader.GLSL");
     lightingShader.use();
-    lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-    lightingShader.setVec3("lightColor",  1.0f, 1.0f, 1.0f);
+    lightingShader.setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+    lightingShader.setVec3("lightColor",  glm::vec3(1.0f, 1.0f, 1.0f));
     //Textures
     // Texture textureClass1("./Textures/Elgato.jpeg", 0);
     // Texture textureClass2("./Textures/Bocchi2.jpeg", 1);

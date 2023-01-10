@@ -12,6 +12,14 @@ void VertexArray::bind() const
     glBindVertexArray(VAO);
 }
 
+int VertexArray::getVBOSize() const
+{
+    int size;
+    glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+
+    return size;
+}
+
 
 //Creates a vertex buffer object for vertices
 void VertexArray::createVBO(std::string key, std::vector<float> vertices){

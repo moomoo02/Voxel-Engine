@@ -190,8 +190,6 @@ int main(){
     VertexArray VAO;
     VAO.createVBO("ChunkSphere", verticesSphere);
     VAO.createVBO("ChunkCube", verticesCube);
-    VAO.bindVBO("ChunkSphere", VertexFormat_RGB);
-    //VAO.bindVBO("ChunkCube", VertexFormat_RGB);
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);

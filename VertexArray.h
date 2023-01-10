@@ -19,8 +19,14 @@ public:
 
     VertexArray();
     void bind() const;
-    //Binds Vertices to VAO
+
+    //Gets size of current vbo 
+    int getVBOSize() const;
+
+    //Creates VBO Object
     void createVBO(std::string key, std::vector<float> vertices);
+
+    //Binds Vertices to VAO
     void bindVBO(std::string key, VertexFormat vf);
 };
 

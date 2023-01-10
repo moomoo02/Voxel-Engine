@@ -91,7 +91,6 @@ std::vector<float> Chunk::render()
 
                 if(pBlocks[x][y][z].isActive()){
                     count++;
-                    std::cout << count << " Rendered\n";
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
                     modelCoord *= 1.0f/(HALF_CHUNK_SIZE);
@@ -100,7 +99,8 @@ std::vector<float> Chunk::render()
             }
         }
     }
-
+    
+    std::cout << count << " Rendered\n";
     //Bind a Vertex Buffer Object
     return vertices;
 }
@@ -129,9 +129,8 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
         //glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];
         float num1 = dist(rng);
-        float num2 = dist(rng);
-        float num3 = dist(rng);
-        glm::vec3 blockColor = glm::vec3(num1,num2,num3);
+
+        glm::vec3 blockColor = glm::vec3(num1,0.5,0.5);
         
         vertices.push_back(x);
         vertices.push_back(y);

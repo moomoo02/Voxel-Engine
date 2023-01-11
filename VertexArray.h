@@ -31,7 +31,7 @@ public:
     void createVBO(std::string key, std::vector<float> vertices);
 
     //Binds Vertices to VAO
-    void bindVBO(std::string key);
+    void bindVBO(std::string key) const;
 };
 
 

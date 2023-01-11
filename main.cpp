@@ -316,8 +316,8 @@ int main(){
         shaderProgramClass.setMat4("view", view);
         shaderProgramClass.setMat4("projection", projection);
         shaderProgramClass.setMat4("model", model);
-        shaderProgramClass.setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-        shaderProgramClass.setVec3("lightColor",  glm::vec3(1.0f, 1.0f, 1.0f));
+        shaderProgramClass.setVec3("lightPos", lightPos);  
+        shaderProgramClass.setVec3("lightColor",  lightColor);
         renderer.draw(VAO, shaderProgramClass);
         //shaderProgramClass.setFloat("blend", blend);
 

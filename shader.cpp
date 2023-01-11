@@ -1,4 +1,5 @@
 #include "Shader.h"
+#include <stdlib.h>
 
 //Helper Functions
 static ShaderProgramSource parseShader(const std::string filePath){
@@ -98,6 +99,7 @@ void Shader::setBool(const std::string &name, bool value) const {
     int uniformLocation = glGetUniformLocation(ID, name.c_str());
     if(uniformLocation == -1){
         std::cout << "ERROR::SHADER::SETBOOL::UNIFORM_LOCATION_FAILED" << std::endl;
+        exit(0);
     }
 
     //Update Uniform value
@@ -108,6 +110,7 @@ void Shader::setInt(const std::string &name, int value) const {
     int uniformLocation = glGetUniformLocation(ID, name.c_str());
     if(uniformLocation == -1){
         std::cout << "ERROR::SHADER::SETINT::UNIFORM_LOCATION_FAILED" << std::endl;
+        exit(0);
     }
 
     //Update Uniform value
@@ -118,6 +121,7 @@ void Shader::setFloat(const std::string &name, float value) const {
     int uniformLocation = glGetUniformLocation(ID, name.c_str());
     if(uniformLocation == -1){
         std::cout << "ERROR::SHADER::SETFLOAT::UNIFORM_LOCATION_FAILED" << std::endl;
+        exit(0);
     }
 
     //Update Uniform value
@@ -129,6 +133,7 @@ void Shader::setMat4(const std::string &name, glm::mat4 matrix) const {
     if(uniformLocation == -1){
         std::cout << "ERROR::SHADER::SETMATRIX::UNIFORM_LOCATION_FAILED" << std::endl;
         std::cout << "ERROR: uniform location at " << name << " was not founded." << std::endl;
+        exit(0);
     }
 
     //Update Uniform value
@@ -141,8 +146,9 @@ void Shader::setVec3(const std::string &name, glm::vec3 vec3) const
     if(uniformLocation == -1){
         std::cout << "ERROR::SHADER::SETVEC3::UNIFORM_LOCATION_FAILED" << std::endl;
         std::cout << "ERROR: uniform location at " << name << " was not founded." << std::endl;
+        exit(0);
     }
-
+    
     //Update Uniform value
     glUniform3f(uniformLocation, vec3.x, vec3.y, vec3.z);
 }

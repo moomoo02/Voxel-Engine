@@ -1,9 +1,18 @@
 #include "VertexArray.h"
 
+
 VertexArray::VertexArray()
 {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
+    vf = VertexFormat_Default;
+}
+
+VertexArray::VertexArray(VertexFormat vertexformat)
+{
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+    vf = vertexformat;
 
 }
 
@@ -31,10 +40,11 @@ void VertexArray::createVBO(std::string key, std::vector<float> vertices){
 
     //Store vbo as id
     VBOs[key] = VBO;
-}
+
+}   
 
 //Binds the current VBO of key to VAO.
-void VertexArray::bindVBO(std::string key, VertexFormat vf){
+void VertexArray::bindVBO(std::string key){
     glBindBuffer(GL_ARRAY_BUFFER, VBOs[key]);
 
     //Bind Vertex BufferObject to VAO

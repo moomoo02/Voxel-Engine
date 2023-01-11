@@ -198,10 +198,10 @@ int main(){
 
     //Parse shaders, compile, and link
     Shader shaderProgramClass("./Shaders/ColorShader.GLSL");
-    Shader lightingShader("./Shaders/LightingShader.GLSL");
+    Shader lightingShader("./Shaders/LightSourceShader.GLSL");
     lightingShader.use();
-    lightingShader.setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-    lightingShader.setVec3("lightColor",  glm::vec3(1.0f, 1.0f, 1.0f));
+    //lightingShader.setVec3("lightColor",  glm::vec3(1.0f, 1.0f, 1.0f));
+
     //Textures
     // Texture textureClass1("./Textures/Elgato.jpeg", 0);
     // Texture textureClass2("./Textures/Bocchi2.jpeg", 1);
@@ -229,14 +229,15 @@ int main(){
     std::vector<float> verticesCube = chunkCube->render();
 
     //Create Vertex Array
-    VertexArray VAO;
+    VertexArray VAO(VertexFormat_RGB);
     VAO.createVBO("ChunkSphere", verticesSphere);
     VAO.createVBO("ChunkCube", verticesCube);
 
     //Lighting
-    VertexArray lightVAO;
+    VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
-    VAO.bindVBO("Light", VertexFormat_Default);
+    VAO.bindVBO("Light");
+    glm::vec3 lightPos(12.0f, 10.0f, 20.0f);
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -280,23 +281,31 @@ int main(){
             showCube = 1 - showCube;
         }
 
+        //Render Lighting
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 view = camera.GetViewMatrix();
+        glm::mat4 projection = glm::mat4(1.0f);
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(0.2f)); 
+        projection = glm::perspective(glm::radians(camera.Zoom), 800.0f / 600.0f, 0.1f, 100.0f);
+        lightingShader.setMat4("model", model);
+        lightingShader.setMat4("view", view);
+        lightingShader.setMat4("projection", projection);
+        //renderer.draw(lightVAO,lightingShader);
+
         //Show cube or sphere
         if(showCube){
-            VAO.bindVBO("ChunkCube", VertexFormat_RGB);
+            VAO.bindVBO("ChunkCube");
         }else{
-            VAO.bindVBO("ChunkSphere", VertexFormat_RGB);
+            VAO.bindVBO("ChunkSphere");
         }
         processInput(window);
 
-        glm::mat4 view = camera.GetViewMatrix();
-        glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::perspective(glm::radians(camera.Zoom), 800.0f / 600.0f, 0.1f, 100.0f);
+        //Draw Object
+        model = glm::mat4(1.0f);
+        model = glm::scale(model, glm::vec3(2,2,2));
         shaderProgramClass.setMat4("view", view);
         shaderProgramClass.setMat4("projection", projection);
-
-        //Draw Object
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(10,10,10));
         shaderProgramClass.setMat4("model", model);
 
         renderer.draw(VAO, shaderProgramClass);

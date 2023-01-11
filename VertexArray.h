@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 #include <vector>
-
+#include <iostream>
 enum VertexFormat{
     VertexFormat_Texture, // x, y, z, tx, ty
     VertexFormat_RGB,  // x, y, z, r, g, b
@@ -16,19 +16,22 @@ class VertexArray
 {
 public:
     unsigned int VAO; //Vertex array object
-    std::map<std::string, unsigned int> VBOs; //maps key to a VBO 
+    VertexFormat vf;
+    std::map<std::string, unsigned int> VBOs; //maps key to a VBO id
 
     VertexArray();
+    VertexArray(VertexFormat vf);
     void bind() const;
 
     //Gets size of current vbo 
     int getVBOSize() const;
+    VertexFormat getCurrentVertexFormat() const;
 
     //Creates VBO Object
     void createVBO(std::string key, std::vector<float> vertices);
 
     //Binds Vertices to VAO
-    void bindVBO(std::string key, VertexFormat vf);
+    void bindVBO(std::string key);
 };
 
 

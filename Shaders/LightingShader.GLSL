@@ -8,7 +8,6 @@ out vec3 objectColor;
 void main()
 {
     gl_Position = projection * view * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-    objectColor = aColor;
 }
 #Shader Fragment
 #version 330 core

@@ -229,7 +229,7 @@ int main(){
     std::vector<float> verticesCube = chunkCube->render();
 
     //Create Vertex Array
-    VertexArray VAO(VertexFormat_RGB);
+    VertexArray VAO(VertexFormat_Normal);
     VAO.createVBO("ChunkSphere", verticesSphere);
     VAO.createVBO("ChunkCube", verticesCube);
 

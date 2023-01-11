@@ -1,7 +1,7 @@
 #include "Chunk.h"
 
 
-float vertices[] = {
+std::vector<float> cube = {
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
      0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
      0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
@@ -136,9 +136,9 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);
-        vertices.push_back(blockColor.x);
-        vertices.push_back(blockColor.y);
-        vertices.push_back(blockColor.z);
+        // vertices.push_back(blockColor.x);
+        // vertices.push_back(blockColor.y);
+        // vertices.push_back(blockColor.z);
     }
 }
 

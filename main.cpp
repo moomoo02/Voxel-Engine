@@ -236,8 +236,8 @@ int main(){
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
-    VAO.bindVBO("Light");
-    glm::vec3 lightPos(12.0f, 10.0f, 20.0f);
+    lightVAO.bindVBO("Light");
+    glm::vec3 lightPos(3.0f, 5.0f, -20.0f);
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -264,7 +264,9 @@ int main(){
             ImGui::SliderFloat("Blend", &blend, 0.0f, 1.0f);
             ImGui::SliderFloat("FOV", &fov, 0.0f, 180.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        }
+        }   
+        //Input
+        processInput(window);
 
         //Clear Color Buffer
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -281,27 +283,33 @@ int main(){
             showCube = 1 - showCube;
         }
 
-        //Render Lighting
+        //Init transformation matrices
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = camera.GetViewMatrix();
         glm::mat4 projection = glm::mat4(1.0f);
-        model = glm::translate(model, lightPos);
-        model = glm::scale(model, glm::vec3(0.2f)); 
         projection = glm::perspective(glm::radians(camera.Zoom), 800.0f / 600.0f, 0.1f, 100.0f);
+
+        //Render Lighting
+        lightingShader.use();
+        lightVAO.bind();
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(5.0f)); 
         lightingShader.setMat4("model", model);
         lightingShader.setMat4("view", view);
         lightingShader.setMat4("projection", projection);
-        //renderer.draw(lightVAO,lightingShader);
+        lightVAO.bindVBO("Light");
+        renderer.draw(lightVAO, lightingShader);
 
         //Show cube or sphere
+        VAO.bind();
         if(showCube){
             VAO.bindVBO("ChunkCube");
         }else{
             VAO.bindVBO("ChunkSphere");
         }
-        processInput(window);
 
         //Draw Object
+        shaderProgramClass.use();
         model = glm::mat4(1.0f);
         model = glm::scale(model, glm::vec3(2,2,2));
         shaderProgramClass.setMat4("view", view);

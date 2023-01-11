@@ -7,6 +7,5 @@ class Renderer
 {
 public:
     void draw(const VertexArray& va, Shader& shader) const;
-    int getSize(VertexFormat vf) const;
 };
 #endif // __RENDERER_H__

@@ -197,7 +197,7 @@ int main(){
     }
 
     //Parse shaders, compile, and link
-    Shader shaderProgramClass("./Shaders/ColorShader.GLSL");
+    Shader shaderProgramClass("./Shaders/LightingShader.GLSL");
     Shader lightingShader("./Shaders/LightSourceShader.GLSL");
     lightingShader.use();
     //lightingShader.setVec3("lightColor",  glm::vec3(1.0f, 1.0f, 1.0f));
@@ -238,7 +238,8 @@ int main(){
     lightVAO.createVBO("Light", cube);
     lightVAO.bindVBO("Light");
     glm::vec3 lightPos(3.0f, 5.0f, -20.0f);
-
+    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+    
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -315,7 +316,8 @@ int main(){
         shaderProgramClass.setMat4("view", view);
         shaderProgramClass.setMat4("projection", projection);
         shaderProgramClass.setMat4("model", model);
-
+        shaderProgramClass.setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+        shaderProgramClass.setVec3("lightColor",  glm::vec3(1.0f, 1.0f, 1.0f));
         renderer.draw(VAO, shaderProgramClass);
         //shaderProgramClass.setFloat("blend", blend);
 

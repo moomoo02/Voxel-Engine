@@ -64,6 +64,10 @@ Hello, this is where I'm learning OpenGl.  Since I will be always changing the c
             <td valign="bottom">
             <img src="./Memories/VoxelSphereCube.gif" width="200"><br>
             VoxelSphereCube.gif | Jan 09 2023
+            </td></tr><tr>
+            <td valign="bottom">
+            <img src="./Memories/LightSource.gif" width="200"><br>
+            LightSource.gif | Jan 10 2023
             </td></tr></table>
 
 # Journal

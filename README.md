@@ -147,3 +147,17 @@ Played around with Shaders
 * Added libnoise library
 * First terrain generation using perlin noise!
 * Pics: DiffuseLighting, LandscapeChunk
+
+## Jan 12
+* Read about SOLID design principles
+* SRP - Single Responsibility Principle
+  * "A class should only have one reason to change"
+* OCP – Open/Closed Principle
+  * "classes should be open for extension, closed for modification"
+* LSP – Liskov Substitution Principle
+  * "Subtypes must be substitutable for their base types without altering the correctness of the program"
+* ISP – Interface Segregation Principle
+  * "Clients should not be forced to depend on interfaces that they do not use."
+* DIP – Dependency Inversion Principle
+  * "Abstractions should not depend on details. Details should depend on abstractions."
+* Source: http://www.vishalchovatiya.com/single-responsibility-principle-in-cpp-solid-as-a-rock/

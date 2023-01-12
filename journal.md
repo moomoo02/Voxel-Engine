@@ -82,3 +82,4 @@ Played around with Shaders
 * DIP – Dependency Inversion Principle
   * "Abstractions should not depend on details. Details should depend on abstractions."
 * Source: http://www.vishalchovatiya.com/single-responsibility-principle-in-cpp-solid-as-a-rock/
+* Pics: RandomizedChunk

@@ -65,4 +65,6 @@ Played around with Shaders
 
 ## Jan 11
 * Added ambient and diffuse lighting
-* Pics: DiffuseLighting
+* Added libnoise library
+* First terrain generation using perlin noise!
+* Pics: DiffuseLighting, LandscapeChunk

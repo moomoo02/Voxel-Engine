@@ -11,6 +11,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <random>
 
+#include <noise/noise.h>
+#include "noiseutils.h"
+
 class Chunk {
 public:
     Chunk();
@@ -21,10 +24,10 @@ public:
     //Set up landscapes
     void setupSphere();
     void setupCube();
-
+    void setupLandscape();
     //Creates a cube (vector of floats at a position based on its index in chunk.
     void createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord);
-    static const int CHUNK_SIZE = 8;
+    static const int CHUNK_SIZE = 16;
 private: // The blocks data
     Block * * * pBlocks;
 };

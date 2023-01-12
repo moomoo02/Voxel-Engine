@@ -77,25 +77,6 @@ int main(){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    //Noise
-    module::Perlin myModule;
-    utils::NoiseMap heightMap;
-    utils::NoiseMapBuilderPlane heightMapBuilder;
-    heightMapBuilder.SetSourceModule (myModule);
-    heightMapBuilder.SetDestNoiseMap (heightMap);
-    heightMapBuilder.SetDestSize (256, 256);
-    heightMapBuilder.SetBounds (2.0, 6.0, 1.0, 5.0);
-    heightMapBuilder.Build ();
-    utils::RendererImage rendererImage;
-    utils::Image image;
-    rendererImage.SetSourceNoiseMap (heightMap);
-    rendererImage.SetDestImage (image);
-    rendererImage.Render ();
-    utils::WriterBMP writer;
-    writer.SetSourceImage (image);
-    writer.SetDestFilename ("tutorial.bmp");
-    writer.WriteDestFile ();
-
     //Create a window object
     GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
@@ -247,22 +228,26 @@ int main(){
     //Get Chunk Vertices
     std::unique_ptr<Chunk> chunkSphere = std::make_unique<Chunk>();
     std::unique_ptr<Chunk> chunkCube = std::make_unique<Chunk>();
+    std::unique_ptr<Chunk> chunkLandscape = std::make_unique<Chunk>();
     chunkSphere->setupSphere();
     chunkCube->setupCube();
+    chunkLandscape->setupLandscape();
 
     std::vector<float> verticesSphere = chunkSphere->render();
     std::vector<float> verticesCube = chunkCube->render();
+    std::vector<float> verticesLandscape = chunkLandscape->render();
 
     //Create Vertex Array
     VertexArray VAO(VertexFormat_Normal_RGB);
     VAO.createVBO("ChunkSphere", verticesSphere);
     VAO.createVBO("ChunkCube", verticesCube);
+    VAO.createVBO("ChunkLandscape", verticesLandscape);
 
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
     lightVAO.bindVBO("Light");
-    glm::vec3 lightPos(0.9f, 0.4f, 0.2f);
+    glm::vec3 lightPos(9.0f, 4.0f, 2.0f);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
     
     // Setup Platform/Renderer backends
@@ -329,16 +314,17 @@ int main(){
 
         //Show cube or sphere
         VAO.bind();
-        if(showCube){
-            VAO.bindVBO("ChunkCube");
-        }else{
-            VAO.bindVBO("ChunkSphere");
-        }
+        VAO.bindVBO("ChunkLandscape");
+        // if(showCube){
+        //     VAO.bindVBO("ChunkCube");
+        // }else{
+        //     VAO.bindVBO("ChunkSphere");
+        // }
 
         //Draw Object
         shaderProgramClass.use();
         model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(2,2,2));
+        model = glm::scale(model, glm::vec3(10,10,10));
         shaderProgramClass.setMat4("view", view);
         shaderProgramClass.setMat4("projection", projection);
         shaderProgramClass.setMat4("model", model);

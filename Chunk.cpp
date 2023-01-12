@@ -168,3 +168,38 @@ void Chunk::setupCube() {
     }
   }
 }
+
+void Chunk::setupLandscape() {
+  //Noise
+  module::Perlin myModule;
+  utils::NoiseMap heightMap;
+  utils::NoiseMapBuilderPlane heightMapBuilder;
+  //myModule.SetFrequency (8.0);
+  heightMapBuilder.SetSourceModule (myModule);
+  heightMapBuilder.SetDestNoiseMap (heightMap);
+  heightMapBuilder.SetDestSize (256, 256);
+  heightMapBuilder.SetBounds (0.0, CHUNK_SIZE - 1, 0.0, CHUNK_SIZE - 1);
+  heightMapBuilder.Build ();
+  utils::RendererImage rendererImage;
+  utils::Image image;
+  rendererImage.SetSourceNoiseMap (heightMap);
+  rendererImage.SetDestImage (image);
+  rendererImage.Render ();
+  utils::WriterBMP writer;
+  writer.SetSourceImage (image);
+  writer.SetDestFilename ("tutorial.bmp");
+  writer.WriteDestFile ();
+
+  for (int x = 0; x < CHUNK_SIZE; x++) {
+    for (int z = 0; z < CHUNK_SIZE; z++) { 
+      // Use the noise library to get the height value of x, z                      
+      // Use the height map texture to get the height value of x, z  
+      float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x, z)) * (CHUNK_SIZE - 1) * 1.0f);
+      std::cout << "Height: " << heightMap.GetValue(x, z) << '\n';
+      for (int y = 0; y < height; y++) {
+        pBlocks[x][CHUNK_SIZE - 1 - y][z].setActive(true);
+        pBlocks[x][CHUNK_SIZE - 1 - y][z].setBlockType(BlockType_Grass);
+      }
+    }
+  }
+}

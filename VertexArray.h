@@ -32,6 +32,9 @@ public:
     //Creates VBO Object
     void createVBO(std::string key, std::vector<float> vertices);
 
+    //Edits VBO Object
+    void editVBO(std::string key, std::vector<float> vertices);
+
     //Binds Vertices to VAO
     void bindVBO(std::string key) const;
 };

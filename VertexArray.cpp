@@ -41,6 +41,12 @@ void VertexArray::createVBO(std::string key, std::vector<float> vertices){
     //Store vbo as id
     VBOs[key] = VBO;
 
+}
+
+void VertexArray::editVBO(std::string key, std::vector<float> vertices)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[key]);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 }   
 
 //Binds the current VBO of key to VAO.

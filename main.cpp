@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <random>
 
 #include "Shader.h"
 #include "Texture.h"
@@ -247,7 +248,7 @@ int main(){
     VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
     lightVAO.bindVBO("Light");
-    glm::vec3 lightPos(0.0f, 3.0f, -2.0f);
+    glm::vec3 lightPos(2.0f, 4.0f, -5.0f);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
     
     // Setup Platform/Renderer backends
@@ -261,6 +262,15 @@ int main(){
     bool randomizeChunk = 0;
 
     glEnable(GL_DEPTH_TEST);  
+
+    // Create a random number generator
+    std::mt19937 rng;
+
+    // Seed the generator with a random seed
+    rng.seed(std::random_device()());
+
+    // Create a distribution that generates numbers between 0 and 240
+    std::uniform_real_distribution<double> dist(0.0, 240.0);
 
     //Render loop
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
@@ -290,7 +300,7 @@ int main(){
         lastFrame = currentTime;
 
         //Switch showCube every 1 second
-        if(currentTime - delay >= 1){
+        if(currentTime - delay >= 0.4){
             delay = currentTime;
             randomizeChunk = 1 - randomizeChunk;
         }
@@ -315,8 +325,14 @@ int main(){
         VAO.bind();
         VAO.bindVBO("ChunkLandscape");
         if(randomizeChunk){
+            // Generate a random number between 0 and 240
+            double num = dist(rng);
             randomizeChunk = 0;
-            
+            chunkLandscape->clearBlocks();
+            chunkLandscape->setupLandscape(num);
+            verticesLandscape = chunkLandscape->render();
+            VAO.editVBO("ChunkLandscape", verticesLandscape);
+
         }
 
         //Draw Object

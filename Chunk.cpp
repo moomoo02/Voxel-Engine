@@ -190,3 +190,14 @@ void Chunk::setupLandscape(double translation) {
     }
   }
 }
+
+void Chunk::clearBlocks()
+{
+  for (int z = 0; z < CHUNK_SIZE; z++) {
+    for (int y = 0; y < CHUNK_SIZE; y++) {
+      for (int x = 0; x < CHUNK_SIZE; x++) {
+        pBlocks[x][y][z].setActive(false);
+      }
+    }
+  }
+}

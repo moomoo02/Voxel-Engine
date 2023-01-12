@@ -25,6 +25,10 @@ public:
     void setupSphere();
     void setupCube();
     void setupLandscape(double translation = 0);
+
+    //Reset blocks
+    void clearBlocks();
+    
     //Creates a cube (vector of floats at a position based on its index in chunk.
     void createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord);
     static const int CHUNK_SIZE = 16;

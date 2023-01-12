@@ -264,6 +264,7 @@ int main(){
         {
             ImGui::SliderFloat("Blend", &blend, 0.0f, 1.0f);
             ImGui::SliderFloat("FOV", &fov, 0.0f, 180.0f);
+            ImGui::SliderFloat3("Light Position", glm::value_ptr(lightPos), -2.0f, 2.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         }   
         //Input
@@ -318,6 +319,8 @@ int main(){
         shaderProgramClass.setMat4("model", model);
         shaderProgramClass.setVec3("lightPos", lightPos);  
         shaderProgramClass.setVec3("lightColor",  lightColor);
+        shaderProgramClass.setVec3("viewPos", camera.Position); 
+
         renderer.draw(VAO, shaderProgramClass);
         //shaderProgramClass.setFloat("blend", blend);
 

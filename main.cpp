@@ -229,7 +229,7 @@ int main(){
     std::vector<float> verticesCube = chunkCube->render();
 
     //Create Vertex Array
-    VertexArray VAO(VertexFormat_Normal);
+    VertexArray VAO(VertexFormat_Normal_RGB);
     VAO.createVBO("ChunkSphere", verticesSphere);
     VAO.createVBO("ChunkCube", verticesCube);
 
@@ -237,7 +237,7 @@ int main(){
     VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
     lightVAO.bindVBO("Light");
-    glm::vec3 lightPos(3.0f, 5.0f, -20.0f);
+    glm::vec3 lightPos(0.9f, 0.4f, 0.2f);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
     
     // Setup Platform/Renderer backends
@@ -294,7 +294,7 @@ int main(){
         lightingShader.use();
         lightVAO.bind();
         model = glm::translate(model, lightPos);
-        model = glm::scale(model, glm::vec3(5.0f)); 
+        model = glm::scale(model, glm::vec3(0.2f)); 
         lightingShader.setMat4("model", model);
         lightingShader.setMat4("view", view);
         lightingShader.setMat4("projection", projection);

@@ -124,21 +124,24 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
     // Generate a random number between 0 and 1
     double num = dist(rng);
     
-    for(int i = 0; i < cube.size(); i+=3){
+    for(int i = 0; i < cube.size(); i+=6){
         float x = (cube[i] - offsetX) * CUBE_SIZE;
         float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
-        //glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];
+        glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];
         float num1 = dist(rng);
 
-        glm::vec3 blockColor = glm::vec3(num1,0.5,0.5);
+        //glm::vec3 blockColor = glm::vec3(num1,0.5,0.5);
         
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);
-        // vertices.push_back(blockColor.x);
-        // vertices.push_back(blockColor.y);
-        // vertices.push_back(blockColor.z);
+        vertices.push_back(cube[i+3]);
+        vertices.push_back(cube[i+4]);
+        vertices.push_back(cube[i+5]);
+        vertices.push_back(blockColor.x);
+        vertices.push_back(blockColor.y);
+        vertices.push_back(blockColor.z);
     }
 }
 

@@ -62,3 +62,7 @@ Played around with Shaders
 * Added new light source shader and light source VAO.
 * Made bindVBO const to avoid the 2 hour bug i had.
 * Pics: lightSource
+
+## Jan 11
+* Added ambient and diffuse lighting
+* Pics: DiffuseLighting

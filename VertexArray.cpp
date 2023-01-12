@@ -68,6 +68,13 @@ void VertexArray::bindVBO(std::string key) const{
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
         glEnableVertexAttribArray(1);
+    }else if(vf == VertexFormat_Normal_RGB){
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(2);
     }
 }
 
@@ -81,7 +88,9 @@ int VertexArray::getVertexSizeBytes() const {
     }else if(vf == VertexFormat_Default){
         size *= 3;
     }else if(vf == VertexFormat_Normal){
-        size *= 3;
+        size *= 6;
+    }else if(vf == VertexFormat_Normal_RGB){
+        size *= 9;
     }
     
     return size;

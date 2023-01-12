@@ -247,7 +247,7 @@ int main(){
     VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
     lightVAO.bindVBO("Light");
-    glm::vec3 lightPos(9.0f, 4.0f, 2.0f);
+    glm::vec3 lightPos(0.0f, 3.0f, -2.0f);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
     
     // Setup Platform/Renderer backends
@@ -258,7 +258,7 @@ int main(){
     float blend = 0.0;
     float fov = 45.0;
     float delay = glfwGetTime();
-    bool showCube = 1;
+    bool randomizeChunk = 0;
 
     glEnable(GL_DEPTH_TEST);  
 
@@ -292,7 +292,7 @@ int main(){
         //Switch showCube every 1 second
         if(currentTime - delay >= 1){
             delay = currentTime;
-            showCube = 1 - showCube;
+            randomizeChunk = 1 - randomizeChunk;
         }
 
         //Init transformation matrices
@@ -312,14 +312,12 @@ int main(){
         lightVAO.bindVBO("Light");
         renderer.draw(lightVAO, lightingShader);
 
-        //Show cube or sphere
         VAO.bind();
         VAO.bindVBO("ChunkLandscape");
-        // if(showCube){
-        //     VAO.bindVBO("ChunkCube");
-        // }else{
-        //     VAO.bindVBO("ChunkSphere");
-        // }
+        if(randomizeChunk){
+            randomizeChunk = 0;
+            
+        }
 
         //Draw Object
         shaderProgramClass.use();

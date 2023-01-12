@@ -112,26 +112,12 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
     const float CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
     
     float offsetX = modelCoord.x + 0.5f, offsetY = modelCoord.y + 0.5, offsetZ = modelCoord.z + 0.5;
-    // Create a random number generator
-    std::mt19937 rng;
-
-    // Seed the generator with a random seed
-    rng.seed(std::random_device()());
-
-    // Create a distribution that generates numbers between 0 and 1
-    std::uniform_real_distribution<double> dist(0.0, 1.0);
-
-    // Generate a random number between 0 and 1
-    double num = dist(rng);
     
     for(int i = 0; i < cube.size(); i+=6){
         float x = (cube[i] - offsetX) * CUBE_SIZE;
         float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
-        glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];
-        float num1 = dist(rng);
-
-        //glm::vec3 blockColor = glm::vec3(num1,0.5,0.5);
+        glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];  
         
         vertices.push_back(x);
         vertices.push_back(y);
@@ -169,7 +155,8 @@ void Chunk::setupCube() {
   }
 }
 
-void Chunk::setupLandscape() {
+void Chunk::setupLandscape(double translation) {
+
   //Noise
   module::Perlin myModule;
   utils::NoiseMap heightMap;
@@ -178,7 +165,7 @@ void Chunk::setupLandscape() {
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
   heightMapBuilder.SetDestSize (256, 256);
-  heightMapBuilder.SetBounds (0.0, CHUNK_SIZE - 1, 0.0, CHUNK_SIZE - 1);
+  heightMapBuilder.SetBounds (translation, translation + CHUNK_SIZE - 1, translation, translation + CHUNK_SIZE - 1);
   heightMapBuilder.Build ();
   utils::RendererImage rendererImage;
   utils::Image image;

@@ -332,7 +332,6 @@ int main(){
             chunkLandscape->setupLandscape(num);
             verticesLandscape = chunkLandscape->render();
             VAO.editVBO("ChunkLandscape", verticesLandscape);
-
         }
 
         //Draw Object

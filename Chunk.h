@@ -26,7 +26,7 @@ public:
     //Set up landscapes
     void setupSphere();
     void setupCube();
-    void setupLandscape(double translation = 0);
+    void setupLandscape(double dx = 0, double dy = 0);
 
     //Reset blocks
     void clearBlocks();

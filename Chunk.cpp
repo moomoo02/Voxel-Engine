@@ -156,7 +156,7 @@ void Chunk::setupCube() {
   }
 }
 
-void Chunk::setupLandscape(double translation) {
+void Chunk::setupLandscape(double dx, double dy) {
 
   //Noise
   module::Perlin myModule;
@@ -166,7 +166,7 @@ void Chunk::setupLandscape(double translation) {
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
   heightMapBuilder.SetDestSize (256, 256);
-  heightMapBuilder.SetBounds (translation, translation + CHUNK_SIZE - 1, translation, translation + CHUNK_SIZE - 1);
+  heightMapBuilder.SetBounds (dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
   heightMapBuilder.Build ();
   utils::RendererImage rendererImage;
   utils::Image image;

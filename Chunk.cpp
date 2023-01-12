@@ -91,6 +91,7 @@ std::vector<float> Chunk::render()
             for(int z = 0; z < CHUNK_SIZE; z++){
 
                 if(pBlocks[x][y][z].isActive()){
+                    if(isHiddenBlock(x,y,z)) continue;
                     count++;
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
@@ -181,8 +182,8 @@ void Chunk::setupLandscape(double translation) {
     for (int z = 0; z < CHUNK_SIZE; z++) { 
       // Use the noise library to get the height value of x, z                      
       // Use the height map texture to get the height value of x, z  
-      float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x, z)) * (CHUNK_SIZE - 1) * 1.0f);
-      std::cout << "Height: " << heightMap.GetValue(x, z) << '\n';
+      float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x, z) + 0.2f) * (CHUNK_SIZE - 1) * 1.0f);
+      std::cout << "Height: " << height << '\n';
       for (int y = 0; y < height; y++) {
         pBlocks[x][CHUNK_SIZE - 1 - y][z].setActive(true);
         pBlocks[x][CHUNK_SIZE - 1 - y][z].setBlockType(BlockType_Grass);
@@ -200,4 +201,18 @@ void Chunk::clearBlocks()
       }
     }
   }
+}
+bool Chunk::isHiddenBlock(int x, int y, int z) const
+{
+  bool isHidden = 1;
+  if(x > 0 && !pBlocks[x-1][y][z].isActive()) isHidden = 0;
+  if(x < CHUNK_SIZE - 1 && !pBlocks[x+1][y][z].isActive()) isHidden = 0;
+
+  if(y > 0 && !pBlocks[x][y-1][z].isActive()) isHidden = 0;
+  if(y < CHUNK_SIZE - 1 && !pBlocks[x][y+1][z].isActive()) isHidden = 0;
+
+  if(z > 0 && !pBlocks[x][y][z-1].isActive()) isHidden = 0;
+  if(z < CHUNK_SIZE - 1 && !pBlocks[x][y][z+1].isActive()) isHidden = 0;
+
+  return isHidden;
 }

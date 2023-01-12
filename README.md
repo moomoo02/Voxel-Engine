@@ -165,4 +165,5 @@ Played around with Shaders
 * DIP – Dependency Inversion Principle
   * "Abstractions should not depend on details. Details should depend on abstractions."
 * Source: http://www.vishalchovatiya.com/single-responsibility-principle-in-cpp-solid-as-a-rock/
+* Optimized chunk by not renderering hidden blocks.  This reduced average blocks/chunk from 1000 to 250 for 16x16x16blocks, about 400% more optimized.
 * Pics: RandomizedChunk

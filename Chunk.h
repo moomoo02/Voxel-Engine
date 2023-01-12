@@ -15,6 +15,8 @@
 #include "noiseutils.h"
 
 class Chunk {
+private:
+    bool isHiddenBlock(int x, int y, int z) const;
 public:
     Chunk();
     ~Chunk();
@@ -28,7 +30,7 @@ public:
 
     //Reset blocks
     void clearBlocks();
-    
+
     //Creates a cube (vector of floats at a position based on its index in chunk.
     void createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord);
     static const int CHUNK_SIZE = 16;

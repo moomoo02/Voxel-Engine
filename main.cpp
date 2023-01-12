@@ -4,12 +4,16 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+
 #include "Shader.h"
 #include "Texture.h"
 #include "Camera.h"
 #include "VertexArray.h"
 #include "Renderer.h"
 #include "Chunk.h" 
+
+#include <noise/noise.h>
+#include "noiseutils.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -18,6 +22,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+using namespace noise;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -70,6 +76,25 @@ int main(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+    //Noise
+    module::Perlin myModule;
+    utils::NoiseMap heightMap;
+    utils::NoiseMapBuilderPlane heightMapBuilder;
+    heightMapBuilder.SetSourceModule (myModule);
+    heightMapBuilder.SetDestNoiseMap (heightMap);
+    heightMapBuilder.SetDestSize (256, 256);
+    heightMapBuilder.SetBounds (2.0, 6.0, 1.0, 5.0);
+    heightMapBuilder.Build ();
+    utils::RendererImage rendererImage;
+    utils::Image image;
+    rendererImage.SetSourceNoiseMap (heightMap);
+    rendererImage.SetDestImage (image);
+    rendererImage.Render ();
+    utils::WriterBMP writer;
+    writer.SetSourceImage (image);
+    writer.SetDestFilename ("tutorial.bmp");
+    writer.WriteDestFile ();
 
     //Create a window object
     GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);

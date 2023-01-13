@@ -231,7 +231,7 @@ int main(){
     VertexArray VAO(VertexFormat_Normal_RGB);
 
     //SetUpWorld
-    int WORLD_SIZE = 2;
+    int WORLD_SIZE = 16;
     std::vector<std::vector<std::unique_ptr<Chunk>>> chunks(WORLD_SIZE);
     for(int i = 0; i < WORLD_SIZE; i++){
         for(int j = 0; j < WORLD_SIZE; j++){
@@ -336,8 +336,9 @@ int main(){
 
                 //Draw Object
                 model = glm::mat4(1.0f);
+                model = glm::translate(model, glm::vec3(i * 3.281f,0.0f,j * 3.281f));
                 model = glm::scale(model, glm::vec3(10,10,10));
-                model = glm::translate(model, glm::vec3(i * chunks[i][j]->CHUNK_SIZE,0,j * chunks[i][j]->CHUNK_SIZE));
+                //model = glm::translate(model, glm::vec3(i * chunks[i][j]->CHUNK_SIZE,0,j * chunks[i][j]->CHUNK_SIZE));
                 shaderProgramClass.setMat4("model", model); 
 
                 renderer.draw(VAO, shaderProgramClass);

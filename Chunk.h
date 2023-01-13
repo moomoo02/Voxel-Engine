@@ -28,6 +28,7 @@ public:
     ~Chunk();
     void update(float dt);
     std::vector<float> render();
+    void setupHeightMap();
 
     //Set up landscapes
     void setupSphere();

@@ -60,6 +60,10 @@ Chunk::Chunk()
             pBlocks[i][j] = new Block [CHUNK_SIZE];
         }
     }
+    setupHeightMap();
+}
+
+void Chunk::setupHeightMap(){
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
   heightMapBuilder.SetDestSize (256, 256);

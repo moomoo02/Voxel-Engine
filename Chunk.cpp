@@ -102,7 +102,7 @@ std::vector<float> Chunk::render()
         }
     }
     
-    std::cout << count << " Rendered\n";
+    //std::cout << count << " Rendered\n";
     //Bind a Vertex Buffer Object
     return vertices;
 }
@@ -172,19 +172,31 @@ void Chunk::setupLandscape(double dx, double dy) {
   utils::Image image;
   rendererImage.SetSourceNoiseMap (heightMap);
   rendererImage.SetDestImage (image);
+  rendererImage.ClearGradient ();
+  rendererImage.AddGradientPoint (-1.0000, utils ::Color (  0,   0, 128, 255)); // deeps
+  rendererImage.AddGradientPoint (-0.2500, utils::Color (  0,   0, 255, 255)); // shallow
+  rendererImage.AddGradientPoint ( 0.0000, utils::Color (  0, 128, 255, 255)); // shore
+  rendererImage.AddGradientPoint ( 0.0625, utils::Color (240, 240,  64, 255)); // sand
+  rendererImage.AddGradientPoint ( 0.1250, utils::Color ( 32, 160,   0, 255)); // grass
+  rendererImage.AddGradientPoint ( 0.3750, utils::Color (224, 224,   0, 255)); // dirt
+  rendererImage.AddGradientPoint ( 0.7500, utils::Color (128, 128, 128, 255)); // rock
+  rendererImage.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow
   rendererImage.Render ();
   utils::WriterBMP writer;
   writer.SetSourceImage (image);
   writer.SetDestFilename ("tutorial.bmp");
   writer.WriteDestFile ();
+  
+  //Get heightmap
+  //utils::NoiseMap heightMap = world->getHeightMap(dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
+  //utils::NoiseMap heightMap = world->getHeightMap(dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
 
-  std::cout << "Setup\n";
   for (int x = 0; x < CHUNK_SIZE; x++) {
     for (int z = 0; z < CHUNK_SIZE; z++) { 
       // Use the noise library to get the height value of x, z                      
       // Use the height map texture to get the height value of x, z  
-      float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x, z) + 0.2f) * (CHUNK_SIZE - 1) * 1.0f);
-      std::cout << "Height: " << height << '\n';
+      float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) + 0.2f) * (CHUNK_SIZE - 1) * 1.0f);
+      // std::cout << "Height: " << height << '\n';
       for (int y = 0; y < height; y++) {
         pBlocks[x][CHUNK_SIZE - 1 - y][z].setActive(true);
         pBlocks[x][CHUNK_SIZE - 1 - y][z].setBlockType(BlockType_Grass);

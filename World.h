@@ -3,11 +3,12 @@
 
 #include <noise/noise.h>
 #include "noiseutils.h"
+#include <iostream>
 
 class World {
     utils::NoiseMap heightMap;
 public:
     World();
-    utils::NoiseMap getHeightMap() const;
+    utils::NoiseMap getHeightMap(double x1, double x2, double y1, double y2) const;
 };
 #endif // __WORLD_H__

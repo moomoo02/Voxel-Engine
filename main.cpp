@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cmath>
 #include <random>
+#include <string>
 
 #include "Shader.h"
 #include "Texture.h"
@@ -226,23 +227,21 @@ int main(){
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
 
-    //Get Chunk Vertices
-    std::unique_ptr<Chunk> chunkSphere = std::make_unique<Chunk>();
-    std::unique_ptr<Chunk> chunkCube = std::make_unique<Chunk>();
-    std::unique_ptr<Chunk> chunkLandscape = std::make_unique<Chunk>();
-    chunkSphere->setupSphere();
-    chunkCube->setupCube();
-    chunkLandscape->setupLandscape();
-
-    std::vector<float> verticesSphere = chunkSphere->render();
-    std::vector<float> verticesCube = chunkCube->render();
-    std::vector<float> verticesLandscape = chunkLandscape->render();
-
     //Create Vertex Array
     VertexArray VAO(VertexFormat_Normal_RGB);
-    VAO.createVBO("ChunkSphere", verticesSphere);
-    VAO.createVBO("ChunkCube", verticesCube);
-    VAO.createVBO("ChunkLandscape", verticesLandscape);
+
+    //SetUpWorld
+    int WORLD_SIZE = 2;
+    std::vector<std::vector<std::unique_ptr<Chunk>>> chunks(WORLD_SIZE);
+    for(int i = 0; i < WORLD_SIZE; i++){
+        for(int j = 0; j < WORLD_SIZE; j++){
+            std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
+            std::unique_ptr<Chunk> chunkPtr = std::make_unique<Chunk>();
+            chunks[i].push_back(std::move(chunkPtr));
+            chunks[i][j]->setupLandscape(chunks[i][j]->CHUNK_SIZE * i, chunks[i][j]->CHUNK_SIZE * j);
+            VAO.createVBO(key, chunks[i][j]->render());
+        }
+     }
 
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
@@ -322,30 +321,29 @@ int main(){
         lightVAO.bindVBO("Light");
         renderer.draw(lightVAO, lightingShader);
 
+        //GenerateWorld
         VAO.bind();
-        VAO.bindVBO("ChunkLandscape");
-        if(randomizeChunk){
-            // Generate a random number between 0 and 240
-            double num = dist(rng);
-            randomizeChunk = 0;
-            chunkLandscape->clearBlocks();
-            chunkLandscape->setupLandscape(num);
-            verticesLandscape = chunkLandscape->render();
-            VAO.editVBO("ChunkLandscape", verticesLandscape);
-        }
-
-        //Draw Object
         shaderProgramClass.use();
-        model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(10,10,10));
         shaderProgramClass.setMat4("view", view);
         shaderProgramClass.setMat4("projection", projection);
-        shaderProgramClass.setMat4("model", model);
         shaderProgramClass.setVec3("lightPos", lightPos);  
         shaderProgramClass.setVec3("lightColor",  lightColor);
-        shaderProgramClass.setVec3("viewPos", camera.Position); 
+        shaderProgramClass.setVec3("viewPos", camera.Position);
+        for(int i = 0; i < WORLD_SIZE; i++){
+            for(int j = 0; j < WORLD_SIZE; j++){
+                std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
+                VAO.bindVBO(key);
 
-        renderer.draw(VAO, shaderProgramClass);
+                //Draw Object
+                model = glm::mat4(1.0f);
+                model = glm::scale(model, glm::vec3(10,10,10));
+                model = glm::translate(model, glm::vec3(i * chunks[i][j]->CHUNK_SIZE,0,j * chunks[i][j]->CHUNK_SIZE));
+                shaderProgramClass.setMat4("model", model); 
+
+                renderer.draw(VAO, shaderProgramClass);
+            }
+        }
+
         //shaderProgramClass.setFloat("blend", blend);
 
         //Rendering

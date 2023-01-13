@@ -52,7 +52,7 @@ void VertexArray::editVBO(std::string key, std::vector<float> vertices)
 //Binds the current VBO of key to VAO.
 void VertexArray::bindVBO(std::string key) const{
     glBindBuffer(GL_ARRAY_BUFFER, VBOs.at(key));
-
+    
     //Bind Vertex BufferObject to VAO
     if(vf == VertexFormat_Texture){
         //For format: x, y, z, tx, ty

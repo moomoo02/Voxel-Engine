@@ -178,6 +178,7 @@ void Chunk::setupLandscape(double dx, double dy) {
   writer.SetDestFilename ("tutorial.bmp");
   writer.WriteDestFile ();
 
+  std::cout << "Setup\n";
   for (int x = 0; x < CHUNK_SIZE; x++) {
     for (int z = 0; z < CHUNK_SIZE; z++) { 
       // Use the noise library to get the height value of x, z                      

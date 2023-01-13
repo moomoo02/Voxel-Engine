@@ -126,6 +126,7 @@ std::vector<float> Chunk::render()
     return vertices;
 }
 
+//model coordinates represent bottom, left, back coord of cube (-x, -y, -z)
 //Takes in model Coordinates and returns one cube of size 1/HALF_CHUNK_SIZE
 void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord)
 {
@@ -133,16 +134,16 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
     
     float offsetX = modelCoord.x + 0.5f, offsetY = modelCoord.y + 0.5, offsetZ = modelCoord.z + 0.5;
     float offsetXX = -0.5f/CHUNK_SIZE - modelCoord.x, offsetYY = -0.5f/CHUNK_SIZE - modelCoord.y, offsetZZ = -0.5f/CHUNK_SIZE - modelCoord.z;
-
+    // std::cout << offsetXX << ' ' << offsetYY<< ' ' << offsetZZ << '\n';
     for(int i = 0; i < cube.size(); i+=6){
         float x = (cube[i] - offsetX) * CUBE_SIZE;
         float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
-        float xx = (cube[i]/CHUNK_SIZE + offsetXX);
-        float yy = (cube[i + 1]/CHUNK_SIZE + offsetYY);
-        float zz = (cube[i + 2]/CHUNK_SIZE + offsetZZ);
+        float xx = (cube[i]/CHUNK_SIZE - offsetXX);
+        float yy = (cube[i + 1]/CHUNK_SIZE - offsetYY);
+        float zz = (cube[i + 2]/CHUNK_SIZE - offsetZZ);
         glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];  
-        
+        //std::cout << xx << ' ' << yy<< ' ' << zz << '\n';
         vertices.push_back(xx);
         vertices.push_back(yy);
         vertices.push_back(zz);
@@ -199,7 +200,7 @@ void Chunk::setupLandscape(double dx, double dy) {
       float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) * (CHUNK_SIZE/2.0f) * 1.0f));
       std::cout << "Height at ( " << x << " , " << z << " ) :" << height << '\n';
       for (int y = 0; y < height; y++) {
-        std::cout << "HE";
+        std::cout << "Active: " << y << '\n';
         pBlocks[x][y][z].setActive(true);
         pBlocks[x][y][z].setBlockType(BlockType_Grass);
       }

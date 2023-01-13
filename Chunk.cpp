@@ -95,7 +95,7 @@ std::vector<float> Chunk::render()
                     count++;
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
-                    modelCoord *= 1.0f/(HALF_CHUNK_SIZE);
+                    modelCoord *= 1.0f/(HALF_CHUNK_SIZE)/2.0f;
                     createCube(vertices, pBlocks[x][y][z], modelCoord);
                 }
             }

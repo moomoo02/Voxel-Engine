@@ -17,6 +17,12 @@
 class Chunk {
 private:
     bool isHiddenBlock(int x, int y, int z) const;
+    module::Perlin myModule;
+    utils::NoiseMap heightMap;
+    utils::NoiseMapBuilderPlane heightMapBuilder;
+    utils::RendererImage rendererImage;
+    utils::Image image;
+    utils::WriterBMP writer;
 public:
     Chunk();
     ~Chunk();

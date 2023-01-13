@@ -109,13 +109,12 @@ std::vector<float> Chunk::render()
     for(int x = 0; x < CHUNK_SIZE; x++){
         for(int y = 0; y < CHUNK_SIZE; y++){
             for(int z = 0; z < CHUNK_SIZE; z++){
-
                 if(pBlocks[x][y][z].isActive()){
                     if(isHiddenBlock(x,y,z)) continue;
                     count++;
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
-                    modelCoord *= 1.0f/(HALF_CHUNK_SIZE)/2.0f;
+                    modelCoord *= 1.0f/(HALF_CHUNK_SIZE)/2.0f; //from -0.5 to 0.5
                     createCube(vertices, pBlocks[x][y][z], modelCoord);
                 }
             }
@@ -133,16 +132,20 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
     const float CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
     
     float offsetX = modelCoord.x + 0.5f, offsetY = modelCoord.y + 0.5, offsetZ = modelCoord.z + 0.5;
-    
+    float offsetXX = -0.5f/CHUNK_SIZE - modelCoord.x, offsetYY = -0.5f/CHUNK_SIZE - modelCoord.y, offsetZZ = -0.5f/CHUNK_SIZE - modelCoord.z;
+
     for(int i = 0; i < cube.size(); i+=6){
         float x = (cube[i] - offsetX) * CUBE_SIZE;
         float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
         float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
+        float xx = (cube[i]/CHUNK_SIZE + offsetXX);
+        float yy = (cube[i + 1]/CHUNK_SIZE + offsetYY);
+        float zz = (cube[i + 2]/CHUNK_SIZE + offsetZZ);
         glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];  
         
-        vertices.push_back(x);
-        vertices.push_back(y);
-        vertices.push_back(z);
+        vertices.push_back(xx);
+        vertices.push_back(yy);
+        vertices.push_back(zz);
         vertices.push_back(cube[i+3]);
         vertices.push_back(cube[i+4]);
         vertices.push_back(cube[i+5]);
@@ -193,11 +196,12 @@ void Chunk::setupLandscape(double dx, double dy) {
     for (int z = 0; z < CHUNK_SIZE; z++) { 
       // Use the noise library to get the height value of x, z                      
       // Use the height map texture to get the height value of x, z  
-      float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) + 0.2f) * (CHUNK_SIZE - 1) * 1.0f);
-      // std::cout << "Height: " << height << '\n';
+      float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) * (CHUNK_SIZE/2.0f) * 1.0f));
+      std::cout << "Height at ( " << x << " , " << z << " ) :" << height << '\n';
       for (int y = 0; y < height; y++) {
-        pBlocks[x][CHUNK_SIZE - 1 - y][z].setActive(true);
-        pBlocks[x][CHUNK_SIZE - 1 - y][z].setBlockType(BlockType_Grass);
+        std::cout << "HE";
+        pBlocks[x][y][z].setActive(true);
+        pBlocks[x][y][z].setBlockType(BlockType_Grass);
       }
     }
   }

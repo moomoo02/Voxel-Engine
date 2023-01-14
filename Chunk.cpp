@@ -107,9 +107,10 @@ std::vector<float> Chunk::render()
     //Get Vertices 
     int count = 0;
     for(int x = 0; x < CHUNK_SIZE; x++){
+      for(int z = 0; z < CHUNK_SIZE; z++){
         for(int y = 0; y < CHUNK_SIZE; y++){
-            for(int z = 0; z < CHUNK_SIZE; z++){
                 if(pBlocks[x][y][z].isActive()){
+                    //std::cout << "Active at ( " << x << " , " << y << " , " << z << " ) :" << '\n';
                     if(isHiddenBlock(x,y,z)) continue;
                     count++;
                     //Add vertex to VAO
@@ -121,7 +122,7 @@ std::vector<float> Chunk::render()
         }
     }
     
-    //std::cout << count << " Rendered\n";
+    std::cout << count << " Rendered\n";
     //Bind a Vertex Buffer Object
     return vertices;
 }
@@ -198,9 +199,9 @@ void Chunk::setupLandscape(double dx, double dy) {
       // Use the noise library to get the height value of x, z                      
       // Use the height map texture to get the height value of x, z  
       float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) * (CHUNK_SIZE/2.0f) * 1.0f));
-      std::cout << "Height at ( " << x << " , " << z << " ) :" << height << '\n';
+      //std::cout << "Height at ( " << x << " , " << z << " ) :" << height << '\n';
       for (int y = 0; y < height; y++) {
-        std::cout << "Active: " << y << '\n';
+        //std::cout << "Active: " << y << '\n';
         pBlocks[x][y][z].setActive(true);
         pBlocks[x][y][z].setBlockType(BlockType_Grass);
       }
@@ -220,15 +221,15 @@ void Chunk::clearBlocks()
 }
 bool Chunk::isHiddenBlock(int x, int y, int z) const
 {
-  bool isHidden = 1;
-  if(x > 0 && !pBlocks[x-1][y][z].isActive()) isHidden = 0;
-  if(x < CHUNK_SIZE - 1 && !pBlocks[x+1][y][z].isActive()) isHidden = 0;
+  int hiddenCount = 0;
+  if(x > 0 && pBlocks[x-1][y][z].isActive()) hiddenCount++;
+  if(x < CHUNK_SIZE - 1 && pBlocks[x+1][y][z].isActive()) hiddenCount++;
 
-  if(y > 0 && !pBlocks[x][y-1][z].isActive()) isHidden = 0;
-  if(y < CHUNK_SIZE - 1 && !pBlocks[x][y+1][z].isActive()) isHidden = 0;
+  if(y > 0 && pBlocks[x][y-1][z].isActive()) hiddenCount++;
+  if(y < CHUNK_SIZE - 1 && pBlocks[x][y+1][z].isActive()) hiddenCount++;
 
-  if(z > 0 && !pBlocks[x][y][z-1].isActive()) isHidden = 0;
-  if(z < CHUNK_SIZE - 1 && !pBlocks[x][y][z+1].isActive()) isHidden = 0;
+  if(z > 0 && pBlocks[x][y][z-1].isActive()) hiddenCount++;
+  if(z < CHUNK_SIZE - 1 && pBlocks[x][y][z+1].isActive()) hiddenCount++;
 
-  return isHidden;
+  return (hiddenCount == 6);
 }

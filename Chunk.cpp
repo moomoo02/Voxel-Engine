@@ -48,7 +48,8 @@ std::vector<float> cube = {
 std::map<BlockType, glm::vec3> BlockTypeToColorMap = 
 {
     {BlockType::BlockType_Default, glm::vec3(0.26f, 0.74f, 0.32f)},
-    {BlockType::BlockType_Grass, glm::vec3(0.04f,0.44f,0.15f)}
+    {BlockType::BlockType_Grass, glm::vec3(0.04f,0.44f,0.15f)},
+    {BlockType::BlockType_Sand, glm::vec3(0.761f,0.698f,0.502f)}
 };
 
 Chunk::Chunk()
@@ -64,9 +65,10 @@ Chunk::Chunk()
 }
 
 void Chunk::setupHeightMap(){
+  myModule.SetFrequency(0.2f);
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
-  heightMapBuilder.SetDestSize (256, 256);
+  heightMapBuilder.SetDestSize (256*2, 256*2);
   rendererImage.SetSourceNoiseMap (heightMap);
   rendererImage.SetDestImage (image);
   rendererImage.ClearGradient ();
@@ -188,6 +190,8 @@ void Chunk::setupLandscape(double dx, double dy) {
   heightMapBuilder.SetBounds (dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
   heightMapBuilder.Build ();
   rendererImage.Render ();
+  std::string key = "tutorial" + std::to_string((int)dx) + std::to_string((int)dy) + ".bmp";
+  writer.SetDestFilename (key);
   writer.WriteDestFile ();
   
   //Get heightmap

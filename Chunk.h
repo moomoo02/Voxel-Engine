@@ -40,7 +40,7 @@ public:
 
     //Creates a cube (vector of floats at a position based on its index in chunk.
     void createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord);
-    static const int CHUNK_SIZE = 16;
+    static const int CHUNK_SIZE = 32;
 private: // The blocks data
     Block * * * pBlocks;
 };

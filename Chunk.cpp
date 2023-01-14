@@ -47,7 +47,7 @@ std::vector<float> cube = {
 
 std::map<BlockType, glm::vec3> BlockTypeToColorMap = 
 {
-    {BlockType::BlockType_Default, glm::vec3(0.26f, 0.74f, 0.32f)},
+    {BlockType::BlockType_Default, glm::vec3(0.04f,0.44f,0.15f)},
     {BlockType::BlockType_Grass, glm::vec3(0.04f,0.44f,0.15f)},
     {BlockType::BlockType_Sand, glm::vec3(0.761f,0.698f,0.502f)}
 };
@@ -65,7 +65,7 @@ Chunk::Chunk()
 }
 
 void Chunk::setupHeightMap(){
-  myModule.SetFrequency(0.2f);
+  myModule.SetFrequency(0.3f);
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
   heightMapBuilder.SetDestSize (256*2, 256*2);
@@ -82,6 +82,15 @@ void Chunk::setupHeightMap(){
   rendererImage.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow
   writer.SetSourceImage (image);
   writer.SetDestFilename ("tutorial.bmp");
+}
+
+BlockType Chunk::getBlockTypeFromHeight(int height)
+{
+    if(height <= CHUNK_SIZE / 16){
+      return BlockType_Sand;
+    }
+
+    return BlockType_Default;
 }
 
 Chunk::~Chunk()
@@ -207,7 +216,7 @@ void Chunk::setupLandscape(double dx, double dy) {
       for (int y = 0; y < height; y++) {
         //std::cout << "Active: " << y << '\n';
         pBlocks[x][y][z].setActive(true);
-        pBlocks[x][y][z].setBlockType(BlockType_Grass);
+        pBlocks[x][y][z].setBlockType(getBlockTypeFromHeight((int)y));
       }
     }
   }

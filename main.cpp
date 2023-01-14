@@ -341,7 +341,7 @@ int main(){
                 // model = glm::scale(model, glm::vec3(20,20,20));
                 model = glm::scale(model, glm::vec3(20,20,20));
                 model = glm::translate(model, glm::vec3(i ,0.0f,-j));
-                model = glm::rotate(model, (float)glm::radians(90.0f), glm::vec3(0.0f,1.0f,0.0f));
+                model = glm::rotate(model, (float)glm::radians(180.0f), glm::vec3(0.0f,1.0f,0.0f));
                 //model = glm::translate(model, glm::vec3(i * chunks[i][j]->CHUNK_SIZE,0,j * chunks[i][j]->CHUNK_SIZE));
                 shaderProgramClass.setMat4("model", model); 
 

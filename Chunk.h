@@ -28,7 +28,10 @@ public:
     ~Chunk();
     void update(float dt);
     std::vector<float> render();
+
+    //Helper Functions
     void setupHeightMap();
+    BlockType getBlockTypeFromHeight(int height);
 
     //Set up landscapes
     void setupSphere();

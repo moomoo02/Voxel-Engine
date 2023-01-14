@@ -80,6 +80,10 @@ Hello, this is where I'm learning OpenGl.  Since I will be always changing the c
             <td valign="bottom">
             <img src="./Memories/RandomizedChunk.gif" width="200"><br>
             RandomizedChunk.gif | Jan 12 2023
+            </td></tr><tr>
+            <td valign="bottom">
+            <img src="./Memories/Sand.png" width="200"><br>
+            Sand.png | Jan 14 2023
             </td></tr></table>
 
 # Journal
@@ -167,3 +171,8 @@ Played around with Shaders
 * Source: http://www.vishalchovatiya.com/single-responsibility-principle-in-cpp-solid-as-a-rock/
 * Optimized chunk by not renderering hidden blocks.  This reduced average blocks/chunk from 1000 to 250 for 16x16x16blocks, about 400% more optimized.
 * Pics: RandomizedChunk
+
+## Jan 14
+* Fixed chunk not loading correctly (hiddenblocks func) (scaling first then translating)
+* Added sand
+* Pics: Sand

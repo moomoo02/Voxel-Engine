@@ -65,7 +65,7 @@ Chunk::Chunk()
 }
 
 void Chunk::setupHeightMap(){
-  myModule.SetFrequency(0.3f);
+  myModule.SetFrequency(0.2f);
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
   heightMapBuilder.SetDestSize (256*2, 256*2);
@@ -115,6 +115,9 @@ std::vector<float> Chunk::render()
     std::vector<float> vertices;
     const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
 
+    //glm::mat4 rotationMat(1);
+    //rotationMat = glm::rotate(rotationMat, (float)glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
+
     //Get Vertices 
     int count = 0;
     for(int x = 0; x < CHUNK_SIZE; x++){
@@ -127,6 +130,7 @@ std::vector<float> Chunk::render()
                     //Add vertex to VAO
                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
                     modelCoord *= 1.0f/(HALF_CHUNK_SIZE)/2.0f; //from -0.5 to 0.5
+                    //modelCoord = glm::vec3(rotationMat * glm::vec4(modelCoord, 1.0));
                     createCube(vertices, pBlocks[x][y][z], modelCoord);
                 }
             }
@@ -191,7 +195,6 @@ void Chunk::setupCube() {
 void Chunk::setupLandscape(double dx, double dy) {
 
   //Noise
-  //myModule.SetFrequency (8.0);
   heightMapBuilder.SetBounds (dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
   heightMapBuilder.Build ();
   rendererImage.Render ();
@@ -207,10 +210,10 @@ void Chunk::setupLandscape(double dx, double dy) {
     for (int z = 0; z < CHUNK_SIZE; z++) { 
       // Use the noise library to get the height value of x, z                      
       // Use the height map texture to get the height value of x, z  
-      float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) * (CHUNK_SIZE/2.0f) * 1.0f));
-      //std::cout << "Height at ( " << x << " , " << z << " ) :" << height << '\n';
+      //float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) * (CHUNK_SIZE/2.0f) * 1.0f));
+      float height = std::min((float)CHUNK_SIZE,((heightMap.GetValue(x + dx, dy + CHUNK_SIZE - 1 - z)+0.1f) * (CHUNK_SIZE/2.0f) * 1.0f));
+      std::cout << "Height at ( " << x << " , " << z << " ) :" << height << '\n';
       for (int y = 0; y < height; y++) {
-        //std::cout << "Active: " << y << '\n';
         pBlocks[x][y][z].setActive(true);
         pBlocks[x][y][z].setBlockType(getBlockTypeFromHeight((int)y));
       }
@@ -228,6 +231,7 @@ void Chunk::clearBlocks()
     }
   }
 }
+
 bool Chunk::isHiddenBlock(int x, int y, int z) const
 {
   int hiddenCount = 0;

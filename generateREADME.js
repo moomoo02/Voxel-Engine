@@ -8,7 +8,7 @@ const README_FILENAME = 'README.md';
 const NB_IMAGES_PER_LINE = 4;
 let nbImages = 0;
 
-let introduction = '# My Learning OpenGL Journey \nHello, this is where I\'m learning OpenGl.  Since I will be always changing the code around to learn new concepts, I want to keep in memory all the graphics that I produced.  Below is my journey of every graphic I created, sorted from earliest to latest. \n '
+let introduction = '# My Voxel Engine Journey \nHello, this is where I\'m learning OpenGl and modern C++ by building a voxel engine.  Since I will be always changing the code around to learn new concepts, I want to keep in memory all the graphics that I produced.  Below is my journey of every graphic I created, sorted from earliest to latest. \n '
 let mdContent = introduction + '<table><tr>';
 let journal = fs.readFileSync('./journal.md', 'utf8');
 

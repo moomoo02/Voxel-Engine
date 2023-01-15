@@ -1,5 +1,5 @@
-# My Learning OpenGL Journey 
-Hello, this is where I'm learning OpenGl.  Since I will be always changing the code around to learn new concepts, I want to keep in memory all the graphics that I produced.  Below is my journey of every graphic I created, sorted from earliest to latest. 
+# My Voxel Engine Journey 
+Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engine.  Since I will be always changing the code around to learn new concepts, I want to keep in memory all the graphics that I produced.  Below is my journey of every graphic I created, sorted from earliest to latest. 
  <table><tr><tr>
             <td valign="bottom">
             <img src="./Memories/FragmentInterpolation.png" width="200"><br>

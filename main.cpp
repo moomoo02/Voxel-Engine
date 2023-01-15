@@ -232,7 +232,7 @@ int main(){
     VertexArray VAO(VertexFormat_Normal_RGB);
 
     //SetUpWorld
-    int WORLD_SIZE = 2;
+    const int WORLD_SIZE = 16;
     std::vector<std::vector<std::unique_ptr<Chunk>>> chunks(WORLD_SIZE);
     for(int i = 0; i < WORLD_SIZE; i++){
         for(int j = 0; j < WORLD_SIZE; j++){

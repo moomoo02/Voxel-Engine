@@ -1,5 +1,5 @@
 #include "Chunk.h"
-
+#include <fstream>
 
 std::vector<float> cube = {
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -65,10 +65,10 @@ Chunk::Chunk()
 }
 
 void Chunk::setupHeightMap(){
-  myModule.SetFrequency(0.2f);
+  myModule.SetFrequency(0.01f);
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
-  heightMapBuilder.SetDestSize (256*2, 256*2);
+  heightMapBuilder.SetDestSize (32, 32);
   rendererImage.SetSourceNoiseMap (heightMap);
   rendererImage.SetDestImage (image);
   rendererImage.ClearGradient ();
@@ -128,7 +128,7 @@ std::vector<float> Chunk::render()
                     if(isHiddenBlock(x,y,z)) continue;
                     count++;
                     //Add vertex to VAO
-                    glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE;
+                    glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE; // from -Half to Half
                     modelCoord *= 1.0f/(HALF_CHUNK_SIZE)/2.0f; //from -0.5 to 0.5
                     //modelCoord = glm::vec3(rotationMat * glm::vec4(modelCoord, 1.0));
                     createCube(vertices, pBlocks[x][y][z], modelCoord);
@@ -146,7 +146,6 @@ std::vector<float> Chunk::render()
 //Takes in model Coordinates and returns one cube of size 1/HALF_CHUNK_SIZE
 void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord)
 {
-    const float CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
     
     float offsetX = -0.5f/CHUNK_SIZE - modelCoord.x, offsetY = -0.5f/CHUNK_SIZE - modelCoord.y, offsetZ = -0.5f/CHUNK_SIZE - modelCoord.z;
     // std::cout << offsetXX << ' ' << offsetYY<< ' ' << offsetZZ << '\n';
@@ -195,24 +194,25 @@ void Chunk::setupCube() {
 void Chunk::setupLandscape(double dx, double dy) {
 
   //Noise
+  heightMapBuilder.SetDestSize (32, 32);
   heightMapBuilder.SetBounds (dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
   heightMapBuilder.Build ();
   rendererImage.Render ();
-  std::string key = "tutorial" + std::to_string((int)dx) + std::to_string((int)dy) + ".bmp";
-  writer.SetDestFilename (key);
-  writer.WriteDestFile ();
+  // std::string key = "tutorial" + std::to_string((int)dx) + std::to_string((int)dy) + ".bmp";
+  // writer.SetDestFilename (key);
+  // writer.WriteDestFile ();
   
   //Get heightmap
   //utils::NoiseMap heightMap = world->getHeightMap(dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
   //utils::NoiseMap heightMap = world->getHeightMap(dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
-
+  std::ofstream myfile;
+  myfile.open ("example.txt"); 
   for (int x = 0; x < CHUNK_SIZE; x++) {
     for (int z = 0; z < CHUNK_SIZE; z++) { 
       // Use the noise library to get the height value of x, z                      
       // Use the height map texture to get the height value of x, z  
-      //float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) * (CHUNK_SIZE/2.0f) * 1.0f));
-      float height = std::min((float)CHUNK_SIZE,((heightMap.GetValue(x + dx, dy + CHUNK_SIZE - 1 - z)+0.1f) * (CHUNK_SIZE/2.0f) * 1.0f));
-      std::cout << "Height at ( " << x << " , " << z << " ) :" << height << '\n';
+      //float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) * (CHUNK_SIZE/2.0f) * 1.0f)); 
+      float height = std::min((float)CHUNK_SIZE,((heightMap.GetValue(x,CHUNK_SIZE - 1 - z)+0.1f) * (CHUNK_SIZE/2.0f) * 1.0f));
       for (int y = 0; y < height; y++) {
         pBlocks[x][y][z].setActive(true);
         pBlocks[x][y][z].setBlockType(getBlockTypeFromHeight((int)y));

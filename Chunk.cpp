@@ -68,7 +68,7 @@ void Chunk::setupHeightMap(){
   myModule.SetFrequency(0.01f);
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
-  heightMapBuilder.SetDestSize (32, 32);
+  heightMapBuilder.SetDestSize (CHUNK_SIZE, CHUNK_SIZE);
   rendererImage.SetSourceNoiseMap (heightMap);
   rendererImage.SetDestImage (image);
   rendererImage.ClearGradient ();
@@ -194,7 +194,6 @@ void Chunk::setupCube() {
 void Chunk::setupLandscape(double dx, double dy) {
 
   //Noise
-  heightMapBuilder.SetDestSize (CHUNK_SIZE, CHUNK_SIZE);
   heightMapBuilder.SetBounds (dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
   heightMapBuilder.Build ();
   rendererImage.Render ();

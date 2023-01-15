@@ -1,5 +1,5 @@
 #include "Chunk.h"
-#include <fstream>
+
 
 std::vector<float> cube = {
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -68,10 +68,14 @@ Chunk::Chunk()
 }
 
 void Chunk::setupHeightMap(){
+
+  //Setup height map
   myModule.SetFrequency(0.01f);
   heightMapBuilder.SetSourceModule (myModule);
   heightMapBuilder.SetDestNoiseMap (heightMap);
   heightMapBuilder.SetDestSize (CHUNK_SIZE, CHUNK_SIZE);
+
+  //Set up the image renderer of the height map
   rendererImage.SetSourceNoiseMap (heightMap);
   rendererImage.SetDestImage (image);
   rendererImage.ClearGradient ();

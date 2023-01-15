@@ -184,3 +184,8 @@ Played around with Shaders
   2. change getValue() parameters to only range [0,31] because anything over is out of bounds.
   3. Render z axis starting from top since the way my cube is oritented with (0,0,0) being the left, bottom, away from screen corner.
 * Pics: Sand, FirstWorld
+
+## Jan 15
+* Wrote quick blog post on how to generate voxel terrain using Perlin noise
+  * https://vincenguyen.super.site/blog/blog-posts-1/how-to-generate-voxel-terrain-using-perlin-noise
+* Going to learn fluid dynamics to add water.

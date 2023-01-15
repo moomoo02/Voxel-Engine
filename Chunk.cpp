@@ -194,7 +194,7 @@ void Chunk::setupCube() {
 void Chunk::setupLandscape(double dx, double dy) {
 
   //Noise
-  heightMapBuilder.SetDestSize (32, 32);
+  heightMapBuilder.SetDestSize (CHUNK_SIZE, CHUNK_SIZE);
   heightMapBuilder.SetBounds (dx, dx + CHUNK_SIZE - 1, dy, dy + CHUNK_SIZE - 1);
   heightMapBuilder.Build ();
   rendererImage.Render ();

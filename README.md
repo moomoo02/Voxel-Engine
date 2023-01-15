@@ -84,6 +84,10 @@ Hello, this is where I'm learning OpenGl.  Since I will be always changing the c
             <td valign="bottom">
             <img src="./Memories/Sand.png" width="200"><br>
             Sand.png | Jan 14 2023
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/FirstWorld.gif" width="200"><br>
+            FirstWorld.gif | Jan 14 2023
             </td></tr></table>
 
 # Journal
@@ -179,4 +183,4 @@ Played around with Shaders
   1. change setDstImage to 32 by 32 so each heightmap only has 32 possible values instead of 256*256.
   2. change getValue() parameters to only range [0,31] because anything over is out of bounds.
   3. Render z axis starting from top since the way my cube is oritented with (0,0,0) being the left, bottom, away from screen corner.
-* Pics: Sand
+* Pics: Sand, FirstWorld

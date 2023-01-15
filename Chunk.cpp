@@ -144,21 +144,17 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
 {
     const float CUBE_SIZE = 2.0f / (float)CHUNK_SIZE;
     
-    float offsetX = modelCoord.x + 0.5f, offsetY = modelCoord.y + 0.5, offsetZ = modelCoord.z + 0.5;
-    float offsetXX = -0.5f/CHUNK_SIZE - modelCoord.x, offsetYY = -0.5f/CHUNK_SIZE - modelCoord.y, offsetZZ = -0.5f/CHUNK_SIZE - modelCoord.z;
+    float offsetX = -0.5f/CHUNK_SIZE - modelCoord.x, offsetY = -0.5f/CHUNK_SIZE - modelCoord.y, offsetZ = -0.5f/CHUNK_SIZE - modelCoord.z;
     // std::cout << offsetXX << ' ' << offsetYY<< ' ' << offsetZZ << '\n';
     for(int i = 0; i < cube.size(); i+=6){
-        float x = (cube[i] - offsetX) * CUBE_SIZE;
-        float y = (cube[i + 1] - offsetY) * CUBE_SIZE;
-        float z = (cube[i + 2] - offsetZ) * CUBE_SIZE;
-        float xx = (cube[i]/CHUNK_SIZE - offsetXX);
-        float yy = (cube[i + 1]/CHUNK_SIZE - offsetYY);
-        float zz = (cube[i + 2]/CHUNK_SIZE - offsetZZ);
+        float x = (cube[i]/CHUNK_SIZE - offsetX);
+        float y = (cube[i + 1]/CHUNK_SIZE - offsetY);
+        float z = (cube[i + 2]/CHUNK_SIZE - offsetZ);
         glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];  
         //std::cout << xx << ' ' << yy<< ' ' << zz << '\n';
-        vertices.push_back(xx);
-        vertices.push_back(yy);
-        vertices.push_back(zz);
+        vertices.push_back(x);
+        vertices.push_back(y);
+        vertices.push_back(z);
         vertices.push_back(cube[i+3]);
         vertices.push_back(cube[i+4]);
         vertices.push_back(cube[i+5]);

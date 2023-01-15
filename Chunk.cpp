@@ -49,7 +49,10 @@ std::map<BlockType, glm::vec3> BlockTypeToColorMap =
 {
     {BlockType::BlockType_Default, glm::vec3(0.04f,0.44f,0.15f)},
     {BlockType::BlockType_Grass, glm::vec3(0.04f,0.44f,0.15f)},
-    {BlockType::BlockType_Sand, glm::vec3(0.761f,0.698f,0.502f)}
+    {BlockType::BlockType_Sand, glm::vec3(0.761f,0.698f,0.502f)},
+    {BlockType::BlockType_Stone, glm::vec3(0.5725f,0.5569,0.5216)},
+    {BlockType::BlockType_Ice, glm::vec3(0.2549f,0.9608f,0.9647f)},
+    {BlockType::BlockType_Snow, glm::vec3(1.0f,1.0f,1.0f)}
 };
 
 Chunk::Chunk()
@@ -88,6 +91,12 @@ BlockType Chunk::getBlockTypeFromHeight(int height)
 {
     if(height <= CHUNK_SIZE / 16){
       return BlockType_Sand;
+    }else if(height <= CHUNK_SIZE/4){
+      return BlockType_Grass;
+    }else if(height <= CHUNK_SIZE/2){
+      return BlockType_Stone;
+    }else if(height <= 9*CHUNK_SIZE/10){
+      return BlockType_Snow;
     }
 
     return BlockType_Default;

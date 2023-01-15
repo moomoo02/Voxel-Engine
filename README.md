@@ -175,4 +175,8 @@ Played around with Shaders
 ## Jan 14
 * Fixed chunk not loading correctly (hiddenblocks func) (scaling first then translating)
 * Added sand
+* LETS GOO I FIXED THE TERRAIN GEN.  I had to 
+  1. change setDstImage to 32 by 32 so each heightmap only has 32 possible values instead of 256*256.
+  2. change getValue() parameters to only range [0,31] because anything over is out of bounds.
+  3. Render z axis starting from top since the way my cube is oritented with (0,0,0) being the left, bottom, away from screen corner.
 * Pics: Sand

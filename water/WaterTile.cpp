@@ -1,4 +1,4 @@
-#include "WaterTile.h";
+#include "WaterTile.h"
 
 
 WaterTile::WaterTile(float centerX, float centerZ, float height){

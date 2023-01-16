@@ -147,73 +147,10 @@ int main(){
         -0.5f,  0.5f, -0.5f, 
     };
 
-    //Vertices of a triangle
-    std::vector<float> verticesTexture = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-    // 0.26f,0.74f,0.32f
-    std::vector<float> verticesColor;
-    for(int i = 0; i < 180; i++){
-        if( (i-3) % 5 == 0){
-            verticesColor.push_back(0.26f);
-            verticesColor.push_back(0.74f);
-            verticesColor.push_back(0.32);
-            i += 2;
-        }
-
-        verticesColor.push_back(verticesTexture[i]);
-    }
-
     //Parse shaders, compile, and link
     Shader shaderProgramClass("./Shaders/LightingShader.GLSL");
     Shader lightingShader("./Shaders/LightSourceShader.GLSL");
     lightingShader.use();
-   
-    //Textures
-    // Texture textureClass1("./Textures/Elgato.jpeg", 0);
-    // Texture textureClass2("./Textures/Bocchi2.jpeg", 1);
-    // shaderProgramClass.setInt("texture1", 0);
-    // shaderProgramClass.setInt("texture2", 1);
 
     //Initialize Renderer!
     Renderer renderer;
@@ -256,18 +193,9 @@ int main(){
     float blend = 0.0;
     float fov = 45.0;
     float delay = glfwGetTime();
-    bool randomizeChunk = 0;
 
     glEnable(GL_DEPTH_TEST);  
 
-    // Create a random number generator
-    std::mt19937 rng;
-
-    // Seed the generator with a random seed
-    rng.seed(std::random_device()());
-
-    // Create a distribution that generates numbers between 0 and 240
-    std::uniform_real_distribution<double> dist(0.0, 240.0);
 
     //Render loop
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
@@ -295,12 +223,6 @@ int main(){
         float currentTime = glfwGetTime();
         deltaTime = currentTime - lastFrame;
         lastFrame = currentTime;
-
-        //Switch showCube every 1 second
-        if(currentTime - delay >= 0.4){
-            delay = currentTime;
-            randomizeChunk = 1 - randomizeChunk;
-        }
 
         //Init transformation matrices
         glm::mat4 model = glm::mat4(1.0f);
@@ -334,12 +256,9 @@ int main(){
 
                 //Draw Object
                 model = glm::mat4(1.0f);
-                // model = glm::translate(model, glm::vec3(i * 3.281f,0.0f,j * 3.281f));
-                // model = glm::scale(model, glm::vec3(20,20,20));
+
                 model = glm::scale(model, glm::vec3(20,20,20));
                 model = glm::translate(model, glm::vec3(i ,0.0f,-j));
-                //model = glm::rotate(model, (float)glm::radians(180.0f), glm::vec3(0.0f,1.0f,0.0f));
-                //model = glm::translate(model, glm::vec3(i * chunks[i][j]->CHUNK_SIZE,0,j * chunks[i][j]->CHUNK_SIZE));
                 shaderProgramClass.setMat4("model", model); 
 
                 renderer.draw(VAO, shaderProgramClass);

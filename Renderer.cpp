@@ -8,3 +8,4 @@ void Renderer::draw(const VertexArray& va, Shader& shader) const
     glDrawArrays(GL_TRIANGLES, 0, va.getVBOSize() / va.getVertexSizeBytes()); //mode, starting index, count
 }
 
+

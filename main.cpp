@@ -163,9 +163,9 @@ int main(){
     ImGui::StyleColorsDark();
 
     //Create Vertex Array
-    VertexArray VAO(VertexFormat_Normal_RGB);
+    VertexArray worldVAO(VertexFormat_Normal_RGB);
 
-    //SetUpWorld
+    //Set up world
     const int WORLD_SIZE = 2;
     std::vector<std::vector<std::unique_ptr<Chunk>>> chunks(WORLD_SIZE);
     for(int i = 0; i < WORLD_SIZE; i++){
@@ -174,9 +174,12 @@ int main(){
             std::unique_ptr<Chunk> chunkPtr = std::make_unique<Chunk>();
             chunks[i].push_back(std::move(chunkPtr));
             chunks[i][j]->setupLandscape(chunks[i][j]->CHUNK_SIZE * i, chunks[i][j]->CHUNK_SIZE * j);
-            VAO.createVBO(key, chunks[i][j]->render());
+            worldVAO.createVBO(key, chunks[i][j]->render());
         }
      }
+
+    //Set up water
+    VertexArray waterVAO(VertexFormat_Water);
 
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
@@ -242,7 +245,7 @@ int main(){
         renderer.draw(lightVAO, lightingShader);
 
         //GenerateWorld
-        VAO.bind();
+        worldVAO.bind();
         shaderProgramClass.use();
         shaderProgramClass.setMat4("view", view);
         shaderProgramClass.setMat4("projection", projection);
@@ -252,7 +255,7 @@ int main(){
         for(int i = 0; i < WORLD_SIZE; i++){
             for(int j = 0; j < WORLD_SIZE; j++){
                 std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
-                VAO.bindVBO(key);
+                worldVAO.bindVBO(key);
 
                 //Draw Object
                 model = glm::mat4(1.0f);
@@ -261,7 +264,7 @@ int main(){
                 model = glm::translate(model, glm::vec3(i ,0.0f,-j));
                 shaderProgramClass.setMat4("model", model); 
 
-                renderer.draw(VAO, shaderProgramClass);
+                renderer.draw(worldVAO, shaderProgramClass);
             }
         }
 

@@ -189,3 +189,6 @@ Played around with Shaders
 * Wrote quick blog post on how to generate voxel terrain using Perlin noise
   * https://vincenguyen.super.site/blog/blog-posts-1/how-to-generate-voxel-terrain-using-perlin-noise
 * Going to learn fluid dynamics to add water.
+
+## Jan 16
+* Looked into Cellular Automata, Game of Life, fluid simulation

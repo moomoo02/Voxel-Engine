@@ -148,7 +148,7 @@ int main(){
     };
 
     //Parse shaders, compile, and link
-    Shader shaderProgramClass("./Shaders/LightingShader.GLSL");
+    Shader worldShader("./Shaders/LightingShader.GLSL");
     Shader lightingShader("./Shaders/LightSourceShader.GLSL");
     lightingShader.use();
 
@@ -166,20 +166,23 @@ int main(){
     VertexArray worldVAO(VertexFormat_Normal_RGB);
 
     //Set up world
-    const int WORLD_SIZE = 2;
+    const int WORLD_SIZE = 5;
     std::vector<std::vector<std::unique_ptr<Chunk>>> chunks(WORLD_SIZE);
     for(int i = 0; i < WORLD_SIZE; i++){
         for(int j = 0; j < WORLD_SIZE; j++){
             std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
             std::unique_ptr<Chunk> chunkPtr = std::make_unique<Chunk>();
             chunks[i].push_back(std::move(chunkPtr));
-            chunks[i][j]->setupLandscape(chunks[i][j]->CHUNK_SIZE * i, chunks[i][j]->CHUNK_SIZE * j);
+            chunks[i][j]->setupLandscape(chunks[i][j]->CHUNK_SIZE * (i+2), chunks[i][j]->CHUNK_SIZE * (j+2));
             worldVAO.createVBO(key, chunks[i][j]->render());
         }
      }
 
     //Set up water
     VertexArray waterVAO(VertexFormat_Water);
+    waterVAO.createVBO("water", { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 });
+
+    Shader waterShader("./Shaders/WaterShader.GLSL");
 
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
@@ -196,7 +199,7 @@ int main(){
     float blend = 0.0;
     float fov = 45.0;
     float delay = glfwGetTime();
-
+    glm::vec3 waterPos(0.0f,0.0f,0.0f);
     glEnable(GL_DEPTH_TEST);  
 
 
@@ -213,6 +216,7 @@ int main(){
             ImGui::SliderFloat("Blend", &blend, 0.0f, 1.0f);
             ImGui::SliderFloat("FOV", &fov, 0.0f, 180.0f);
             ImGui::SliderFloat3("Light Position", glm::value_ptr(lightPos), -2.0f, 2.0f);
+            ImGui::SliderFloat3("Water Position", glm::value_ptr(waterPos), -10.0f, 10.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         }   
         //Input
@@ -246,12 +250,12 @@ int main(){
 
         //GenerateWorld
         worldVAO.bind();
-        shaderProgramClass.use();
-        shaderProgramClass.setMat4("view", view);
-        shaderProgramClass.setMat4("projection", projection);
-        shaderProgramClass.setVec3("lightPos", lightPos);  
-        shaderProgramClass.setVec3("lightColor",  lightColor);
-        shaderProgramClass.setVec3("viewPos", camera.Position);
+        worldShader.use();
+        worldShader.setMat4("view", view);
+        worldShader.setMat4("projection", projection);
+        worldShader.setVec3("lightPos", lightPos);  
+        worldShader.setVec3("lightColor",  lightColor);
+        worldShader.setVec3("viewPos", camera.Position);
         for(int i = 0; i < WORLD_SIZE; i++){
             for(int j = 0; j < WORLD_SIZE; j++){
                 std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
@@ -262,13 +266,25 @@ int main(){
 
                 model = glm::scale(model, glm::vec3(20,20,20));
                 model = glm::translate(model, glm::vec3(i ,0.0f,-j));
-                shaderProgramClass.setMat4("model", model); 
+                worldShader.setMat4("model", model); 
 
-                renderer.draw(worldVAO, shaderProgramClass);
+                renderer.draw(worldVAO, worldShader);
             }
         }
 
-        //shaderProgramClass.setFloat("blend", blend);
+        //Render water
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, waterPos);
+        model = glm::scale(model, glm::vec3(50.0f,0.0f,50.0f));
+        waterVAO.bind();
+        waterShader.use();
+        waterShader.setMat4("view", view);
+        waterShader.setMat4("projection", projection);
+        waterShader.setMat4("model", model);
+        waterVAO.bindVBO("water");
+        renderer.draw(waterVAO, waterShader);
+
+        //worldShader.setFloat("blend", blend);
 
         //Rendering
         ImGui::Render();
@@ -308,11 +324,11 @@ void processInput(GLFWwindow *window)
 
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS){
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-        //glfwSetCursorPosCallback(window, NULL); 
+        camera.setGuiMode(true);
     }
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS){
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetCursorPosCallback(window, mouse_callback);    
+        camera.setGuiMode(false);    
     }
 }
 

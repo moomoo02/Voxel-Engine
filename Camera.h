@@ -40,6 +40,8 @@ public:
     float MovementSpeed;
     float MouseSensitivity;
     float Zoom;
+    //State
+    bool GuiMode;
 
     // constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -48,6 +50,7 @@ public:
         WorldUp = up;
         Yaw = yaw;
         Pitch = pitch;
+        GuiMode = 0;
         updateCameraVectors();
     }
     // constructor with scalar values
@@ -69,6 +72,9 @@ public:
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
     void ProcessKeyboard(Camera_Movement direction, float deltaTime)
     {
+        //Dont update camera vectors if in gui mode
+        if(GuiMode) return;
+
         float velocity = MovementSpeed * deltaTime;
         if (direction == FORWARD)
             Position += Front * velocity;
@@ -112,10 +118,18 @@ public:
             Zoom = 45.0f;
     }
 
+    //Sets gui mode
+    void setGuiMode(bool state){
+        GuiMode = state;
+    }
+
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors()
     {
+        //Dont update camera vectors if in gui mode
+        if(GuiMode) return;
+
         // calculate the new Front vector
         glm::vec3 front;
         front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));

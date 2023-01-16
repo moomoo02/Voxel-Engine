@@ -36,7 +36,7 @@ public:
     //Edits VBO Object
     void editVBO(std::string key, std::vector<float> vertices);
 
-    //Binds Vertices to VAO
+    //Binds Vertex buffer object to VAO
     void bindVBO(std::string key) const;
 };
 

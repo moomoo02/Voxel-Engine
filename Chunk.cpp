@@ -93,17 +93,16 @@ void Chunk::setupHeightMap(){
 
 BlockType Chunk::getBlockTypeFromHeight(int height)
 {
-    if(height <= CHUNK_SIZE / 16){
+    if(height <= 3 * CHUNK_SIZE / 10){
       return BlockType_Sand;
-    }else if(height <= CHUNK_SIZE/4){
+    }else if(height <= 5* CHUNK_SIZE/10){
       return BlockType_Grass;
-    }else if(height <= CHUNK_SIZE/2){
-      return BlockType_Stone;
     }else if(height <= 9*CHUNK_SIZE/10){
-      return BlockType_Snow;
+      return BlockType_Stone;
     }
-
-    return BlockType_Default;
+      
+    return BlockType_Snow;
+    
 }
 
 Chunk::~Chunk()
@@ -224,7 +223,7 @@ void Chunk::setupLandscape(double dx, double dy) {
       // Use the noise library to get the height value of x, z                      
       // Use the height map texture to get the height value of x, z  
       //float height = std::min((float)CHUNK_SIZE,(heightMap.GetValue(x + dx, z + dy) * (CHUNK_SIZE/2.0f) * 1.0f)); 
-      float height = std::min((float)CHUNK_SIZE,((heightMap.GetValue(x,CHUNK_SIZE - 1 - z)+0.1f) * (CHUNK_SIZE/2.0f) * 1.0f));
+      float height = std::min((float)CHUNK_SIZE,((heightMap.GetValue(x,CHUNK_SIZE - 1 - z)+1.0f) * (CHUNK_SIZE/2.0f) * 1.0f));
       for (int y = 0; y < height; y++) {
         pBlocks[x][y][z].setActive(true);
         pBlocks[x][y][z].setBlockType(getBlockTypeFromHeight((int)y));

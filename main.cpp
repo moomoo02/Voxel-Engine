@@ -188,7 +188,7 @@ int main(){
     VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
     lightVAO.bindVBO("Light");
-    glm::vec3 lightPos(2.0f, 4.0f, -5.0f);
+    glm::vec3 lightPos(10.0f, 10.0f, -10.0f);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
     
     // Setup Platform/Renderer backends
@@ -199,7 +199,7 @@ int main(){
     float blend = 0.0;
     float fov = 45.0;
     float delay = glfwGetTime();
-    glm::vec3 waterPos(0.8f,-10.0f,-0.8f);
+    glm::vec3 waterPos(0.8f,-5.9f,-0.8f);
     glEnable(GL_DEPTH_TEST);  
 
 

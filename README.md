@@ -88,6 +88,10 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <td valign="bottom">
             <img src="./Memories/FirstWorld.gif" width="200"><br>
             FirstWorld.gif | Jan 14 2023
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/SimpleWater.png" width="200"><br>
+            SimpleWater.png | Jan 16 2023
             </td></tr></table>
 
 # Journal

@@ -199,7 +199,7 @@ int main(){
     float blend = 0.0;
     float fov = 45.0;
     float delay = glfwGetTime();
-    glm::vec3 waterPos(0.0f,0.0f,0.0f);
+    glm::vec3 waterPos(0.8f,-10.0f,-0.8f);
     glEnable(GL_DEPTH_TEST);  
 
 
@@ -216,7 +216,7 @@ int main(){
             ImGui::SliderFloat("Blend", &blend, 0.0f, 1.0f);
             ImGui::SliderFloat("FOV", &fov, 0.0f, 180.0f);
             ImGui::SliderFloat3("Light Position", glm::value_ptr(lightPos), -2.0f, 2.0f);
-            ImGui::SliderFloat3("Water Position", glm::value_ptr(waterPos), -10.0f, 10.0f);
+            ImGui::SliderFloat3("Water Position", glm::value_ptr(waterPos), -2.0f, 2.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         }   
         //Input
@@ -274,8 +274,9 @@ int main(){
 
         //Render water
         model = glm::mat4(1.0f);
+        model = glm::scale(model, glm::vec3(50.0f,1.0f,50.0f));
         model = glm::translate(model, waterPos);
-        model = glm::scale(model, glm::vec3(50.0f,0.0f,50.0f));
+
         waterVAO.bind();
         waterShader.use();
         waterShader.setMat4("view", view);

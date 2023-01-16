@@ -13,7 +13,6 @@
 #include "VertexArray.h"
 #include "Renderer.h"
 #include "Chunk.h" 
-#include "World.h"
 
 #include <noise/noise.h>
 #include "noiseutils.h"
@@ -209,8 +208,7 @@ int main(){
     Shader shaderProgramClass("./Shaders/LightingShader.GLSL");
     Shader lightingShader("./Shaders/LightSourceShader.GLSL");
     lightingShader.use();
-    //lightingShader.setVec3("lightColor",  glm::vec3(1.0f, 1.0f, 1.0f));
-
+   
     //Textures
     // Texture textureClass1("./Textures/Elgato.jpeg", 0);
     // Texture textureClass2("./Textures/Bocchi2.jpeg", 1);
@@ -226,13 +224,12 @@ int main(){
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
 
     //Create Vertex Array
     VertexArray VAO(VertexFormat_Normal_RGB);
 
     //SetUpWorld
-    const int WORLD_SIZE = 16;
+    const int WORLD_SIZE = 2;
     std::vector<std::vector<std::unique_ptr<Chunk>>> chunks(WORLD_SIZE);
     for(int i = 0; i < WORLD_SIZE; i++){
         for(int j = 0; j < WORLD_SIZE; j++){

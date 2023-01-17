@@ -196,3 +196,8 @@ Played around with Shaders
 
 ## Jan 16
 * Looked into Cellular Automata, Game of Life, fluid simulation
+* pics: SimpleWater
+  
+## Jan 17
+* Added water renderer and water shader class.
+* Encountered a bug where VBO id was not founded.  I realized I failed to set the corresponding VAO correctly.

@@ -1,0 +1,4 @@
+class WaterRenderer {
+    Shader shader;
+    
+}

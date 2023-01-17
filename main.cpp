@@ -13,6 +13,7 @@
 #include "VertexArray.h"
 #include "Renderer.h"
 #include "Chunk.h" 
+#include "water/WaterShader.h"
 
 #include <noise/noise.h>
 #include "noiseutils.h"
@@ -182,7 +183,7 @@ int main(){
     VertexArray waterVAO(VertexFormat_Water);
     waterVAO.createVBO("water", { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 });
 
-    Shader waterShader("./Shaders/WaterShader.GLSL");
+    WaterShader waterShader;
 
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
@@ -279,9 +280,9 @@ int main(){
 
         waterVAO.bind();
         waterShader.use();
-        waterShader.setMat4("view", view);
-        waterShader.setMat4("projection", projection);
-        waterShader.setMat4("model", model);
+        waterShader.loadViewMatrix(view);        
+        waterShader.loadProjectionMatrix(projection);
+        waterShader.loadModelMatrix(model);
         waterVAO.bindVBO("water");
         renderer.draw(waterVAO, waterShader);
 

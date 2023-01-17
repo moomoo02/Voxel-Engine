@@ -34,7 +34,6 @@ public:
     void setFloat(const std::string &name, float value) const;
     void setMat4(const std::string &name, glm::mat4 matrix) const;
     void setVec3(const std::string &name, glm::vec3 vec3) const;
-
 };
   
 #endif

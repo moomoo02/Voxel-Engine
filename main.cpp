@@ -273,20 +273,8 @@ int main(){
             }
         }
 
-        //Render water
-        model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(50.0f,1.0f,50.0f));
-        model = glm::translate(model, waterPos);
 
-        // waterVAO.bind();
-        // waterShader.use();
-        // waterShader.loadViewMatrix(view);        
-        // waterShader.loadProjectionMatrix(projection);
-        // waterShader.loadModelMatrix(model);
-        // waterVAO.bindVBO("water");
-        // renderer.draw(waterVAO, waterShader);
         waterRenderer.render(water, view, projection);
-        //worldShader.setFloat("blend", blend);
 
         //Rendering
         ImGui::Render();

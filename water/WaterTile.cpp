@@ -1,7 +1,7 @@
 #include "WaterTile.h"
 
 
-WaterTile::WaterTile(float centerX, float centerZ, float height){
+WaterTile::WaterTile(float centerX, float height, float centerZ){
     this->x = centerX;
     this->z = centerZ;
     this->height = height;

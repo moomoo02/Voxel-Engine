@@ -1,3 +1,6 @@
+#ifndef __WATERSHADER_H__
+#define __WATERSHADER_H__
+
 #include "../Shader.h"
 #include <string>
 
@@ -21,3 +24,5 @@ public:
         setMat4("model", model);
     }
 };
+
+#endif // __WATERSHADER_H__

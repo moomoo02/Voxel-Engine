@@ -28,6 +28,7 @@ public:
     Shader(const std::string filePath);
     // use/activate the shader
     void use();
+    // Stop using Shader
     // utility uniform functions
     void setBool(const std::string &name, bool value) const;  
     void setInt(const std::string &name, int value) const;   

@@ -13,7 +13,7 @@
 #include "VertexArray.h"
 #include "Renderer.h"
 #include "Chunk.h" 
-#include "water/WaterShader.h"
+#include "water/WaterRenderer.h"
 
 #include <noise/noise.h>
 #include "noiseutils.h"
@@ -180,10 +180,10 @@ int main(){
      }
 
     //Set up water
-    VertexArray waterVAO(VertexFormat_Water);
-    waterVAO.createVBO("water", { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 });
-
     WaterShader waterShader;
+    WaterRenderer waterRenderer(waterShader);
+    std::vector<WaterTile> water;
+    water.push_back(WaterTile(0.8f,-5.9f,-0.8f));
 
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
@@ -278,14 +278,14 @@ int main(){
         model = glm::scale(model, glm::vec3(50.0f,1.0f,50.0f));
         model = glm::translate(model, waterPos);
 
-        waterVAO.bind();
-        waterShader.use();
-        waterShader.loadViewMatrix(view);        
-        waterShader.loadProjectionMatrix(projection);
-        waterShader.loadModelMatrix(model);
-        waterVAO.bindVBO("water");
-        renderer.draw(waterVAO, waterShader);
-
+        // waterVAO.bind();
+        // waterShader.use();
+        // waterShader.loadViewMatrix(view);        
+        // waterShader.loadProjectionMatrix(projection);
+        // waterShader.loadModelMatrix(model);
+        // waterVAO.bindVBO("water");
+        // renderer.draw(waterVAO, waterShader);
+        waterRenderer.render(water, view, projection);
         //worldShader.setFloat("blend", blend);
 
         //Rendering

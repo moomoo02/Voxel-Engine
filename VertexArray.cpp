@@ -6,6 +6,7 @@ VertexArray::VertexArray()
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     vf = VertexFormat_Default;
+
 }
 
 VertexArray::VertexArray(VertexFormat vertexformat)

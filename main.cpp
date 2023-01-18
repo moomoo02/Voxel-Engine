@@ -14,6 +14,7 @@
 #include "Renderer.h"
 #include "Chunk.h" 
 #include "water/WaterRenderer.h"
+#include "water/WaterFrameBuffer.h"
 
 #include <noise/noise.h>
 #include "noiseutils.h"
@@ -184,6 +185,9 @@ int main(){
     WaterRenderer waterRenderer(waterShader);
     std::vector<WaterTile> water;
     water.push_back(WaterTile(0.8f,-5.9f,-0.8f));
+
+    //Set up Frame Buffer Object
+    WaterFrameBuffer fbos;
 
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);

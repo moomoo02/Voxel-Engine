@@ -14,7 +14,7 @@
 #include "Renderer.h"
 #include "Chunk.h" 
 #include "water/WaterRenderer.h"
-#include "water/WaterFrameBuffer.h"
+#include "water/WaterFrameBuffers.h"
 
 #include <noise/noise.h>
 #include "noiseutils.h"
@@ -187,7 +187,7 @@ int main(){
     water.push_back(WaterTile(0.8f,-5.9f,-0.8f));
 
     //Set up Frame Buffer Object
-    WaterFrameBuffer fbos;
+    WaterFrameBuffers fbos;
 
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
@@ -224,6 +224,7 @@ int main(){
             ImGui::SliderFloat3("Water Position", glm::value_ptr(waterPos), -2.0f, 2.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         }   
+
         //Input
         processInput(window);
 
@@ -253,6 +254,26 @@ int main(){
         lightVAO.bindVBO("Light");
         renderer.draw(lightVAO, lightingShader);
 
+
+        //Render for fbo
+        fbos.bindReflectionFrameBuffer();
+        for(int i = 0; i < WORLD_SIZE; i++){
+            for(int j = 0; j < WORLD_SIZE; j++){
+                std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
+                worldVAO.bindVBO(key);
+
+                //Draw Object
+                model = glm::mat4(1.0f);
+
+                model = glm::scale(model, glm::vec3(20,20,20));
+                model = glm::translate(model, glm::vec3(i ,0.0f,-j));
+                worldShader.setMat4("model", model); 
+
+                renderer.draw(worldVAO, worldShader);
+            }
+        }
+        fbos.unbindCurrentFrameBuffer();
+
         //GenerateWorld
         worldVAO.bind();
         worldShader.use();
@@ -278,6 +299,7 @@ int main(){
         }
 
 
+        //Render Water
         waterRenderer.render(water, view, projection);
 
         //Rendering

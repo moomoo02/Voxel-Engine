@@ -70,7 +70,7 @@ static unsigned int compileAndLinkShaders(ShaderProgramSource shaderSource){
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if(!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::LINKING_FAILED\n" << infoLog << std::endl;
+        std::cout << "ERROR::SHADER::LINKING_FAILED\n" << infoLog << std::endl;
     }
 
     //Shaders will now be used, can delete

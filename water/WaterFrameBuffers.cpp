@@ -1,10 +1,11 @@
 #include "WaterFrameBuffers.h"
-
+#include <iostream>
 
 void WaterFrameBuffers::initialiseReflectionFrameBuffer() {
 	reflectionFrameBuffer = createFrameBuffer();
 	reflectionTexture = createTextureAttachment(REFLECTION_WIDTH,REFLECTION_HEIGHT);
-	reflectionDepthBuffer = createDepthBufferAttachment(REFLECTION_WIDTH,REFLECTION_HEIGHT);		
+	reflectionDepthBuffer = createDepthBufferAttachment(REFLECTION_WIDTH,REFLECTION_HEIGHT);	
+    std::cout << reflectionFrameBuffer << ' '<< reflectionTexture << ' ' << reflectionDepthBuffer << '\n';	
     unbindCurrentFrameBuffer();
 }
 
@@ -33,7 +34,7 @@ void WaterFrameBuffers::bindRefractionFrameBuffer()
 
 void WaterFrameBuffers::unbindCurrentFrameBuffer()
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); //back to default frame buffer
 	glViewport(0, 0, 1600, 1200);
 }
 
@@ -59,6 +60,7 @@ int WaterFrameBuffers::createTextureAttachment(int width, int height)
 {
 	unsigned int texture;
     glGenTextures(1, &texture);
+    //glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -71,6 +73,7 @@ int WaterFrameBuffers::createDepthTextureAttachment(int width, int height)
 {
     unsigned int texture;
     glGenTextures(1, &texture);
+    //glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -91,6 +94,11 @@ int WaterFrameBuffers::createDepthBufferAttachment(int width, int height)
 
 void WaterFrameBuffers::bindFrameBuffer(int frameBuffer, int width, int height){
     glBindTexture(GL_TEXTURE_2D, 0); //To make sure the texture isn't bound
+    
+    // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl; 
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
     glViewport(0, 0, width, height);
 }

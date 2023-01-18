@@ -149,7 +149,7 @@ std::vector<float> Chunk::render()
         }
     }
     
-    std::cout << count << " Rendered\n";
+    // std::cout << count << " Rendered\n";
     //Bind a Vertex Buffer Object
     return vertices;
 }

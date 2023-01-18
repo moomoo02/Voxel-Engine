@@ -149,6 +149,49 @@ int main(){
         -0.5f,  0.5f, -0.5f, 
     };
 
+    std::vector<float> cubeTexture = {
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+    -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+
+     0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
     //Parse shaders, compile, and link
     Shader worldShader("./Shaders/LightingShader.GLSL");
     Shader lightingShader("./Shaders/LightSourceShader.GLSL");
@@ -189,6 +232,12 @@ int main(){
     //Set up Frame Buffer Object
     WaterFrameBuffers fbos;
 
+    //Setup a test cube
+    VertexArray tv(VertexFormat_Texture);
+    tv.createVBO("tv", cubeTexture);
+    Shader textureShader("./Shaders/TextureShader.GLSL");
+
+
     //Lighting
     VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
@@ -207,7 +256,7 @@ int main(){
     glm::vec3 waterPos(0.8f,-5.9f,-0.8f);
     glEnable(GL_DEPTH_TEST);  
 
-
+    //Texture text1("./Textures/Bocchi2.jpeg", 0);
     //Render loop
     while(!glfwWindowShouldClose(window)) //Checks if GLFW has been instructed to close
     {   
@@ -243,20 +292,15 @@ int main(){
         glm::mat4 projection = glm::mat4(1.0f);
         projection = glm::perspective(glm::radians(camera.Zoom), 800.0f / 600.0f, 0.1f, 200.0f);
 
-        //Render Lighting
-        lightingShader.use();
-        lightVAO.bind();
-        model = glm::translate(model, lightPos);
-        model = glm::scale(model, glm::vec3(0.2f)); 
-        lightingShader.setMat4("model", model);
-        lightingShader.setMat4("view", view);
-        lightingShader.setMat4("projection", projection);
-        lightVAO.bindVBO("Light");
-        renderer.draw(lightVAO, lightingShader);
-
-
         //Render for fbo
         fbos.bindReflectionFrameBuffer();
+        worldVAO.bind();
+        worldShader.use();
+        worldShader.setMat4("view", view);
+        worldShader.setMat4("projection", projection);
+        worldShader.setVec3("lightPos", lightPos);  
+        worldShader.setVec3("lightColor",  lightColor);
+        worldShader.setVec3("viewPos", camera.Position);
         for(int i = 0; i < WORLD_SIZE; i++){
             for(int j = 0; j < WORLD_SIZE; j++){
                 std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
@@ -273,6 +317,33 @@ int main(){
             }
         }
         fbos.unbindCurrentFrameBuffer();
+
+
+        //Render Lighting
+        lightingShader.use();
+        lightVAO.bind();
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(0.2f)); 
+        lightingShader.setMat4("model", model);
+        lightingShader.setMat4("view", view);
+        lightingShader.setMat4("projection", projection);
+        lightVAO.bindVBO("Light");
+        renderer.draw(lightVAO, lightingShader);
+
+        //Render big tv screen
+        tv.bind();
+        textureShader.use();
+        model = glm::mat4(1.0f);
+        model = glm::scale(model, glm::vec3(20.0f));
+        model = glm::translate(model, glm::vec3(1.6f,1.0f,-1.6f)); 
+        textureShader.setMat4("model", model);
+        textureShader.setMat4("view", view);
+        textureShader.setMat4("projection", projection);
+        glBindTexture(GL_TEXTURE_2D, fbos.getReflectionTexture());
+        // glActiveTexture(GL_TEXTURE0);
+        // textureShader.setInt("texture1", 0);
+        tv.bindVBO("tv");
+        renderer.draw(tv, textureShader);
 
         //GenerateWorld
         worldVAO.bind();

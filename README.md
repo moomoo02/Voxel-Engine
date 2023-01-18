@@ -92,6 +92,10 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <td valign="bottom">
             <img src="./Memories/SimpleWater.png" width="200"><br>
             SimpleWater.png | Jan 16 2023
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/FrameBuffer.gif" width="200"><br>
+            FrameBuffer.gif | Jan 18 2023
             </td></tr></table>
 
 # Journal
@@ -201,3 +205,8 @@ Played around with Shaders
 ## Jan 17
 * Added water renderer and water shader class.
 * Encountered a bug where VBO id was not founded.  I realized I failed to set the corresponding VAO correctly.
+
+## Jan 18
+* Finished testing out frame buffer object
+  * Realized that I needed to reset the buffers within frame buffer object.
+* Pics: FrameBuffer

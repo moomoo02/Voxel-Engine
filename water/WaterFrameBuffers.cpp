@@ -94,12 +94,12 @@ int WaterFrameBuffers::createDepthBufferAttachment(int width, int height)
 
 void WaterFrameBuffers::bindFrameBuffer(int frameBuffer, int width, int height){
     glBindTexture(GL_TEXTURE_2D, 0); //To make sure the texture isn't bound
-    
-    // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl; 
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, width, height);
 }
 

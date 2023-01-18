@@ -316,6 +316,7 @@ int main(){
                 renderer.draw(worldVAO, worldShader);
             }
         }
+        waterRenderer.render(water, view, projection);
         fbos.unbindCurrentFrameBuffer();
 
 
@@ -340,19 +341,12 @@ int main(){
         textureShader.setMat4("view", view);
         textureShader.setMat4("projection", projection);
         glBindTexture(GL_TEXTURE_2D, fbos.getReflectionTexture());
-        // glActiveTexture(GL_TEXTURE0);
-        // textureShader.setInt("texture1", 0);
         tv.bindVBO("tv");
         renderer.draw(tv, textureShader);
 
         //GenerateWorld
         worldVAO.bind();
         worldShader.use();
-        worldShader.setMat4("view", view);
-        worldShader.setMat4("projection", projection);
-        worldShader.setVec3("lightPos", lightPos);  
-        worldShader.setVec3("lightColor",  lightColor);
-        worldShader.setVec3("viewPos", camera.Position);
         for(int i = 0; i < WORLD_SIZE; i++){
             for(int j = 0; j < WORLD_SIZE; j++){
                 std::string key = "Chunk" + std::to_string(i) + std::to_string(j);

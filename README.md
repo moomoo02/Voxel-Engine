@@ -104,6 +104,10 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <td valign="bottom">
             <img src="./Memories/UglyWater.gif" width="200"><br>
             UglyWater.gif | Jan 19 2023
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/AverageWater.gif" width="200"><br>
+            AverageWater.gif | Jan 19 2023
             </td></tr></table>
 
 # Journal
@@ -223,4 +227,6 @@ Played around with Shaders
 
 ## Jan 19
 * Combined both textures onto the water.  IT LOOKS SO BADD
-* Pics: UglyWater
+* Used projective mapping (converted texture coords from clipspace to normalized device coords so the textures line up)
+  * Sources: https://antongerdelan.net/opengl/raycasting.html#:~:text=Overview,is%20usually%20called%20ray%20casting.  The 3d transformation pipeline graphic helped me alot.
+* Pics: UglyWater, AverageWater

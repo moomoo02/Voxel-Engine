@@ -214,4 +214,5 @@ Played around with Shaders
 * Finished testing out frame buffer object
   * Realized that I needed to reset the buffers within frame buffer object.
 * Struggled with getting the refraction texture to work.  Turns out, both reflection and refraction fbos were equal to 1 because my function, createFrameBuffer() did not have a return...
+* Learned how to use clipping planes in vertex shaders.  Specify a clipping plane with (normal.x, normal.y, normal.z, dist from origin)
 * Pics: FrameBuffer, ReflectRefract

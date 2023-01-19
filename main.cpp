@@ -305,7 +305,13 @@ int main(){
 
         //Render for fbo
         fbos.bindReflectionFrameBuffer();
-        renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,1,0, 5.9));
+        float distance = 2 * (camera.Position.y + 5.9);
+        camera.Position.y -= distance;
+        camera.invertPitch();
+        glm::mat4 reflectionView = camera.GetViewMatrix();
+        renderWorld(worldVAO, worldShader, renderer, model, reflectionView, projection, glm::vec4(0,1,0, 5.9));
+        camera.Position.y += distance;
+        camera.invertPitch();
         fbos.bindRefractionFrameBuffer();
         renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,-1,0,-5.9));
         fbos.unbindCurrentFrameBuffer();
@@ -348,6 +354,7 @@ int main(){
         renderer.draw(tv, textureShader);
 
         //GenerateWorld
+        glDisable(GL_CLIP_DISTANCE0);
         renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,1,0,100000));
 
         //Render Water

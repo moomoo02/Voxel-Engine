@@ -123,6 +123,11 @@ public:
         GuiMode = state;
     }
 
+    void invertPitch(){
+        Pitch = -Pitch;
+        updateCameraVectors();
+    }
+
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors()

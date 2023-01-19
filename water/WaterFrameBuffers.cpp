@@ -5,7 +5,6 @@ void WaterFrameBuffers::initialiseReflectionFrameBuffer() {
 	reflectionFrameBuffer = createFrameBuffer();
 	reflectionTexture = createTextureAttachment(REFLECTION_WIDTH,REFLECTION_HEIGHT);
 	reflectionDepthBuffer = createDepthBufferAttachment(REFLECTION_WIDTH,REFLECTION_HEIGHT);	
-    std::cout << reflectionFrameBuffer << ' '<< reflectionTexture << ' ' << reflectionDepthBuffer << '\n';	
     unbindCurrentFrameBuffer();
 }
 

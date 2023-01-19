@@ -280,8 +280,11 @@ int main(){
         //Clear Color Buffer
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        //Enable Clipping Plane
+        glEnable(GL_CLIP_DISTANCE0);
 
-        //GLM Math
+        //Find time calculations for camera
         float currentTime = glfwGetTime();
         deltaTime = currentTime - lastFrame;
         lastFrame = currentTime;
@@ -296,6 +299,7 @@ int main(){
         fbos.bindReflectionFrameBuffer();
         worldVAO.bind();
         worldShader.use();
+        worldShader.setVec4("plane", glm::vec4(0,-1,0,0));
         worldShader.setMat4("view", view);
         worldShader.setMat4("projection", projection);
         worldShader.setVec3("lightPos", lightPos);  

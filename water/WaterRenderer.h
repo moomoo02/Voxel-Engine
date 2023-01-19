@@ -13,7 +13,7 @@
 #include <GLFW/glfw3.h>
 
 class WaterRenderer  : public Renderer {
-    static constexpr float WAVE_SPEED = 0.03f;
+    static constexpr float WAVE_SPEED = 0.05f;
     float moveFactor = 0.0f;
 
     WaterShader shader;

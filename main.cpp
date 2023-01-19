@@ -234,13 +234,11 @@ int main(){
      }
 
     //Set up water
+    WaterFrameBuffers fbos;
     WaterShader waterShader;
-    WaterRenderer waterRenderer(waterShader);
+    WaterRenderer waterRenderer(waterShader, fbos);
     std::vector<WaterTile> water;
     water.push_back(WaterTile(0.8f,-5.9f,-0.8f));
-
-    //Set up Frame Buffer Object
-    WaterFrameBuffers fbos;
 
     //Setup a test cube
     VertexArray tv(VertexFormat_Texture);
@@ -328,30 +326,30 @@ int main(){
         renderer.draw(lightVAO, lightingShader);
 
         //Render big tv screen
-        tv.bind();
-        textureShader.use();
-        model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(20.0f));
-        model = glm::translate(model, glm::vec3(1.6f,1.0f,-1.6f)); 
-        textureShader.setMat4("model", model);
-        textureShader.setMat4("view", view);
-        textureShader.setMat4("projection", projection);
-        glBindTexture(GL_TEXTURE_2D, fbos.getReflectionTexture());
-        tv.bindVBO("tv");
-        renderer.draw(tv, textureShader);
+        // tv.bind();
+        // textureShader.use();
+        // model = glm::mat4(1.0f);
+        // model = glm::scale(model, glm::vec3(20.0f));
+        // model = glm::translate(model, glm::vec3(1.6f,1.0f,-1.6f)); 
+        // textureShader.setMat4("model", model);
+        // textureShader.setMat4("view", view);
+        // textureShader.setMat4("projection", projection);
+        // glBindTexture(GL_TEXTURE_2D, fbos.getReflectionTexture());
+        // tv.bindVBO("tv");
+        // renderer.draw(tv, textureShader);
 
-        //Render big tv screen
-        tv.bind();
-        textureShader.use();
-        model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(20.0f));
-        model = glm::translate(model, glm::vec3(3.0f,1.0f,-1.6f)); 
-        textureShader.setMat4("model", model);
-        textureShader.setMat4("view", view);
-        textureShader.setMat4("projection", projection);
-        glBindTexture(GL_TEXTURE_2D, fbos.getRefractionTexture());
-        tv.bindVBO("tv");
-        renderer.draw(tv, textureShader);
+        // //Render big tv screen
+        // tv.bind();
+        // textureShader.use();
+        // model = glm::mat4(1.0f);
+        // model = glm::scale(model, glm::vec3(20.0f));
+        // model = glm::translate(model, glm::vec3(3.0f,1.0f,-1.6f)); 
+        // textureShader.setMat4("model", model);
+        // textureShader.setMat4("view", view);
+        // textureShader.setMat4("projection", projection);
+        // glBindTexture(GL_TEXTURE_2D, fbos.getRefractionTexture());
+        // tv.bindVBO("tv");
+        // renderer.draw(tv, textureShader);
 
         //GenerateWorld
         glDisable(GL_CLIP_DISTANCE0);

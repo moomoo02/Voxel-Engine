@@ -23,6 +23,11 @@ public:
     void loadModelMatrix(glm::mat4 model){
         setMat4("model", model);
     }
+
+    void connectTextureUnits(){
+        setInt("reflectionTexture", 0);
+        setInt("refractionTexture", 1);
+    }
 };
 
 #endif // __WATERSHADER_H__

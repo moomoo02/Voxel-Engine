@@ -19,12 +19,15 @@ void main(void)
 #version 400 core
 
 in vec2 textureCoords;
-
+uniform sampler2D reflectionTexture;
+uniform sampler2D refractionTexture;
 out vec4 out_Color;
 
 
 void main(void) {
+	vec4 reflectColor = texture(reflectionTexture, textureCoords);
+	vec4 refractColor = texture(refractionTexture, textureCoords);
 
-	out_Color = vec4(0.0, 0.0, 1.0, 1.0);
+	out_Color = mix(reflectColor, refractColor, 0.5);
 
 }

@@ -110,4 +110,5 @@ Played around with Shaders
 ## Jan 18
 * Finished testing out frame buffer object
   * Realized that I needed to reset the buffers within frame buffer object.
-* Pics: FrameBuffer
+* Struggled with getting the refraction texture to work.  Turns out, both reflection and refraction fbos were equal to 1 because my function, createFrameBuffer() did not have a return...
+* Pics: FrameBuffer, ReflectRefract

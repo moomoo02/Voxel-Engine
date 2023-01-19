@@ -37,6 +37,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 void processInput(GLFWwindow *window);
 
+void renderWorld(VertexArray &worldVAO, Shader worldShader, Renderer renderer, glm::mat4 &model, glm::mat4 &view, glm::mat4 &projection, glm::vec4 plane);
+
 static void GlClearError(){
     while (glGetError() != GL_NO_ERROR);
 }
@@ -58,6 +60,7 @@ GLenum GlCheckError(std::string file, int line){
     }
     return errorCode;
 }
+
 //Camera Variables
 glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -71,6 +74,14 @@ Camera camera(cameraPos, cameraUp, -90.0f, 0.0f);
 
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
+
+//Lighting variables
+glm::vec3 lightPos(10.0f, 10.0f, -10.0f);
+glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+
+//World variables
+const int WORLD_SIZE = 5;
+
 
 int main(){
     //Initialize GLFW and configure using Hint
@@ -211,7 +222,6 @@ int main(){
     VertexArray worldVAO(VertexFormat_Normal_RGB);
 
     //Set up world
-    const int WORLD_SIZE = 5;
     std::vector<std::vector<std::unique_ptr<Chunk>>> chunks(WORLD_SIZE);
     for(int i = 0; i < WORLD_SIZE; i++){
         for(int j = 0; j < WORLD_SIZE; j++){
@@ -242,8 +252,6 @@ int main(){
     VertexArray lightVAO(VertexFormat_Default);
     lightVAO.createVBO("Light", cube);
     lightVAO.bindVBO("Light");
-    glm::vec3 lightPos(10.0f, 10.0f, -10.0f);
-    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
     
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -297,32 +305,10 @@ int main(){
 
         //Render for fbo
         fbos.bindReflectionFrameBuffer();
-        worldVAO.bind();
-        worldShader.use();
-        worldShader.setVec4("plane", glm::vec4(0,-1,0,0));
-        worldShader.setMat4("view", view);
-        worldShader.setMat4("projection", projection);
-        worldShader.setVec3("lightPos", lightPos);  
-        worldShader.setVec3("lightColor",  lightColor);
-        worldShader.setVec3("viewPos", camera.Position);
-        for(int i = 0; i < WORLD_SIZE; i++){
-            for(int j = 0; j < WORLD_SIZE; j++){
-                std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
-                worldVAO.bindVBO(key);
-
-                //Draw Object
-                model = glm::mat4(1.0f);
-
-                model = glm::scale(model, glm::vec3(20,20,20));
-                model = glm::translate(model, glm::vec3(i ,0.0f,-j));
-                worldShader.setMat4("model", model); 
-
-                renderer.draw(worldVAO, worldShader);
-            }
-        }
-        waterRenderer.render(water, view, projection);
+        renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,1,0, 5.9));
+        fbos.bindRefractionFrameBuffer();
+        renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,-1,0,-5.9));
         fbos.unbindCurrentFrameBuffer();
-
 
         //Render Lighting
         lightingShader.use();
@@ -348,25 +334,21 @@ int main(){
         tv.bindVBO("tv");
         renderer.draw(tv, textureShader);
 
+        //Render big tv screen
+        tv.bind();
+        textureShader.use();
+        model = glm::mat4(1.0f);
+        model = glm::scale(model, glm::vec3(20.0f));
+        model = glm::translate(model, glm::vec3(3.0f,1.0f,-1.6f)); 
+        textureShader.setMat4("model", model);
+        textureShader.setMat4("view", view);
+        textureShader.setMat4("projection", projection);
+        glBindTexture(GL_TEXTURE_2D, fbos.getRefractionTexture());
+        tv.bindVBO("tv");
+        renderer.draw(tv, textureShader);
+
         //GenerateWorld
-        worldVAO.bind();
-        worldShader.use();
-        for(int i = 0; i < WORLD_SIZE; i++){
-            for(int j = 0; j < WORLD_SIZE; j++){
-                std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
-                worldVAO.bindVBO(key);
-
-                //Draw Object
-                model = glm::mat4(1.0f);
-
-                model = glm::scale(model, glm::vec3(20,20,20));
-                model = glm::translate(model, glm::vec3(i ,0.0f,-j));
-                worldShader.setMat4("model", model); 
-
-                renderer.draw(worldVAO, worldShader);
-            }
-        }
-
+        renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,1,0,100000));
 
         //Render Water
         waterRenderer.render(water, view, projection);
@@ -388,7 +370,31 @@ int main(){
     return 0;
 }
  
+void renderWorld(VertexArray &worldVAO, Shader worldShader, Renderer renderer, glm::mat4 &model, glm::mat4 &view, glm::mat4 &projection, glm::vec4 plane)  {
+    worldVAO.bind();
+    worldShader.use();
+    worldShader.setVec4("plane", plane);
+    worldShader.setMat4("view", view);
+    worldShader.setMat4("projection", projection);
+    worldShader.setVec3("lightPos", lightPos);  
+    worldShader.setVec3("lightColor",  lightColor);
+    worldShader.setVec3("viewPos", camera.Position);
+    for(int i = 0; i < WORLD_SIZE; i++){
+        for(int j = 0; j < WORLD_SIZE; j++){
+            std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
+            worldVAO.bindVBO(key);
 
+            //Draw Object
+            model = glm::mat4(1.0f);
+
+            model = glm::scale(model, glm::vec3(20,20,20));
+            model = glm::translate(model, glm::vec3(i ,0.0f,-j));
+            worldShader.setMat4("model", model); 
+
+            renderer.draw(worldVAO, worldShader);
+         }
+    }
+}
 
 //Takes in window, and new width and height. Changes viewport on resize
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

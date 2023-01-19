@@ -96,6 +96,10 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <td valign="bottom">
             <img src="./Memories/FrameBuffer.gif" width="200"><br>
             FrameBuffer.gif | Jan 18 2023
+            </td></tr><tr>
+            <td valign="bottom">
+            <img src="./Memories/ReflectRefract.png" width="200"><br>
+            ReflectRefract.png | Jan 18 2023
             </td></tr></table>
 
 # Journal
@@ -209,4 +213,5 @@ Played around with Shaders
 ## Jan 18
 * Finished testing out frame buffer object
   * Realized that I needed to reset the buffers within frame buffer object.
-* Pics: FrameBuffer
+* Struggled with getting the refraction texture to work.  Turns out, both reflection and refraction fbos were equal to 1 because my function, createFrameBuffer() did not have a return...
+* Pics: FrameBuffer, ReflectRefract

@@ -356,7 +356,7 @@ int main(){
         renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,0,0,0));
 
         //Render Water
-        waterRenderer.render(water, view, projection);
+        waterRenderer.render(water, camera, projection);
 
         //Rendering
         ImGui::Render();

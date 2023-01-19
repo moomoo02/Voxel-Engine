@@ -28,6 +28,10 @@ public:
         setFloat("moveFactor", moveFactor);
     }
 
+    void loadCameraPosition(glm::vec3 cameraPosition){
+        setVec3("cameraPosition", cameraPosition);
+    }
+
     void connectTextureUnits(){
         setInt("reflectionTexture", 0);
         setInt("refractionTexture", 1);

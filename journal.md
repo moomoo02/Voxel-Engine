@@ -119,4 +119,7 @@ Played around with Shaders
 * Used projective mapping (converted texture coords from clipspace to normalized device coords so the textures line up)
   * Sources: https://antongerdelan.net/opengl/raycasting.html#:~:text=Overview,is%20usually%20called%20ray%20casting.  The 3d transformation pipeline graphic helped me alot.
 * Applied water dudv mapping + distortions/offsets to get animated water.
-* Pics: UglyWater, AverageWater, PrettyWater,
+* Added Fresnel Effect where:
+  * Looking from above water surface gives more refraction.
+  * Looking eye level to water surface gives more reflection.
+* Pics: UglyWater, AverageWater, PrettyWater, FresnelEffect

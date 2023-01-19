@@ -9,9 +9,9 @@ WaterRenderer::WaterRenderer(WaterShader shader, WaterFrameBuffers fbos)
     waterVAO.createVBO("water", { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 });
 }
 
-void WaterRenderer::render(std::vector<WaterTile> water, glm::mat4 view, glm::mat4 projection)
-{
-    prepareRender(view, projection);
+void WaterRenderer::render(std::vector<WaterTile> water, Camera camera, glm::mat4 projection)
+{   
+    prepareRender(camera, projection);
     waterVAO.bind();
     waterVAO.bindVBO("water");
     for(WaterTile tile : water){
@@ -23,11 +23,13 @@ void WaterRenderer::render(std::vector<WaterTile> water, glm::mat4 view, glm::ma
         draw(waterVAO,shader);
     }
 }
-void WaterRenderer::prepareRender(glm::mat4 view, glm::mat4 projection)
+void WaterRenderer::prepareRender(Camera camera, glm::mat4 projection)
 {
+    glm::mat4 view = camera.GetViewMatrix();
     shader.use();
     shader.loadViewMatrix(view);
     shader.loadProjectionMatrix(projection);
+    shader.loadCameraPosition(camera.Position);
     moveFactor = WAVE_SPEED * glfwGetTime();
     moveFactor = fmod(moveFactor, 1.0f);
     shader.loadMoveFactor(moveFactor);

@@ -112,6 +112,10 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <td valign="bottom">
             <img src="./Memories/PrettyWater.gif" width="200"><br>
             PrettyWater.gif | Jan 19 2023
+            </td></tr><tr>
+            <td valign="bottom">
+            <img src="./Memories/FresnelEffect.gif" width="200"><br>
+            FresnelEffect.gif | Jan 19 2023
             </td></tr></table>
 
 # Journal
@@ -234,4 +238,7 @@ Played around with Shaders
 * Used projective mapping (converted texture coords from clipspace to normalized device coords so the textures line up)
   * Sources: https://antongerdelan.net/opengl/raycasting.html#:~:text=Overview,is%20usually%20called%20ray%20casting.  The 3d transformation pipeline graphic helped me alot.
 * Applied water dudv mapping + distortions/offsets to get animated water.
-* Pics: UglyWater, AverageWater, PrettyWater,
+* Added Fresnel Effect where:
+  * Looking from above water surface gives more refraction.
+  * Looking eye level to water surface gives more reflection.
+* Pics: UglyWater, AverageWater, PrettyWater, FresnelEffect

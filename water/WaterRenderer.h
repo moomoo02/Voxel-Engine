@@ -7,6 +7,7 @@
 #include "../Texture.h"
 #include "../VertexArray.h"
 #include "../Renderer.h"
+#include "../Camera.h"
 #include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -20,11 +21,11 @@ class WaterRenderer  : public Renderer {
     WaterFrameBuffers fbos;
     Texture waterDudvMap = Texture( "Textures/waterdudv.png", 2);
 
-    void prepareRender(glm::mat4 view, glm::mat4 projection);
+    void prepareRender(Camera camera, glm::mat4 projection);
 
 public:
     WaterRenderer(WaterShader shader, WaterFrameBuffers fbos);
-    void render(std::vector<WaterTile> water, glm::mat4 view, glm::mat4 projection);
+    void render(std::vector<WaterTile> water, Camera camera, glm::mat4 projection);
 
 };
 #endif // __WATERRENDERER_H__

@@ -24,9 +24,14 @@ public:
         setMat4("model", model);
     }
 
+    void loadMoveFactor(float moveFactor){
+        setFloat("moveFactor", moveFactor);
+    }
+
     void connectTextureUnits(){
         setInt("reflectionTexture", 0);
         setInt("refractionTexture", 1);
+        setInt("waterDudv", 2);
     }
 };
 

@@ -5,7 +5,6 @@ WaterRenderer::WaterRenderer(WaterShader shader, WaterFrameBuffers fbos)
 {
     this->shader = shader;
     this->fbos = fbos;
-
     //prepare VAO
     waterVAO.createVBO("water", { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 });
 }
@@ -29,12 +28,16 @@ void WaterRenderer::prepareRender(glm::mat4 view, glm::mat4 projection)
     shader.use();
     shader.loadViewMatrix(view);
     shader.loadProjectionMatrix(projection);
+    moveFactor = WAVE_SPEED * glfwGetTime();
+    moveFactor = fmod(moveFactor, 1.0f);
+    shader.loadMoveFactor(moveFactor);
     shader.connectTextureUnits();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, fbos.getReflectionTexture());
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, fbos.getRefractionTexture());
-
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, waterDudvMap.ID);
 }
 
 

@@ -353,7 +353,7 @@ int main(){
 
         //GenerateWorld
         glDisable(GL_CLIP_DISTANCE0);
-        renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,1,0,100000));
+        renderWorld(worldVAO, worldShader, renderer, model, view, projection, glm::vec4(0,0,0,0));
 
         //Render Water
         waterRenderer.render(water, view, projection);

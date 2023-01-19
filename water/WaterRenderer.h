@@ -4,15 +4,22 @@
 #include "WaterShader.h"
 #include "WaterTile.h"
 #include "WaterFrameBuffers.h"
+#include "../Texture.h"
 #include "../VertexArray.h"
 #include "../Renderer.h"
 #include <vector>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 class WaterRenderer  : public Renderer {
+    static constexpr float WAVE_SPEED = 0.03f;
+    float moveFactor = 0.0f;
+
     WaterShader shader;
     VertexArray waterVAO = VertexArray(VertexFormat_Water);;
     WaterFrameBuffers fbos;
-    
+    Texture waterDudvMap = Texture( "Textures/waterdudv.png", 2);
+
     void prepareRender(glm::mat4 view, glm::mat4 projection);
 
 public:

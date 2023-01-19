@@ -113,3 +113,7 @@ Played around with Shaders
 * Struggled with getting the refraction texture to work.  Turns out, both reflection and refraction fbos were equal to 1 because my function, createFrameBuffer() did not have a return...
 * Learned how to use clipping planes in vertex shaders.  Specify a clipping plane with (normal.x, normal.y, normal.z, dist from origin)
 * Pics: FrameBuffer, ReflectRefract
+
+## Jan 19
+* Combined both textures onto the water.  IT LOOKS SO BADD
+* Pics: UglyWater

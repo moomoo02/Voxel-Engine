@@ -221,6 +221,13 @@ int main(){
     //Create Vertex Array
     VertexArray worldVAO(VertexFormat_Normal_RGB);
 
+
+    //Set up water
+    WaterFrameBuffers fbos;
+    WaterShader waterShader;
+    WaterRenderer waterRenderer(waterShader, fbos);
+    std::vector<WaterTile> water;
+
     //Set up world
     std::vector<std::vector<std::unique_ptr<Chunk>>> chunks(WORLD_SIZE);
     for(int i = 0; i < WORLD_SIZE; i++){
@@ -228,17 +235,11 @@ int main(){
             std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
             std::unique_ptr<Chunk> chunkPtr = std::make_unique<Chunk>();
             chunks[i].push_back(std::move(chunkPtr));
-            chunks[i][j]->setupLandscape(chunks[i][j]->CHUNK_SIZE * (i+2), chunks[i][j]->CHUNK_SIZE * (j+2));
+            chunks[i][j]->setupLandscape(chunks[i][j]->CHUNK_SIZE * (i + 2), chunks[i][j]->CHUNK_SIZE * (j+2));
             worldVAO.createVBO(key, chunks[i][j]->render());
+            water.push_back(WaterTile(2*i,-5.9f,-2*j));
         }
      }
-
-    //Set up water
-    WaterFrameBuffers fbos;
-    WaterShader waterShader;
-    WaterRenderer waterRenderer(waterShader, fbos);
-    std::vector<WaterTile> water;
-    water.push_back(WaterTile(0.8f,-5.9f,-0.8f));
 
     //Setup a test cube
     VertexArray tv(VertexFormat_Texture);

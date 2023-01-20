@@ -255,4 +255,5 @@ Played around with Shaders
 ## Jan 20
 * Struggled so long on getting depth texture to work... ended up giving up since smooth edges is not really needed for a voxel terrain.
 * Localized watertile to each chunk for easier world generation.  The lag is a little stronger tho, might need to work on loading/unloading chunks based on view position and render distance.
+* Going to start writing a blog post about the intuition behind rendering scenic water now!
 * Pics: Peace

@@ -124,3 +124,8 @@ Played around with Shaders
   * Looking eye level to water surface gives more reflection.
 * Used normal mapping texture to distort the water surface normals, then applied specular lighting.
 * Pics: UglyWater, AverageWater, PrettyWater, FresnelEffect, SpecularLighting
+
+## Jan 20
+* Struggled so long on getting depth texture to work... ended up giving up since smooth edges is not really needed for a voxel terrain.
+* Localized watertile to each chunk for easier world generation.  The lag is a little stronger tho, might need to work on loading/unloading chunks based on view position and render distance.
+* Pics: Peace

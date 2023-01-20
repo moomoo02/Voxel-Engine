@@ -120,6 +120,10 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <td valign="bottom">
             <img src="./Memories/SpecularLighting.gif" width="200"><br>
             SpecularLighting.gif | Jan 19 2023
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/Peace.gif" width="200"><br>
+            Peace.gif | Jan 20 2023
             </td></tr></table>
 
 # Journal
@@ -247,3 +251,8 @@ Played around with Shaders
   * Looking eye level to water surface gives more reflection.
 * Used normal mapping texture to distort the water surface normals, then applied specular lighting.
 * Pics: UglyWater, AverageWater, PrettyWater, FresnelEffect, SpecularLighting
+
+## Jan 20
+* Struggled so long on getting depth texture to work... ended up giving up since smooth edges is not really needed for a voxel terrain.
+* Localized watertile to each chunk for easier world generation.  The lag is a little stronger tho, might need to work on loading/unloading chunks based on view position and render distance.
+* Pics: Peace

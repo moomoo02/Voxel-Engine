@@ -32,10 +32,17 @@ public:
         setVec3("cameraPosition", cameraPosition);
     }
 
+    void loadLight(glm::vec3 lightPosition, glm::vec3 lightColor){
+        setVec3("lightPosition", lightPosition);
+        setVec3("lightColor", lightColor);
+
+    }
+    
     void connectTextureUnits(){
         setInt("reflectionTexture", 0);
         setInt("refractionTexture", 1);
         setInt("waterDudv", 2);
+        setInt("normalMap", 3);
     }
 };
 

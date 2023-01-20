@@ -25,11 +25,14 @@ void WaterRenderer::render(std::vector<WaterTile> water, Camera camera, glm::mat
 }
 void WaterRenderer::prepareRender(Camera camera, glm::mat4 projection)
 {
+    glm::vec3 lightPos(10.0f, 10.0f, -10.0f);
+    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
     glm::mat4 view = camera.GetViewMatrix();
     shader.use();
     shader.loadViewMatrix(view);
     shader.loadProjectionMatrix(projection);
     shader.loadCameraPosition(camera.Position);
+    shader.loadLight(lightPos, lightColor); 
     moveFactor = WAVE_SPEED * glfwGetTime();
     moveFactor = fmod(moveFactor, 1.0f);
     shader.loadMoveFactor(moveFactor);

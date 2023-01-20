@@ -122,4 +122,5 @@ Played around with Shaders
 * Added Fresnel Effect where:
   * Looking from above water surface gives more refraction.
   * Looking eye level to water surface gives more reflection.
-* Pics: UglyWater, AverageWater, PrettyWater, FresnelEffect
+* Used normal mapping texture to distort the water surface normals, then applied specular lighting.
+* Pics: UglyWater, AverageWater, PrettyWater, FresnelEffect, SpecularLighting

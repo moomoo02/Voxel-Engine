@@ -20,6 +20,7 @@ class WaterRenderer  : public Renderer {
     VertexArray waterVAO = VertexArray(VertexFormat_Water);;
     WaterFrameBuffers fbos;
     Texture waterDudvMap = Texture( "Textures/waterdudv.png", 2);
+    Texture normalMap = Texture( "Textures/NormalMap.png", 3);
 
     void prepareRender(Camera camera, glm::mat4 projection);
 

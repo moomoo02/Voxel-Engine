@@ -116,6 +116,10 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <td valign="bottom">
             <img src="./Memories/FresnelEffect.gif" width="200"><br>
             FresnelEffect.gif | Jan 19 2023
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/SpecularLighting.gif" width="200"><br>
+            SpecularLighting.gif | Jan 19 2023
             </td></tr></table>
 
 # Journal
@@ -241,4 +245,5 @@ Played around with Shaders
 * Added Fresnel Effect where:
   * Looking from above water surface gives more refraction.
   * Looking eye level to water surface gives more reflection.
-* Pics: UglyWater, AverageWater, PrettyWater, FresnelEffect
+* Used normal mapping texture to distort the water surface normals, then applied specular lighting.
+* Pics: UglyWater, AverageWater, PrettyWater, FresnelEffect, SpecularLighting

@@ -80,7 +80,7 @@ glm::vec3 lightPos(10.0f, 10.0f, -10.0f);
 glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 
 //World variables
-const int WORLD_SIZE = 5;
+const int WORLD_SIZE = 10;
 
 
 int main(){
@@ -235,9 +235,9 @@ int main(){
             std::string key = "Chunk" + std::to_string(i) + std::to_string(j);
             std::unique_ptr<Chunk> chunkPtr = std::make_unique<Chunk>();
             chunks[i].push_back(std::move(chunkPtr));
-            chunks[i][j]->setupLandscape(chunks[i][j]->CHUNK_SIZE * (i + 2), chunks[i][j]->CHUNK_SIZE * (j+2));
+            chunks[i][j]->setupLandscape(chunks[i][j]->CHUNK_SIZE * (i + 40), chunks[i][j]->CHUNK_SIZE * (j + 40));
             worldVAO.createVBO(key, chunks[i][j]->render());
-            water.push_back(WaterTile(2*i,-5.9f,-2*j));
+            water.push_back(WaterTile(2*i,-6.9f,-2*j));
         }
      }
 
@@ -300,7 +300,7 @@ int main(){
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = camera.GetViewMatrix();
         glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::perspective(glm::radians(camera.Zoom), 800.0f / 600.0f, 0.1f, 200.0f);
+        projection = glm::perspective(glm::radians(camera.Zoom), 800.0f / 600.0f, 0.1f, 1500.0f);
 
         //Render for fbo
         fbos.bindReflectionFrameBuffer();

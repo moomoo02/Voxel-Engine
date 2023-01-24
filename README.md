@@ -257,3 +257,14 @@ Played around with Shaders
 * Localized watertile to each chunk for easier world generation.  The lag is a little stronger tho, might need to work on loading/unloading chunks based on view position and render distance.
 * Going to start writing a blog post about the intuition behind rendering scenic water now!
 * Pics: Peace
+
+## Jan 21
+* Looking into contributing to open source game engines.  Looks very intimidating D:
+
+## Jan 22
+* First pull request got merged on Godot game engine!!
+  * Just the docs change tho but still proud!
+
+## Jan 23
+* Finished my blog post on rendering water, read here:
+  * https://vincenguyen.super.site/blog/blog-posts-1/how-to-render-pretty-water

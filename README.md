@@ -268,3 +268,9 @@ Played around with Shaders
 ## Jan 23
 * Finished my blog post on rendering water, read here:
   * https://vincenguyen.super.site/blog/blog-posts-1/how-to-render-pretty-water
+
+## Jan 24
+* Trying to figure out how to make my game loop or main.cpp smaller.
+  * Looked into the command design pattern and took notes:
+    * https://rapid-anchovy-e57.notion.site/Command-Design-Pattern-308aaca223804d199c03bbc4dd778f6c
+    * Maybe I can use command design for camera movement?  I think its fine hardwired because i cant think of when I would need to change from wasd.  Maybe I can use command on renderering commands?  One for water and another for chunk?  I dont think I'll need an undo right now.  I'll look into Flyweight tommorrow.

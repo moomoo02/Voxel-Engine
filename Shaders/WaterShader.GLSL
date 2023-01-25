@@ -46,8 +46,8 @@ void main(void) {
 	vec2 reflectTextCoords = vec2(ndc.x, -ndc.y);
 	vec2 refractTexCoords = vec2(ndc.x,ndc.y);
 	
-	vec2 distortedTexCoords = texture(waterDudv, vec2(textureCoords.x + moveFactor, textureCoords.y)).rg*0.1;
-	distortedTexCoords = textureCoords + vec2(distortedTexCoords.x, distortedTexCoords.y+moveFactor);
+	vec2 distortedTexCoords = texture(waterDudv, vec2(textureCoords.x + moveFactor*0.0, textureCoords.y)).rg*0.1;
+	distortedTexCoords = textureCoords + vec2(distortedTexCoords.x, distortedTexCoords.y+moveFactor*0.0);
 	vec2 totalDistortion = (texture(waterDudv, distortedTexCoords).rg * 2.0 - 1.0) * waveStrength;
 
 	reflectTextCoords += totalDistortion;
@@ -68,13 +68,15 @@ void main(void) {
 	vec3 normal = vec3(normalMapColor.r * 2.0 - 1.0, normalMapColor.b, normalMapColor.g * 2.0 - 1.0);
 	normal = normalize(normal);
 
-	vec3 reflectedLight = reflect(normalize(fromLightVector), normal);
+	vec3 reflectedLight = reflect(normalize(fromLightVector), vec3(0.0, 1.0, 0.0));
 	float specular = max(dot(reflectedLight, viewVector), 0.0);
 	specular = pow(specular, shineDamper);
 	vec3 specularHighlights = lightColor * specular * reflectivity;
 
 	out_Color = mix(reflectColor, refractColor, refractiveFactor);
 	out_Color = mix(out_Color, vec4(0.0,0.03,0.5,1.0), 0.1) + vec4(specularHighlights,0.0);
+	//out_Color = texture(waterDudv, refractTexCoords);
+	//out_Color = totalDistortion;
 	
 
 }

@@ -147,3 +147,8 @@ Played around with Shaders
   * Looked into the command design pattern and took notes:
     * https://rapid-anchovy-e57.notion.site/Command-Design-Pattern-308aaca223804d199c03bbc4dd778f6c
     * Maybe I can use command design for camera movement?  I think its fine hardwired because i cant think of when I would need to change from wasd.  Maybe I can use command on renderering commands?  One for water and another for chunk?  I dont think I'll need an undo right now.  I'll look into Flyweight tommorrow.
+
+## Jan 25
+* Read about flyweight.  I realized i've kinda been using it for my block representation.  Also, I think flyweight design pattern will be really useful when i need to render a ton of instances like trees and grass.  I took notes on this here:
+  * https://rapid-anchovy-e57.notion.site/Flyweight-Design-Pattern-d716f766382748b19e96677ac268dc2b
+* I want to add multiplayer support so I looked into networking.  I found this really good source and read up until chapter 5 when we actually start coding with sockets.  I've heard lots of difficult things about networking, so I hope this will go well.  Tommorrow, I'll look at observer design pattern and probably have some actual code for sockets.  Persona 5 royal just arrived today.

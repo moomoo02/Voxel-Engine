@@ -26,6 +26,10 @@ int main(){
 
     // ... do everything until you don't need servinfo anymore ....
 
+    int s = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
+
+    bind(s, servinfo->ai_addr, servinfo->ai_addrlen);
+
     freeaddrinfo(servinfo); // free the linked-list
     std::cout << "Server" << '\n';
     return 0;

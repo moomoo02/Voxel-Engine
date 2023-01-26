@@ -16,21 +16,18 @@ int main(int argc, char *argv[])
     int status;
     char ipstr[INET6_ADDRSTRLEN];
 
-    if (argc != 2) {
-        fprintf(stderr,"usage: showip hostname\n");
-        return 1;
-    }
-
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC; // AF_INET or AF_INET6 to force version
     hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE; // use my IP
 
-    if ((status = getaddrinfo(argv[1], NULL, &hints, &res)) != 0) {
+    if ((status = getaddrinfo(NULL, "3490", &hints, &res)) != 0) {
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
         return 2;
     }
 
-    printf("IP addresses for %s:\n\n", argv[1]);
+    // printf("IP addresses for %s:\n\n", argv[1]);
+    printf("IP addresses \n");
 
     for(p = res;p != NULL; p = p->ai_next) {
         void *addr;

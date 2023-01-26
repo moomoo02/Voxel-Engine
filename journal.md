@@ -153,3 +153,8 @@ Played around with Shaders
   * https://rapid-anchovy-e57.notion.site/Flyweight-Design-Pattern-d716f766382748b19e96677ac268dc2b
 * I want to add multiplayer support so I looked into networking.  I found this really good source and read up until chapter 5 when we actually start coding with sockets.  I've heard lots of difficult things about networking, so I hope this will go well.  Tommorrow, I'll look at observer design pattern and probably have some actual code for sockets.  Persona 5 royal just arrived today.
   * https://beej.us/guide/bgnet/html/#system-calls-or-bust
+
+## Jan 26
+* Read about observer.  I don't see the use of observer right now because I'm not planning on adding event triggers, achievements, or audio at the moment.  That will come with content.  Took notes on this design pattern:
+  * https://rapid-anchovy-e57.notion.site/Observer-Design-Pattern-218a27483e1f46aa9f823c33fcf72e93
+* Implemented a simple server client structure.  The server sends "Hello World" to connected clients.  Planning on expanding on this structure so that the server sends position values.

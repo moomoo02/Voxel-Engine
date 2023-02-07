@@ -1,4 +1,11 @@
 # My Voxel Engine Journey 
+
+### Current Progress
+
+![Fluiddynamics](https://user-images.githubusercontent.com/28413913/217113996-45b895e5-b484-4040-b229-30ff3c0a05bb.gif)
+
+### Gallery 
+
 Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engine.  Since I will be always changing the code around to learn new concepts, I want to keep in memory all the graphics that I produced.  Below is my journey of every graphic I created, sorted from earliest to latest. 
  <table><tr><tr>
             <td valign="bottom">
@@ -285,3 +292,6 @@ Played around with Shaders
 * Read about observer.  I don't see the use of observer right now because I'm not planning on adding event triggers, achievements, or audio at the moment.  That will come with content.  Took notes on this design pattern:
   * https://rapid-anchovy-e57.notion.site/Observer-Design-Pattern-218a27483e1f46aa9f823c33fcf72e93
 * Implemented a simple server client structure.  The server sends "Hello World" to connected clients.  Planning on expanding on this structure so that the server sends position values.
+
+## Feb 6
+* Project currently put on hold.  Currently working on chatgpt chan.

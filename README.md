@@ -4,6 +4,7 @@
 
 ![Fluiddynamics](https://user-images.githubusercontent.com/28413913/217113996-45b895e5-b484-4040-b229-30ff3c0a05bb.gif)
 
+
 ### Gallery 
 
 Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engine.  Since I will be always changing the code around to learn new concepts, I want to keep in memory all the graphics that I produced.  Below is my journey of every graphic I created, sorted from earliest to latest. 
@@ -132,6 +133,13 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <img src="./Memories/Peace.gif" width="200"><br>
             Peace.gif | Jan 20 2023
             </td></tr></table>
+            
+### Blog Posts
+
+* [How to generate voxel landscapes using Perlin noise.](https://vincenguyen.super.site/blog/blog-posts-1/how-to-generate-voxel-terrain-using-perlin-noise)
+* [How to render pretty water in OpenGl.](https://vincenguyen.super.site/blog/blog-posts-1/how-to-render-pretty-water)
+
+<br/>
 
 # Journal
 

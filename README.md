@@ -305,4 +305,4 @@ Played around with Shaders
 * Project currently put on hold.  Currently working on chatgpt chan.
 
 ## Feb 10
-* Needed some metrics to pad my resume with so I optimized vertex data memory from 226,492,416 bytes to 25,952,256 bytes, a whopping 870% difference.  Engine is noticably a lot faster.  Will write a blog soon on how I did this.  World load time decreased from 53.82seconds to 20.19 seconds :D
+* Needed some metrics to pad my resume with so I optimized vertex data memory from **226,492,416 bytes** to **25,952,256 bytes, a whopping 870% difference**.  Engine is noticably a lot faster.  Will write a blog soon on how I did this.  World load time decreased from **53.82 seconds** to **20.19 seconds** :D

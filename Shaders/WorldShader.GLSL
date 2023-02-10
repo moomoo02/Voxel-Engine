@@ -1,8 +1,7 @@
 #Shader Vertex
 #version 330 core
-layout (location = 0) in float aPos;
-layout (location = 1) in vec3 aNormal;
-layout (location = 2) in vec3 aColor;
+layout (location = 0) in float vertex;
+layout (location = 1) in vec3 aColor;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
@@ -13,18 +12,25 @@ out vec3 Color;
 
 void main()
 {
-    //Deconstruct position integer into x, y, z components
-    int x = int(aPos) & ((1 << 6) - 1); 
-    int y = (int(aPos) & (((1 << 6) - 1) << 6)) >> 6;
-    int z = (int(aPos) & (((1 << 6) - 1) << 12)) >> 12;
+    int aPos = int(vertex) & ((1 << 18) - 1);
+    int aNormal = ((int(vertex) & (((1 << 6) - 1) << 18)) >> 18);
 
+    //Deconstruct position integer into x, y, z components
+    int x = aPos & ((1 << 6) - 1); 
+    int y = ( aPos & (((1 << 6) - 1) << 6)) >> 6;
+    int z = ( aPos & (((1 << 6) - 1) << 12)) >> 12;
+
+    //Convert normal bits to normal vector [0, 1, 2] -> [0, 1, -1]
+    int nx = ((( aNormal & ((1 << 2) - 1)) + 1) % 3) - 1; 
+    int ny = (((( aNormal & (((1 << 2) - 1) << 2)) >> 2) + 1) % 3) - 1;
+    int nz = (((( aNormal & (((1 << 2) - 1) << 4)) >> 4) + 1) % 3) - 1;
 
     vec4 normalizedPos = vec4(x / 32.0 - 0.5, y / 32.0 - 0.5, z / 32.0 - 0.5, 1.0);
     vec4 worldPosition = model * normalizedPos;
     gl_ClipDistance[0] = dot(worldPosition, plane);
     gl_Position = projection * view * worldPosition;
     FragPos = vec3(model * normalizedPos);
-    Normal = aNormal;
+    Normal = vec3(nx, ny, nz);
     Color = aColor;
 }
 #Shader Fragment

@@ -124,6 +124,10 @@ Hello, this is where I'm learning OpenGl and modern C++ by building a voxel engi
             <td valign="bottom">
             <img src="./Memories/Peace.gif" width="200"><br>
             Peace.gif | Jan 20 2023
+            </td>
+            <td valign="bottom">
+            <img src="./Memories/OptimizeError.png" width="200"><br>
+            OptimizeError.png | Feb 10 2023
             </td></tr></table>
 
 # Journal

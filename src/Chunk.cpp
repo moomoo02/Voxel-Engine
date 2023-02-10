@@ -158,7 +158,6 @@ std::vector<float> Chunk::render()
 {
     //Initialize VAO
     std::vector<float> vertices;
-    const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
 
     //glm::mat4 rotationMat(1);
     //rotationMat = glm::rotate(rotationMat, (float)glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
@@ -193,14 +192,19 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
         int x = (cube[i] + 0.5 + modelCoord.x); // [-0.5, 0.5] + 0.5 = [0,1] -> [0,1] + [0,31] = [0,32]
         int y = (cube[i + 1] + 0.5 + modelCoord.y);
         int z = (cube[i + 2] + 0.5 + modelCoord.z);
+
+        int nx = (cube[i+3] == -1.0 ? 2 : cube[i+3]);
+        int ny = (cube[i+4] == -1.0 ? 2 : cube[i+4]);
+        int nz = (cube[i+5] == -1.0 ? 2 : cube[i+5]);
         glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];  
         
-        int position = x | y << 6 | z << 12;
+        
+        int position = x | y << 6 | z << 12; //18 bits
+        int normal = nx | ny << 2 | nz << 4; //6 bits
 
-        vertices.push_back(position);
-        vertices.push_back(cube[i+3]);
-        vertices.push_back(cube[i+4]);
-        vertices.push_back(cube[i+5]);
+        int vertex = position | normal << 18; // normal(6 bits) + position(18 bits)
+
+        vertices.push_back(vertex);
         vertices.push_back(blockColor.x);
         vertices.push_back(blockColor.y);
         vertices.push_back(blockColor.z);

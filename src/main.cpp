@@ -80,7 +80,7 @@ glm::vec3 lightPos(10.0f, 10.0f, -10.0f);
 glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 
 //World variables
-const int WORLD_SIZE = 5;
+const int WORLD_SIZE = 1;
 
 
 int main(){
@@ -204,7 +204,7 @@ int main(){
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
     //Parse shaders, compile, and link
-    Shader worldShader("./Shaders/LightingShader.GLSL");
+    Shader worldShader("./Shaders/WorldShader.GLSL");
     Shader lightingShader("./Shaders/LightSourceShader.GLSL");
     lightingShader.use();
 
@@ -219,7 +219,7 @@ int main(){
     ImGui::StyleColorsDark();
 
     //Create Vertex Array
-    VertexArray worldVAO(VertexFormat_Normal_RGB);
+    VertexArray worldVAO(VertexFormat_Normal_RGB_Optimized);
 
 
     //Set up water

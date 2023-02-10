@@ -72,6 +72,19 @@
         "map": "cpp",
         "__tree": "cpp",
         "random": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "any": "cpp",
+        "cinttypes": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "coroutine": "cpp",
+        "future": "cpp",
+        "list": "cpp",
+        "queue": "cpp",
+        "set": "cpp",
+        "strstream": "cpp",
+        "thread": "cpp",
+        "unordered_set": "cpp"
     }
 }

@@ -13,6 +13,7 @@ enum VertexFormat{
     VertexFormat_Normal, //x, y, z, n1, n2, n3
     VertexFormat_Normal_RGB, //x, y, z, n1, n2, n3, r, g, b
     VertexFormat_Water, //x, z
+    VertexFormat_Normal_RGB_Optimized, // position(18 bits) | normal(6 bits) | color (2  bits)
 };
 
 class VertexArray 

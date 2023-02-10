@@ -55,6 +55,14 @@ std::map<BlockType, glm::vec3> BlockTypeToColorMap =
     {BlockType::BlockType_Snow, glm::vec3(1.0f,1.0f,1.0f)}
 };
 
+std::map<BlockType, int> BlockTypeToId = 
+{
+    {BlockType::BlockType_Sand, 0},
+    {BlockType::BlockType_Grass, 1},
+    {BlockType::BlockType_Stone, 2},
+    {BlockType::BlockType_Snow, 3}
+};
+
 Chunk::Chunk()
 {
     pBlocks = new Block **[CHUNK_SIZE];
@@ -121,11 +129,43 @@ void Chunk::update(float dt)
     
 }
 
+// std::vector<float> Chunk::render()
+// {
+//     //Initialize VAO
+//     std::vector<float> vertices;
+//     const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
+
+//     //glm::mat4 rotationMat(1);
+//     //rotationMat = glm::rotate(rotationMat, (float)glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
+
+//     //Get Vertices 
+//     int count = 0;
+//     for(int x = 0; x < CHUNK_SIZE; x++){
+//       for(int z = 0; z < CHUNK_SIZE; z++){
+//         for(int y = 0; y < CHUNK_SIZE; y++){
+//                 if(pBlocks[x][y][z].isActive()){
+//                     //std::cout << "Active at ( " << x << " , " << y << " , " << z << " ) :" << '\n';
+//                     if(isHiddenBlock(x,y,z)) continue;
+//                     count++;
+//                     //Add vertex to VAO
+//                     glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE; // from -Half to Half
+//                     modelCoord *= 1.0f/(HALF_CHUNK_SIZE)/2.0f; //from -0.5 to 0.5
+//                     //modelCoord = glm::vec3(rotationMat * glm::vec4(modelCoord, 1.0));
+//                     createCube(vertices, pBlocks[x][y][z], modelCoord);
+//                 }
+//             }
+//         }
+//     }
+    
+//     // std::cout << count << " Rendered\n";
+//     //Bind a Vertex Buffer Object
+//     return vertices;
+// }
+
 std::vector<float> Chunk::render()
 {
     //Initialize VAO
     std::vector<float> vertices;
-    const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
 
     //glm::mat4 rotationMat(1);
     //rotationMat = glm::rotate(rotationMat, (float)glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
@@ -140,8 +180,7 @@ std::vector<float> Chunk::render()
                     if(isHiddenBlock(x,y,z)) continue;
                     count++;
                     //Add vertex to VAO
-                    glm::vec3 modelCoord = glm::vec3( (float)x, (float)y, (float)z) - HALF_CHUNK_SIZE; // from -Half to Half
-                    modelCoord *= 1.0f/(HALF_CHUNK_SIZE)/2.0f; //from -0.5 to 0.5
+                    glm::vec3 modelCoord = glm::vec3(x, y, z); // from 0 to 31
                     //modelCoord = glm::vec3(rotationMat * glm::vec4(modelCoord, 1.0));
                     createCube(vertices, pBlocks[x][y][z], modelCoord);
                 }
@@ -154,30 +193,52 @@ std::vector<float> Chunk::render()
     return vertices;
 }
 
-//model coordinates represent bottom, left, back coord of cube (-x, -y, -z)
-//Takes in model Coordinates and returns one cube of size 1/HALF_CHUNK_SIZE
 void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord)
 {
     
-    float offsetX = -0.5f/CHUNK_SIZE - modelCoord.x, offsetY = -0.5f/CHUNK_SIZE - modelCoord.y, offsetZ = -0.5f/CHUNK_SIZE - modelCoord.z;
-    // std::cout << offsetXX << ' ' << offsetYY<< ' ' << offsetZZ << '\n';
     for(int i = 0; i < cube.size(); i+=6){
-        float x = (cube[i]/CHUNK_SIZE - offsetX);
-        float y = (cube[i + 1]/CHUNK_SIZE - offsetY);
-        float z = (cube[i + 2]/CHUNK_SIZE - offsetZ);
-        glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];  
-        //std::cout << xx << ' ' << yy<< ' ' << zz << '\n';
-        vertices.push_back(x);
-        vertices.push_back(y);
-        vertices.push_back(z);
-        vertices.push_back(cube[i+3]);
-        vertices.push_back(cube[i+4]);
-        vertices.push_back(cube[i+5]);
-        vertices.push_back(blockColor.x);
-        vertices.push_back(blockColor.y);
-        vertices.push_back(blockColor.z);
+        int x = (cube[i] + 0.5 + modelCoord.x); // [-0.5, 0.5] + 0.5 = [0,1] -> [0,1] + [0,31] = [0,32]
+        int y = (cube[i + 1] + 0.5 + modelCoord.y);
+        int z = (cube[i + 2] + 0.5 + modelCoord.z);
+
+        int nx = (cube[i+3] == -1.0 ? 2 : cube[i+3]);
+        int ny = (cube[i+4] == -1.0 ? 2 : cube[i+4]);
+        int nz = (cube[i+5] == -1.0 ? 2 : cube[i+5]);
+        
+        int position = x | y << 6 | z << 12; //18 bits
+        int normal = nx | ny << 2 | nz << 4; //6 bits
+        int color = BlockTypeToId[block.getBlockType()]; //2 bits
+
+        int vertex = position | normal << 18 | color << 24; //  color (2 bits) + normal(6 bits) + position(18 bits) 
+
+        vertices.push_back(vertex);
     }
 }
+
+//model coordinates represent bottom, left, back coord of cube (-x, -y, -z)
+//Takes in model Coordinates and returns one cube of size 1/HALF_CHUNK_SIZE
+// void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 modelCoord)
+// {
+    
+//     float offsetX = -0.5f/CHUNK_SIZE - modelCoord.x, offsetY = -0.5f/CHUNK_SIZE - modelCoord.y, offsetZ = -0.5f/CHUNK_SIZE - modelCoord.z;
+//     // std::cout << offsetXX << ' ' << offsetYY<< ' ' << offsetZZ << '\n';
+//     for(int i = 0; i < cube.size(); i+=6){
+//         float x = (cube[i]/CHUNK_SIZE - offsetX);
+//         float y = (cube[i + 1]/CHUNK_SIZE - offsetY);
+//         float z = (cube[i + 2]/CHUNK_SIZE - offsetZ);
+//         glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];  
+//         //std::cout << xx << ' ' << yy<< ' ' << zz << '\n';
+//         vertices.push_back(x);
+//         vertices.push_back(y);
+//         vertices.push_back(z);
+//         vertices.push_back(cube[i+3]);
+//         vertices.push_back(cube[i+4]);
+//         vertices.push_back(cube[i+5]);
+//         vertices.push_back(blockColor.x);
+//         vertices.push_back(blockColor.y);
+//         vertices.push_back(blockColor.z);
+//     }
+// }
 
 void Chunk::setupSphere() {
   for (int z = 0; z < CHUNK_SIZE; z++) {

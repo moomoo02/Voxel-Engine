@@ -1,7 +1,6 @@
 #Shader Vertex
 #version 330 core
 layout (location = 0) in float vertex;
-layout (location = 1) in vec3 aColor;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
@@ -12,8 +11,10 @@ out vec3 Color;
 
 void main()
 {
-    int aPos = int(vertex) & ((1 << 18) - 1);
-    int aNormal = ((int(vertex) & (((1 << 6) - 1) << 18)) >> 18);
+    //Deconstruct vertex 
+    int aPos = int(vertex) & ((1 << 18) - 1); //First 18 bits
+    int aNormal = (int(vertex) >> 18) & ((1 << 6) - 1); //Next 6 bits
+    int color = (int(vertex) >> 24) & ((1 << 2) - 1); //Next 2 bits
 
     //Deconstruct position integer into x, y, z components
     int x = aPos & ((1 << 6) - 1); 
@@ -24,6 +25,18 @@ void main()
     int nx = ((( aNormal & ((1 << 2) - 1)) + 1) % 3) - 1; 
     int ny = (((( aNormal & (((1 << 2) - 1) << 2)) >> 2) + 1) % 3) - 1;
     int nz = (((( aNormal & (((1 << 2) - 1) << 4)) >> 4) + 1) % 3) - 1;
+
+    // Convert color bits to its corresponding color
+    vec3 aColor;
+    if(color == 0){
+        aColor = vec3(0.761,0.698,0.502);
+    }else if(color == 1){
+        aColor = vec3(0.04,0.44,0.15);
+    }else if(color == 2){
+        aColor = vec3(0.572,0.557,0.522);
+    }else{
+        aColor = vec3(1.0,1.0,1.0);
+    }
 
     vec4 normalizedPos = vec4(x / 32.0 - 0.5, y / 32.0 - 0.5, z / 32.0 - 0.5, 1.0);
     vec4 worldPosition = model * normalizedPos;

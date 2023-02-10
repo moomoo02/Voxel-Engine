@@ -55,6 +55,14 @@ std::map<BlockType, glm::vec3> BlockTypeToColorMap =
     {BlockType::BlockType_Snow, glm::vec3(1.0f,1.0f,1.0f)}
 };
 
+std::map<BlockType, int> BlockTypeToId = 
+{
+    {BlockType::BlockType_Sand, 0},
+    {BlockType::BlockType_Grass, 1},
+    {BlockType::BlockType_Stone, 2},
+    {BlockType::BlockType_Snow, 3}
+};
+
 Chunk::Chunk()
 {
     pBlocks = new Block **[CHUNK_SIZE];
@@ -196,18 +204,14 @@ void Chunk::createCube(std::vector<float> &vertices, Block block, glm::vec3 mode
         int nx = (cube[i+3] == -1.0 ? 2 : cube[i+3]);
         int ny = (cube[i+4] == -1.0 ? 2 : cube[i+4]);
         int nz = (cube[i+5] == -1.0 ? 2 : cube[i+5]);
-        glm::vec3 blockColor = BlockTypeToColorMap[block.getBlockType()];  
-        
         
         int position = x | y << 6 | z << 12; //18 bits
         int normal = nx | ny << 2 | nz << 4; //6 bits
+        int color = BlockTypeToId[block.getBlockType()]; //2 bits
 
-        int vertex = position | normal << 18; // normal(6 bits) + position(18 bits)
+        int vertex = position | normal << 18 | color << 24; //  color (2 bits) + normal(6 bits) + position(18 bits) 
 
         vertices.push_back(vertex);
-        vertices.push_back(blockColor.x);
-        vertices.push_back(blockColor.y);
-        vertices.push_back(blockColor.z);
     }
 }
 

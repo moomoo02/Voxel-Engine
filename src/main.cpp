@@ -80,7 +80,7 @@ glm::vec3 lightPos(10.0f, 10.0f, -10.0f);
 glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 
 //World variables
-const int WORLD_SIZE = 5;
+const int WORLD_SIZE = 16;
 
 
 int main(){
